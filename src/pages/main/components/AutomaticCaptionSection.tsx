@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import analysisImage from "../assets/AutomaticCaption.png";
+import {
+  slideInAnimationCSS,
+  useSlideInAnimation,
+} from "@main/hooks/useSlideInAnimation";
 
 export default function AutomaticCaptionSection() {
+  const [ref, isVisible] = useSlideInAnimation();
+
   return (
-    <SectionWrapper>
-      <Content>
+    <SectionWrapper ref={ref}>
+      <Content $visible={isVisible}>
         <ImageBlock>
           <StyledImage src={analysisImage} alt="AI analyzing video content" />
         </ImageBlock>
@@ -50,12 +56,14 @@ const SectionWrapper = styled.section`
   background: #fff;
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ $visible: boolean }>`
   display: flex;
   align-items: center;
   max-width: 1200px;
   width: 100%;
   gap: 80px;
+
+  ${slideInAnimationCSS}
 
   @media (max-width: 900px) {
     flex-direction: column;
