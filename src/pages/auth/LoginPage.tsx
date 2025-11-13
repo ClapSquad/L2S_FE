@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import routePath from "@router/routePath";
 import EmailInput from "./components/EmailInput";
@@ -7,6 +6,8 @@ import PasswordInput from "./components/PasswordInput";
 import { useLogin } from "@auth/hooks/useLogin";
 import NavigationBar from "@components/NavigationBar";
 import { useRejectLoggedInUser } from "./hooks/useRejectLoggedInUser";
+import Logo from "@components/Logo";
+import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
 
 interface LoginFormData {
   email: string;
@@ -30,35 +31,18 @@ export default function LoginPage() {
   return (
     <PageFiller>
       <NavigationBar />
-      <LoginPageWrapper>
-        <h2>로그인</h2>
-        <LoginForm onSubmit={handleSubmit(onSubmit)}>
+      <PageWrapper>
+        <h2>Sign in</h2>
+        <FormStyle onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Logo size="100px" />
+          </div>
           <EmailInput register={register} errors={errors} />
           <PasswordInput register={register} errors={errors} />
-          <button type="submit">로그인</button>
-        </LoginForm>
-        <Link to={routePath.REGISTER}>계정 생성하기</Link>
-      </LoginPageWrapper>
+          <button type="submit">Sign in</button>
+        </FormStyle>
+        <Link to={routePath.REGISTER}>Create account</Link>
+      </PageWrapper>
     </PageFiller>
   );
 }
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const LoginPageWrapper = styled.div`
-  flex-grow: 0.9;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PageFiller = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;

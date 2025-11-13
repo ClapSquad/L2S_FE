@@ -1,4 +1,9 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  ErrorMessage,
+  InputWrapper,
+  StyledInput,
+} from "@auth/styles/inputFieldStyle";
 
 interface ConfirmPasswordInputProps {
   register: UseFormRegister<any>;
@@ -12,21 +17,20 @@ export default function ConfirmPasswordInput({
   password,
 }: ConfirmPasswordInputProps) {
   return (
-    <>
-      <input
+    <InputWrapper>
+      <StyledInput
         {...register("confirmPassword", {
-          required: "비밀번호 확인을 입력해주세요.",
-          validate: (value) =>
-            value === password || "비밀번호가 일치하지 않습니다.",
+          required: "Fill in the confirm password field",
+          validate: (value) => value === password || "Password do not match.",
         })}
-        placeholder="비밀번호 확인"
+        placeholder="Password confirm"
         type="password"
       />
       {errors.confirmPassword && (
-        <p style={{ color: "red" }}>
+        <ErrorMessage style={{ color: "red" }}>
           {errors.confirmPassword.message?.toString()}
-        </p>
+        </ErrorMessage>
       )}
-    </>
+    </InputWrapper>
   );
 }

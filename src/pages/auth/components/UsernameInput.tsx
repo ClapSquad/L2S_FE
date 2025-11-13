@@ -1,4 +1,9 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  ErrorMessage,
+  InputWrapper,
+  StyledInput,
+} from "@auth/styles/inputFieldStyle";
 
 interface UserNameInputProps {
   register: UseFormRegister<any>;
@@ -10,23 +15,25 @@ export default function UsernameInput({
   errors,
 }: UserNameInputProps) {
   return (
-    <>
-      <input
+    <InputWrapper>
+      <StyledInput
         {...register("username", {
-          required: "이메일을 입력해주세요.",
+          required: "Put your username.",
           minLength: {
             value: 2,
-            message: "이름은 최소 2자 이상이어야 합니다.",
+            message: "Username must be longer than 2 characters",
           },
           validate: (value) =>
-            value.trim() !== "" || "공백만 입력할 수 없습니다.",
+            value.trim() !== "" || "User name cannot be empty.",
         })}
-        placeholder="이름"
+        placeholder="Username"
         type="text"
       />
       {errors.email && (
-        <p style={{ color: "red" }}>{errors.email.message?.toString()}</p>
+        <ErrorMessage style={{ color: "red" }}>
+          {errors.email.message?.toString()}
+        </ErrorMessage>
       )}
-    </>
+    </InputWrapper>
   );
 }

@@ -1,4 +1,9 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  ErrorMessage,
+  InputWrapper,
+  StyledInput,
+} from "@auth/styles/inputFieldStyle";
 
 interface EmailInputProps {
   register: UseFormRegister<any>;
@@ -6,22 +11,25 @@ interface EmailInputProps {
 }
 
 export default function EmailInput({ register, errors }: EmailInputProps) {
+  const hasError = Boolean(errors.email);
+
   return (
-    <>
-      <input
+    <InputWrapper>
+      <StyledInput
         {...register("email", {
-          required: "이메일을 입력해주세요.",
+          required: "Put your email address",
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: "유효한 이메일 형식이 아닙니다.",
+            message: "Not a valid email format",
           },
         })}
-        placeholder="이메일"
+        placeholder="Email"
         type="email"
+        $hasError={hasError}
       />
-      {errors.email && (
-        <p style={{ color: "red" }}>{errors.email.message?.toString()}</p>
+      {hasError && (
+        <ErrorMessage>{errors.email?.message?.toString()}</ErrorMessage>
       )}
-    </>
+    </InputWrapper>
   );
 }

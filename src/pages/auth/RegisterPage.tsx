@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import ConfirmPasswordInput from "./components/ConfirmPasswordInput";
@@ -7,6 +6,8 @@ import { useRegister } from "@auth/hooks/useRegister";
 import UsernameInput from "./components/UsernameInput";
 import NavigationBar from "@components/NavigationBar";
 import { useRejectLoggedInUser } from "./hooks/useRejectLoggedInUser";
+import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
+import Logo from "@components/Logo";
 
 interface RegisterFormData {
   email: string;
@@ -38,9 +39,12 @@ export default function RegisterPage() {
   return (
     <PageFiller>
       <NavigationBar />
-      <RegisterPageWrapper>
-        <h2>회원가입</h2>
-        <RegisterForm onSubmit={handleSubmit(onSubmit)}>
+      <PageWrapper>
+        <h2>Sign up</h2>
+        <FormStyle onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Logo size="100px" />
+          </div>
           <EmailInput register={register} errors={errors} />
           <UsernameInput register={register} errors={errors} />
           <PasswordInput register={register} errors={errors} />
@@ -49,29 +53,9 @@ export default function RegisterPage() {
             errors={errors}
             password={password}
           />
-          <button type="submit">회원가입</button>
-        </RegisterForm>
-      </RegisterPageWrapper>
+          <button type="submit">Sign up</button>
+        </FormStyle>
+      </PageWrapper>
     </PageFiller>
   );
 }
-
-const RegisterForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const RegisterPageWrapper = styled.div`
-  flex-grow: 0.9;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PageFiller = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-`;

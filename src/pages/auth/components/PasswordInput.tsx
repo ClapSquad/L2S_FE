@@ -1,4 +1,9 @@
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  ErrorMessage,
+  InputWrapper,
+  StyledInput,
+} from "@auth/styles/inputFieldStyle";
 
 interface PasswordInputProps {
   register: UseFormRegister<any>;
@@ -10,21 +15,23 @@ export default function PasswordInput({
   errors,
 }: PasswordInputProps) {
   return (
-    <>
-      <input
+    <InputWrapper>
+      <StyledInput
         {...register("password", {
-          required: "비밀번호를 입력해주세요.",
+          required: "Put your password",
           minLength: {
             value: 6,
-            message: "비밀번호는 최소 6자 이상이어야 합니다.",
+            message: "Password must be longer than 6 characters",
           },
         })}
-        placeholder="비밀번호"
+        placeholder="Password"
         type="password"
       />
       {errors.password && (
-        <p style={{ color: "red" }}>{errors.password.message?.toString()}</p>
+        <ErrorMessage style={{ color: "red" }}>
+          {errors.password.message?.toString()}
+        </ErrorMessage>
       )}
-    </>
+    </InputWrapper>
   );
 }
