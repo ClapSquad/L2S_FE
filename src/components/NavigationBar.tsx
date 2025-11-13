@@ -7,13 +7,13 @@ import { SettingsIcon } from "src/icons/SettingsIcon";
 import { useModal } from "@hooks/useModal";
 import { Modal } from "@components/Modal";
 import SettingModal from "@components/SettingModal";
-import Logo from "@components/Logo";
 import { useIsLoggedIn } from "@hooks/useIsLoggedIn";
 import { LogoutIcon } from "src/icons/LogoutIcon";
 import { AccountCircleIcon } from "src/icons/AccountCircleIcon";
 import { useLogout } from "@apis/hooks/useLogout";
 import { useNavigateBack } from "@hooks/userNavigateBack";
 import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
+import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
 
 export default function NavigationBar() {
   const navigateBack = useNavigateBack();
@@ -35,7 +35,7 @@ export default function NavigationBar() {
       <NavigationBarWrapper>
         {isHomePage ? (
           <Button onClick={() => navigate(routePath.HOME)}>
-            <Logo size="40px" />
+            <TitleImage src={titleimage} alt="Title image" size="250px" />
           </Button>
         ) : (
           <Button onClick={() => navigateBack()}>
@@ -71,6 +71,10 @@ export default function NavigationBar() {
   );
 }
 
+const TitleImage = styled.img<{ size: string }>`
+  width: ${({ size }) => size};
+`;
+
 const Button = styled.button`
   ${globalButtonStyle}
 `;
@@ -81,11 +85,20 @@ const ButtonSet = styled.div`
 `;
 
 const NavigationBarWrapper = styled.nav`
+  z-index: 1;
+  position: sticky;
+  top: 0;
+
   display: flex;
 
   justify-content: space-between;
   align-items: center;
 
   padding: 8px;
-  height: 40px;
+  height: 60px;
+
+  background-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 `;
