@@ -1,4 +1,4 @@
-// base.tsx
+import routePath from "@router/routePath";
 import axios, { AxiosError } from "axios";
 
 export const axiosInstance = axios.create({
@@ -9,6 +9,16 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    if (error.code === "ERR_NETWORK" && error.request.status === 0) {
+      window.location.href = routePath.ERROR;
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const handleApiError = (error: any): never => {
   if (error instanceof AxiosError) {

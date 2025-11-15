@@ -2,11 +2,14 @@ import { axiosInstance } from "@apis/axiosInstance";
 import { API } from "@apis/endpoints";
 import type { UserInfoResponse } from "@apis/hooks/useMe";
 import queryClient from "@apis/queryClient";
+import routePath from "@router/routePath";
 import { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "src/contexts/AuthContext";
 
 export function useValidateAuth() {
   const { setUser } = useContext(AuthContext);
+  const { pathname } = useLocation();
 
   const update = async () => {
     try {
@@ -27,6 +30,7 @@ export function useValidateAuth() {
   };
 
   useEffect(() => {
+    if (pathname === routePath.ERROR) return;
     update();
   }, []);
 }
