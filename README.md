@@ -2,8 +2,13 @@
 
 ## About This Project
 
-This is the frontend application for the [Semantic Video Summarization Pipeline (SVSP)](../README.md). The application provides a user-friendly interface for video summarization services, including user authentication, video management, and personalized user experiences.
+This is the frontend application for the Long2Short web service. The application provides a user-friendly interface for video summarization services, including user authentication, video management, and personalized user experiences.
 
+<details>
+<summary>
+Features
+</summary>
+   
 ## Features
 
 - **User Authentication**: Login and registration system with secure authentication
@@ -11,7 +16,14 @@ This is the frontend application for the [Semantic Video Summarization Pipeline 
 - **My Page**: Personal profile and user settings management
 - **Responsive UI**: Modern, accessible interface built with React and TypeScript
 
-## Tech Stack
+</details>
+
+<details>
+<summary>
+Tech Stacks
+</summary>
+
+## Tech Stacks
 
 ### Core Framework
 - **React 19** - Modern UI library with latest features
@@ -34,27 +46,33 @@ This is the frontend application for the [Semantic Video Summarization Pipeline 
 ### Code Quality
 - **ESLint** - Code linting and quality checks
 - **TypeScript ESLint** - TypeScript-specific linting rules
+</details>
 
+<details>
+<summary>
+Project Structure
+</summary>
+   
 ## Project Structure
 
 ```
 src/
 ├── pages/          # Page components
-│   ├── auth/       # Login and registration pages
-│   ├── main/       # Main dashboard page
-│   ├── my/         # User profile page
-│   └── error/      # Error page
 ├── components/     # Reusable UI components
 ├── router/         # Routing configuration
 ├── apis/           # API client and React Query hooks
-│   └── hooks/      # Custom React Query hooks
 ├── contexts/       # React Context providers
 ├── hooks/          # Custom React hooks
 ├── types/          # TypeScript type definitions
 ├── styles/         # Global styles and CSS
 └── icons/          # Icon components
 ```
+</details>
 
+<details>
+<summary>
+Getting Started
+</summary>
 ## Getting Started
 
 ### Prerequisites
@@ -108,29 +126,4 @@ Run TypeScript type checking without emitting files:
 ```bash
 npm run check
 ```
-
-### Linting
-
-Run ESLint to check code quality:
-
-```bash
-npm run lint
-```
-
-## Configuration
-
-- **Vite Config**: `vite.config.ts` - Build tool configuration
-- **TypeScript Config**: `tsconfig.json`, `tsconfig.app.json`, `tsconfig.node.json` - TypeScript settings
-- **ESLint Config**: `eslint.config.js` - Code quality rules
-
-## Contributing
-
-When contributing to this project, please ensure:
-1. All TypeScript types are properly defined
-2. Code passes ESLint checks (`npm run lint`)
-3. Type checking passes (`npm run check`)
-4. Components follow the existing project structure
-
-## License
-
-This project is part of the SVSP system. Please refer to the main repository for license information.
+</details>
