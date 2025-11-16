@@ -119,27 +119,6 @@ const PrimaryButton = styled.button`
   }
 `;
 
-const SecondaryButton = styled.button`
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
-  padding: 14px 32px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: #f7fafc;
-    transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
-
 const IconWrapper = styled.div`
   margin-bottom: 24px;
 
