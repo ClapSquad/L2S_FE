@@ -60,7 +60,7 @@ export default function NavigationBar() {
             !isAuthPage && (
               <LoginButton onClick={() => navigate(routePath.LOGIN)}>
                 <LoginIcon size="30" color="white" />
-                Login
+                Sign in
               </LoginButton>
             )
           )}

@@ -1,8 +1,19 @@
+import { useIsLoggedIn } from "@hooks/useIsLoggedIn";
+import routePath from "@router/routePath";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("youtube");
+  const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    if (!isLoggedIn) {
+      navigate(routePath.LOGIN);
+    }
+  };
 
   return (
     <VideoInputWrapper>
@@ -22,14 +33,16 @@ export default function VideoInput() {
         <Slider $activeMode={mode}>
           <Slide>
             <StyledInput placeholder="Paste YouTube link..." />
-            <GenerateButton>Generate</GenerateButton>
+            <GenerateButton onClick={handleButtonClick}>
+              Generate
+            </GenerateButton>
           </Slide>
           <Slide>
             <FileLabel>
               <FileInput type="file" />
               Drop or select a file
             </FileLabel>
-            <GenerateButton>Upload</GenerateButton>
+            <GenerateButton onClick={handleButtonClick}>Upload</GenerateButton>
           </Slide>
         </Slider>
       </InputWrapper>

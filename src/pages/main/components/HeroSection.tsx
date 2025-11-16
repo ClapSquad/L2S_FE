@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import a from "../assets/Long2ShortTextHorizontal.png";
+import { useNavigate } from "react-router-dom";
+import routePath from "@router/routePath";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate(routePath.REGISTER);
+  };
+
   return (
     <HeroSectionWrapper>
       <HeroContent>
@@ -11,7 +19,9 @@ export default function HeroSection() {
           creators who want to maximize their reach across all platforms
         </Subtitle>
         <ButtonWrapper>
-          <DownloadButton>Get Started</DownloadButton>
+          <DownloadButton onClick={handleGetStarted}>
+            Get Started
+          </DownloadButton>
           <ProductHuntBadge>Reduce your workload</ProductHuntBadge>
         </ButtonWrapper>
       </HeroContent>
