@@ -29,7 +29,7 @@ export function useLogin() {
       return res.data;
     },
     onSuccess: async (_data) => {
-      toast.success("로그인 되었습니다.");
+      toast.success("You're logged in");
       navigate(routePath.HOME);
 
       const me = await queryClient.fetchQuery<UserInfoResponse>({
@@ -46,11 +46,10 @@ export function useLogin() {
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {
-        const message =
-          error.response?.data?.detail || "로그인에 실패했습니다.";
+        const message = error.response?.data?.detail || "Failed to login";
         toast.error(`❌ ${message}`);
       } else {
-        toast.error("예상치 못한 오류가 발생했습니다.");
+        toast.error("Unexpected error occured");
       }
     },
   });

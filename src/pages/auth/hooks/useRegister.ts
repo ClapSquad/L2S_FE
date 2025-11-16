@@ -25,16 +25,16 @@ export function useRegister() {
       return res.data;
     },
     onSuccess: (_data, variables) => {
-      toast.success("회원가입이 완료되었습니다.");
+      toast.success("Account created");
       mutateLogin({ email: variables.email, password: variables.password });
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {
         const message =
-          error.response?.data?.message || "회원가입에 실패했습니다.";
+          error.response?.data?.message || "Failed to create account";
         toast.error(`❌ ${message}`);
       } else {
-        toast.error("예상치 못한 오류가 발생했습니다.");
+        toast.error("Unexpected error occured");
       }
     },
   });

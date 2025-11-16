@@ -15,16 +15,15 @@ export function useLogout() {
       return res.data;
     },
     onSuccess: async (_data) => {
-      toast.success("로그아웃 되었습니다.");
+      toast.success("You're logged out");
       setUser(null);
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {
-        const message =
-          error.response?.data?.detail || "로그아웃에 실패했습니다.";
+        const message = error.response?.data?.detail || "Failed to logout";
         toast.error(`❌ ${message}`);
       } else {
-        toast.error("예상치 못한 오류가 발생했습니다.");
+        toast.error("Unexpected error occured");
       }
     },
   });

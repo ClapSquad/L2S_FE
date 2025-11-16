@@ -15,7 +15,7 @@ export default function MyPage() {
 
   useEffect(() => {
     if (!user) {
-      toast.info("로그인이 필요합니다.");
+      toast.info("Require login.");
       navigateBack();
     }
   }, [user, navigateBack]);
@@ -66,7 +66,11 @@ export default function MyPage() {
             <DangerTitle>Manage account</DangerTitle>
             <WithdrawButton
               onClick={() => {
-                if (window.confirm("정말로 회원 탈퇴하시겠습니까?")) {
+                if (
+                  window.confirm(
+                    "Are you sure? Note that this action is irreversible"
+                  )
+                ) {
                   mutate();
                 }
               }}
