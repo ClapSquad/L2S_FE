@@ -2,7 +2,11 @@ import routePath from "@router/routePath";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { LoginIcon } from "src/icons/LoginIcon";
-import { globalButtonStyle } from "@styles/globalStyle";
+import {
+  globalButtonStyle,
+  globalPointButtonSecondaryStyle,
+  globalPointButtonStyle,
+} from "@styles/globalStyle";
 import { SettingsIcon } from "src/icons/SettingsIcon";
 import { useModal } from "@hooks/useModal";
 import { Modal } from "@components/Modal";
@@ -47,9 +51,13 @@ export default function NavigationBar() {
         <ButtonSet>
           {isLoggedIn ? (
             <>
-              <Button onClick={() => mutate()}>
-                <LogoutIcon size="30" color="black" />
-              </Button>
+              <PointButton onClick={() => mutate()}>
+                <LogoutIcon size="30" color="white" />
+                Sign out
+              </PointButton>
+              <SecondaryButton onClick={() => console.log("To dashboard")}>
+                Dashboard
+              </SecondaryButton>
               {!isMyPage && (
                 <Button onClick={() => navigate(routePath.MY)}>
                   <AccountCircleIcon size="30" color="black" />
@@ -58,10 +66,10 @@ export default function NavigationBar() {
             </>
           ) : (
             !isAuthPage && (
-              <LoginButton onClick={() => navigate(routePath.LOGIN)}>
+              <PointButton onClick={() => navigate(routePath.LOGIN)}>
                 <LoginIcon size="30" color="white" />
                 Sign in
-              </LoginButton>
+              </PointButton>
             )
           )}
           <Button onClick={open}>
@@ -73,32 +81,13 @@ export default function NavigationBar() {
   );
 }
 
-const LoginButton = styled.button`
+const PointButton = styled.button`
   ${globalButtonStyle}
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  background: linear-gradient(135deg, #000000, #333333);
-  color: white;
-  border-radius: 50px;
-  padding: 8px 18px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.3px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-
-  &:hover {
-    background: linear-gradient(135deg, #222, #000);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  }
-
-  &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
+  ${globalPointButtonStyle}
+`;
+const SecondaryButton = styled.button`
+  ${globalButtonStyle}
+  ${globalPointButtonSecondaryStyle}
 `;
 
 const TitleImage = styled.img<{ size: string }>`

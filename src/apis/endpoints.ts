@@ -10,5 +10,6 @@ export const API = {
     LOGIN: "/auth/login",
     LOGOUT: "/auth/logout",
     ME: "/auth/me",
+    WITHDRAW: "/auth/withdraw",
   },
 } as const;
