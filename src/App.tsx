@@ -1,5 +1,5 @@
 import Router from "@router/Router";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import { useValidateAuth } from "@apis/hooks/useValidateAuth";
 
 function App() {
@@ -8,7 +8,19 @@ function App() {
   return (
     <>
       <Router />
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition={Slide}
+      />
     </>
   );
 }
