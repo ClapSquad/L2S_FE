@@ -15,16 +15,16 @@ export default function MyPage() {
 
   useEffect(() => {
     if (!user) {
-      toast.info("Require login.");
+      toast.info("Require login to see my page");
       navigateBack();
     }
   }, [user, navigateBack]);
 
+  const { mutate } = useWithdraw();
+
   if (!user) {
     return null;
   }
-
-  const { mutate } = useWithdraw();
 
   return (
     <>
