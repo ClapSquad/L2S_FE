@@ -42,6 +42,7 @@ export function useLogin() {
       setUser({
         email: me.user.email,
         username: me.user.username,
+        credit: me.user.credit,
       });
     },
     onError: (error: any) => {

@@ -2,8 +2,8 @@ export const API = {
   HEALTH: {
     ALIVE: "/health/alive",
   },
-  FILE: {
-    UPLOAD: "/file/upload",
+  VIDEO: {
+    UPLOAD: { FILE: "/video/upload/file", YOUTUBE: "/video/upload/youtube" },
   },
   AUTH: {
     REGISTER: "/auth/register",

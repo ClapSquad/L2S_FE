@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "src/contexts/AuthContext";
 import styled from "styled-components";
 import NavigationBar from "@components/NavigationBar";
-import VideoInput from "@main/components/VideoInput";
+import VideoInput from "@components/VideoInput";
 
 export default function DashboardPage() {
   const { user } = useContext(AuthContext);
