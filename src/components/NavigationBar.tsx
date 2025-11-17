@@ -31,6 +31,7 @@ export default function NavigationBar() {
     location.pathname === routePath.LOGIN ||
     location.pathname === routePath.REGISTER;
   const isHomePage = location.pathname === routePath.HOME;
+  const isDashboardPage = location.pathname === routePath.DASHBOARD;
 
   return (
     <>
@@ -55,9 +56,11 @@ export default function NavigationBar() {
                 <LogoutIcon size="30" color="white" />
                 Sign out
               </PointButton>
-              <SecondaryButton onClick={() => console.log("To dashboard")}>
-                Dashboard
-              </SecondaryButton>
+              {!isDashboardPage && (
+                <SecondaryButton onClick={() => navigate(routePath.DASHBOARD)}>
+                  Dashboard
+                </SecondaryButton>
+              )}
               {!isMyPage && (
                 <Button onClick={() => navigate(routePath.MY)}>
                   <AccountCircleIcon size="30" color="black" />
