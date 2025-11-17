@@ -12,4 +12,8 @@ export const API = {
     ME: "/auth/me",
     WITHDRAW: "/auth/withdraw",
   },
+  CREDIT: {
+    ADD: "/credit/add",
+    USE: "/credit/use",
+  },
 } as const;

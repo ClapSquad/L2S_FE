@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "src/contexts/AuthContext";
 
 export function useValidateAuth() {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, setLoading } = useContext(AuthContext);
   const { pathname } = useLocation();
 
   const update = async () => {
@@ -23,9 +23,12 @@ export function useValidateAuth() {
       setUser({
         email: me.user.email,
         username: me.user.username,
+        credit: me.user.credit,
       });
     } catch (error) {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 

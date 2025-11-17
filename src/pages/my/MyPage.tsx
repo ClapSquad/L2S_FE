@@ -1,30 +1,18 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "src/contexts/AuthContext";
-import { toast } from "react-toastify";
-import { useNavigateBack } from "@hooks/userNavigateBack";
 import styled from "styled-components";
 import NavigationBar from "@components/NavigationBar";
 import { useWithdraw } from "./hooks/useWithdraw";
 import { PersonIcon } from "src/icons/PersonIcon";
 import { MailIcon } from "src/icons/MailIcon";
 import { PersonOffIcon } from "src/icons/PersonOffIcon";
+import routePath from "@router/routePath";
+import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
   const { user } = useContext(AuthContext);
-  const navigateBack = useNavigateBack();
-
-  useEffect(() => {
-    if (!user) {
-      toast.info("Require login to see my page");
-      navigateBack();
-    }
-  }, [user, navigateBack]);
-
   const { mutate } = useWithdraw();
-
-  if (!user) {
-    return null;
-  }
+  const navigate = useNavigate();
 
   return (
     <>
@@ -48,7 +36,7 @@ export default function MyPage() {
                 </IconWrapper>
                 <InfoContent>
                   <Label>Email</Label>
-                  <Value>{user.email}</Value>
+                  <Value>{user!.email}</Value>
                 </InfoContent>
               </InfoItem>
 
@@ -56,9 +44,21 @@ export default function MyPage() {
                 <IconWrapper>Aa</IconWrapper>
                 <InfoContent>
                   <Label>Username</Label>
-                  <Value>{user.username}</Value>
+                  <Value>{user!.username}</Value>
                 </InfoContent>
               </InfoItem>
+
+              <InfoItem>
+                <IconWrapper>C</IconWrapper>
+                <InfoContent>
+                  <Label>Credits</Label>
+                  <Value>{user!.credit} credits left</Value>
+                </InfoContent>
+              </InfoItem>
+
+              <GetCreditButton onClick={() => navigate(routePath.CREDIT)}>
+                Get more credits
+              </GetCreditButton>
             </InfoSection>
           </ProfileCard>
 
@@ -227,6 +227,29 @@ const WithdrawButton = styled.button`
   &:hover {
     background: #fef2f2;
     border-color: #fecaca;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const GetCreditButton = styled.button`
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
     transform: translateY(-2px);
   }
 

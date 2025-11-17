@@ -1,26 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "src/contexts/AuthContext";
-import { toast } from "react-toastify";
 import styled from "styled-components";
-import { useNavigateBack } from "@hooks/userNavigateBack";
 import NavigationBar from "@components/NavigationBar";
 import VideoInput from "@main/components/VideoInput";
 
 export default function DashboardPage() {
   const { user } = useContext(AuthContext);
-  const navigateBack = useNavigateBack();
-
-  useEffect(() => {
-    if (!user) {
-      toast.info("Require login.");
-      navigateBack();
-    }
-  }, [user, navigateBack]);
-
-  if (!user) {
-    return null;
-  }
-
+  console.log(user);
   return (
     <>
       <NavigationBar />

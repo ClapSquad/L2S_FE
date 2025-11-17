@@ -4,6 +4,7 @@ const routePath = {
   REGISTER: "/register",
   MY: "/my",
   DASHBOARD: "/dashboard",
+  CREDIT: "/credit",
   ERROR: "/error",
 };
 

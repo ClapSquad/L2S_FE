@@ -6,6 +6,7 @@ export interface UserInfoResponse {
   user: {
     email: string;
     username: string;
+    credit: number;
   };
 }
 
