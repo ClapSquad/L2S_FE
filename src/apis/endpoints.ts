@@ -4,6 +4,10 @@ export const API = {
   },
   VIDEO: {
     UPLOAD: { FILE: "/video/upload/file", YOUTUBE: "/video/upload/youtube" },
+    MY: "/video/my",
+    DETAIL: (id: string) => `/video/${id}/detail`,
+    DELETE: (id: string) => `/video/${id}/delete`,
+    DOWNLOAD: "/video/download",
   },
   AUTH: {
     REGISTER: "/auth/register",

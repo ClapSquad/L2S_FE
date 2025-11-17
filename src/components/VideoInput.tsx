@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { ClipLoader } from "react-spinners";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("youtube");
@@ -26,8 +27,13 @@ export default function VideoInput() {
     }
   };
 
-  const { progress, mutate: mutateFile } = useVideoUploadFile();
-  const { mutate: mutateYoutube } = useVideoUploadYoutube();
+  const {
+    progress,
+    mutate: mutateFile,
+    isPending: isFileUploading,
+  } = useVideoUploadFile();
+  const { mutate: mutateYoutube, isPending: isYoutubeUploading } =
+    useVideoUploadYoutube();
 
   const handleButtonClick = () => {
     if (!isLoggedIn) {
@@ -82,7 +88,16 @@ export default function VideoInput() {
               placeholder="Paste YouTube link..."
               onChange={handleYoutubeURLChange}
             />
-            <GenerateButton onClick={handleButtonClick}>Create</GenerateButton>
+            <GenerateButton
+              onClick={handleButtonClick}
+              disabled={isYoutubeUploading}
+            >
+              {isYoutubeUploading ? (
+                <ClipLoader color="white" size={15} />
+              ) : (
+                "Create"
+              )}
+            </GenerateButton>
           </Slide>
           <Slide>
             <VerticalLayout>
@@ -102,8 +117,15 @@ export default function VideoInput() {
                     </ClearButton>
                   </FileInfo>
                 )}
-                <GenerateButton onClick={handleButtonClick}>
-                  Upload
+                <GenerateButton
+                  onClick={handleButtonClick}
+                  disabled={isFileUploading}
+                >
+                  {isFileUploading ? (
+                    <ClipLoader color="white" size={15} />
+                  ) : (
+                    "Upload"
+                  )}
                 </GenerateButton>
               </HorizontalLayout>
               <ProgressBar $value={progress} />
