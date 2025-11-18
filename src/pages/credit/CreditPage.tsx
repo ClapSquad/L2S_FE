@@ -4,6 +4,10 @@ import NavigationBar from "@components/NavigationBar";
 import { useAddCredit } from "./hooks/useAddCredit";
 import { useUseCredit } from "./hooks/useUseCredit";
 import { useMe } from "@apis/hooks/useMe";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { creditPackages } from "./data/creditPackages";
+import PackagesGrid from "./components/PackagesGrid";
+import { toast } from "react-toastify";
 
 export default function CreditPage() {
   const { data } = useMe();
@@ -11,18 +15,6 @@ export default function CreditPage() {
   const { mutate: useMutate } = useUseCredit();
   const [selectedAmount, setSelectedAmount] = useState<number>(5);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-
-  const creditPackages = [
-    { credits: 5, price: 5, label: "Starter", popular: false },
-    { credits: 20, price: 18, label: "Basic", popular: false },
-    { credits: 50, price: 40, label: "Pro", popular: true },
-    { credits: 100, price: 75, label: "Premium", popular: false },
-  ];
-
-  const handlePurchase = () => {
-    addMutate({ amount: selectedAmount });
-    setShowPaymentForm(false);
-  };
 
   return (
     <>
@@ -47,25 +39,10 @@ export default function CreditPage() {
 
           <SectionTitle>Choose Your Package</SectionTitle>
 
-          <PackagesGrid>
-            {creditPackages.map((pkg) => (
-              <PackageCard
-                key={pkg.credits}
-                $isSelected={selectedAmount === pkg.credits}
-                $isPopular={pkg.popular}
-                onClick={() => setSelectedAmount(pkg.credits)}
-              >
-                {pkg.popular && <PopularBadge>Most Popular</PopularBadge>}
-                <PackageLabel>{pkg.label}</PackageLabel>
-                <PackageCredits>{pkg.credits}</PackageCredits>
-                <PackageCreditsLabel>credits</PackageCreditsLabel>
-                <PackagePrice>${pkg.price}</PackagePrice>
-                <PackagePricePerCredit>
-                  ${(pkg.price / pkg.credits).toFixed(2)} per credit
-                </PackagePricePerCredit>
-              </PackageCard>
-            ))}
-          </PackagesGrid>
+          <PackagesGrid
+            selectedAmount={selectedAmount}
+            setSelectedAmount={setSelectedAmount}
+          />
 
           <ActionButtons>
             <PrimaryButton onClick={() => setShowPaymentForm(true)}>
@@ -73,10 +50,17 @@ export default function CreditPage() {
             </PrimaryButton>
             <SecondaryButton
               onClick={() => {
-                useMutate({ amount: 5 });
+                addMutate({ amount: selectedAmount });
               }}
             >
-              Use 5 Credits
+              Get {selectedAmount} Credits
+            </SecondaryButton>
+            <SecondaryButton
+              onClick={() => {
+                useMutate({ amount: selectedAmount });
+              }}
+            >
+              Use {selectedAmount} Credits
             </SecondaryButton>
           </ActionButtons>
 
@@ -122,7 +106,7 @@ export default function CreditPage() {
                   </OrderSummary>
 
                   <PaymentForm>
-                    <FormGroup>
+                    {/* <FormGroup>
                       <Label>Card Number</Label>
                       <Input
                         type="text"
@@ -158,7 +142,43 @@ export default function CreditPage() {
                         creditPackages.find((p) => p.credits === selectedAmount)
                           ?.price
                       }
-                    </PayButton>
+                    </PayButton> */}
+
+                    <div style={{ padding: "10px" }}>
+                      <PayPalButtons
+                        style={{ layout: "vertical" }}
+                        createOrder={(_data, actions) => {
+                          const price =
+                            creditPackages.find(
+                              (p) => p.credits === selectedAmount
+                            )?.price || 0;
+
+                          return actions.order.create({
+                            intent: "CAPTURE",
+                            purchase_units: [
+                              {
+                                description: `${selectedAmount} Credits`,
+                                amount: {
+                                  value: price.toString(),
+                                  currency_code: "USD",
+                                },
+                              },
+                            ],
+                          });
+                        }}
+                        onApprove={async (_data, actions) => {
+                          const order = await actions?.order?.capture();
+                          addMutate({ amount: selectedAmount });
+                          setShowPaymentForm(false);
+                          toast.success("Payment successful");
+                          console.log("Payment successful!", order);
+                        }}
+                        onError={(err) => {
+                          toast.error("There was an error with paypal payment");
+                          console.error("PayPal payment error:", err);
+                        }}
+                      />
+                    </div>
 
                     <SecurityNotice>
                       🔒 Your payment information is secure and encrypted
@@ -267,92 +287,6 @@ const SectionTitle = styled.h2`
   color: #1a1a2e;
   margin-bottom: 32px;
   text-align: center;
-`;
-
-const PackagesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
-  margin-bottom: 48px;
-`;
-
-const PackageCard = styled.div<{ $isSelected: boolean; $isPopular: boolean }>`
-  background: white;
-  border-radius: 20px;
-  padding: 32px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 3px solid
-    ${(props) =>
-      props.$isSelected
-        ? "#667eea"
-        : props.$isPopular
-        ? "#e91e63"
-        : "transparent"};
-  box-shadow: ${(props) =>
-    props.$isSelected
-      ? "0 12px 40px rgba(102, 126, 234, 0.3)"
-      : "0 4px 20px rgba(0, 0, 0, 0.08)"};
-  transform: ${(props) => (props.$isSelected ? "scale(1.05)" : "scale(1)")};
-  position: relative;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const PopularBadge = styled.div`
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
-  color: white;
-  padding: 6px 20px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const PackageLabel = styled.div`
-  font-size: 14px;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 16px;
-  font-weight: 600;
-`;
-
-const PackageCredits = styled.div`
-  font-size: 48px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #667eea 0%, #e91e63 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 4px;
-`;
-
-const PackageCreditsLabel = styled.div`
-  font-size: 14px;
-  color: #9ca3af;
-  margin-bottom: 20px;
-`;
-
-const PackagePrice = styled.div`
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 8px;
-`;
-
-const PackagePricePerCredit = styled.div`
-  font-size: 12px;
-  color: #9ca3af;
 `;
 
 const ActionButtons = styled.div`
@@ -512,66 +446,66 @@ const TotalRow = styled.div`
 
 const PaymentForm = styled.div``;
 
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
+// const FormGroup = styled.div`
+//   margin-bottom: 20px;
+// `;
 
-const FormRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-`;
+// const FormRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   gap: 16px;
+// `;
 
-const Label = styled.label`
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 8px;
-`;
+// const Label = styled.label`
+//   display: block;
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: #374151;
+//   margin-bottom: 8px;
+// `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  font-size: 16px;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
+// const Input = styled.input`
+//   width: 100%;
+//   padding: 14px 16px;
+//   border: 2px solid #e5e7eb;
+//   border-radius: 12px;
+//   font-size: 16px;
+//   transition: all 0.2s ease;
+//   box-sizing: border-box;
 
-  &:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  }
+//   &:focus {
+//     outline: none;
+//     border-color: #667eea;
+//     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+//   }
 
-  &::placeholder {
-    color: #9ca3af;
-  }
-`;
+//   &::placeholder {
+//     color: #9ca3af;
+//   }
+// `;
 
-const PayButton = styled.button`
-  width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 18px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 8px;
+// const PayButton = styled.button`
+//   width: 100%;
+//   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//   color: white;
+//   border: none;
+//   border-radius: 12px;
+//   padding: 18px;
+//   font-size: 18px;
+//   font-weight: 700;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+//   margin-top: 8px;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
-  }
+//   &:hover {
+//     transform: translateY(-2px);
+//     box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+//   }
 
-  &:active {
-    transform: translateY(0);
-  }
-`;
+//   &:active {
+//     transform: translateY(0);
+//   }
+// `;
 
 const SecurityNotice = styled.div`
   text-align: center;

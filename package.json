@@ -11,6 +11,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.9.2",
     "@tanstack/react-query": "^5.90.7",
     "axios": "^1.13.2",
     "react-hook-form": "^7.65.0",

@@ -1,12 +1,14 @@
 import Router from "@router/Router";
 import { Slide, ToastContainer } from "react-toastify";
 import { useValidateAuth } from "@apis/hooks/useValidateAuth";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { initialOptions } from "./payment/paypal/paypalOptions";
 
 function App() {
   useValidateAuth();
 
   return (
-    <>
+    <PayPalScriptProvider options={initialOptions}>
       <Router />
       <ToastContainer
         position="top-center"
@@ -21,7 +23,7 @@ function App() {
         theme="light"
         transition={Slide}
       />
-    </>
+    </PayPalScriptProvider>
   );
 }
 

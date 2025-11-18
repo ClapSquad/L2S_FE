@@ -5,6 +5,7 @@ import YoutubeInput from "../../components/VideoInput";
 import AIPoweredSection from "./components/AIPoweredSection";
 import AutomaticCaptionSection from "./components/AutomaticCaptionSection";
 import Footer from "./components/Footer";
+import MockPackages from "./components/MockPackages";
 
 export default function MainPage() {
   return (
@@ -15,6 +16,7 @@ export default function MainPage() {
         <YoutubeInput />
         <AIPoweredSection />
         <AutomaticCaptionSection />
+        <MockPackages />
         <Footer />
       </MainPageWrapper>
     </>
