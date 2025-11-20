@@ -1,14 +1,10 @@
+import type { VideoData } from "@apis/types/video";
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "src/apis/axiosInstance";
 import { API } from "src/apis/endpoints";
 
 export interface MyVideoResponse {
-  videos: {
-    id: number;
-    user_id: number;
-    youtube_id: string | null;
-    file_path: string;
-  }[];
+  videos: VideoData[];
   total: number;
 }
 
