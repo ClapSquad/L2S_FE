@@ -9,7 +9,10 @@ interface YoutubeVideoUploadRequest {
 }
 
 interface YoutubeVideoUploadResponse {
-  detail: string;
+  message: string;
+  thumbnail_url: string;
+  video_id: number;
+  video_url: string;
 }
 
 export function useVideoUploadYoutube() {
@@ -20,7 +23,7 @@ export function useVideoUploadYoutube() {
   >({
     mutationFn: async (data) => {
       const res = await axiosInstance.post(API.VIDEO.UPLOAD.YOUTUBE, data, {
-        timeout: 1000 * 60 * 5,
+        timeout: 1000 * 60 * 30,
       });
       return res.data;
     },

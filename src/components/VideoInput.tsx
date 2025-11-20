@@ -1,17 +1,19 @@
 import { useIsLoggedIn } from "@hooks/useIsLoggedIn";
 import { useVideoUploadFile } from "@hooks/useVideoUploadFile";
 import { useVideoUploadYoutube } from "@hooks/useVideoUploadYoutube";
-import routePath from "@router/routePath";
+import routePath, { dashboardSubPath } from "@router/routePath";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("youtube");
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +46,15 @@ export default function VideoInput() {
         toast.error("No file selected");
         return;
       }
-      mutateFile(selectedFile);
+      mutateFile(selectedFile, {
+        onSuccess: (data) => {
+          queryClient.invalidateQueries({
+            queryKey: ["myvideo"],
+            exact: true,
+          });
+          navigate(dashboardSubPath.R_VIDEO(data.data.video_id));
+        },
+      });
     } else {
       try {
         if (!youtubeURL) {
@@ -60,7 +70,18 @@ export default function VideoInput() {
           return;
         }
 
-        mutateYoutube({ youtube_id: videoId });
+        mutateYoutube(
+          { youtube_id: videoId },
+          {
+            onSuccess: (data) => {
+              queryClient.invalidateQueries({
+                queryKey: ["myvideo"],
+                exact: true,
+              });
+              navigate(dashboardSubPath.R_VIDEO(data.video_id));
+            },
+          }
+        );
       } catch (e) {
         toast.error("Invalid URL format");
       }

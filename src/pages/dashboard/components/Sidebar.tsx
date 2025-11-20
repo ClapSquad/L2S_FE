@@ -31,7 +31,11 @@ export default function Sidebar() {
   const handleDeleteVideo = async (videoId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (window.confirm("이 비디오를 삭제하시겠습니까?")) {
-      mutate(`${videoId}`);
+      mutate(`${videoId}`, {
+        onSuccess: () => {
+          navigate(dashboardSubPath.UPLOAD);
+        },
+      });
       setOpenDropdownId(null);
     }
   };
