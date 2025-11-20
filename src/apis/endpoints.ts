@@ -8,6 +8,7 @@ export const API = {
     DETAIL: (id: string) => `/video/${id}/detail`,
     DELETE: (id: string) => `/video/${id}/delete`,
     DOWNLOAD: "/video/download",
+    RECENT: "/videos/recent",
   },
   AUTH: {
     REGISTER: "/auth/register",

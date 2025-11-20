@@ -16,7 +16,12 @@ export default function VideoPage() {
       <p>Youtube ID:{data?.youtube_id} </p>
       <p>Static file path: {data?.file_path}</p>
       <button onClick={() => mutate(id)}>Delete</button>
-      <a href={`${API.VIDEO.DOWNLOAD}?video_id=${id}`} download>
+      <a
+        href={`${import.meta.env.VITE_BACKEND_API_URL}${
+          API.VIDEO.DOWNLOAD
+        }?video_id=${id}`}
+        download
+      >
         Download
       </a>
     </DashBoardPageWrapper>

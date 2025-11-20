@@ -6,6 +6,7 @@ import AIPoweredSection from "./components/AIPoweredSection";
 import AutomaticCaptionSection from "./components/AutomaticCaptionSection";
 import Footer from "./components/Footer";
 import MockPackages from "./components/MockPackages";
+import RecentlyProcessedVideos from "./components/RecentlyProcessedVideos";
 
 export default function MainPage() {
   return (
@@ -17,6 +18,7 @@ export default function MainPage() {
         <AIPoweredSection />
         <AutomaticCaptionSection />
         <MockPackages />
+        <RecentlyProcessedVideos />
         <Footer />
       </MainPageWrapper>
     </>
