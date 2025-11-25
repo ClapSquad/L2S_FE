@@ -8,12 +8,14 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
 import { useQueryClient } from "@tanstack/react-query";
+import { useMe } from "src/apis/hooks/useMe";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("youtube");
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { data: meData } = useMe();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +42,12 @@ export default function VideoInput() {
   const handleButtonClick = () => {
     if (!isLoggedIn) {
       navigate(routePath.LOGIN);
+      return;
+    }
+    if (!meData || meData.user.credit < 1) {
+      toast.error("Insufficient credits. Please purchase more credits to upload.");
+      navigate(routePath.CREDIT);
+      return;
     }
     if (mode === "file") {
       if (!selectedFile) {
