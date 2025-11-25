@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { ClipLoader } from "react-spinners";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMe } from "src/apis/hooks/useMe";
+import { showCreditConfirmToast } from "./ConfirmToast";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("youtube");
@@ -44,9 +45,13 @@ export default function VideoInput() {
       navigate(routePath.LOGIN);
       return;
     }
-    if (!meData || meData.user.credit < 1) {
-      toast.error("Insufficient credits. Please purchase more credits to upload.");
-      navigate(routePath.CREDIT);
+    if (meData!.user.credit <= 0) {
+      showCreditConfirmToast({
+        message: "Insufficient credits, Get more?",
+        onYes: () => {
+          navigate(routePath.CREDIT);
+        },
+      });
       return;
     }
     if (mode === "file") {
