@@ -4,7 +4,10 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
-      staleTime: 1000 * 5,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5,
     },
   },
 });
