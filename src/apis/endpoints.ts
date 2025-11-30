@@ -21,4 +21,7 @@ export const API = {
     ADD: "/credit/add",
     USE: "/credit/use",
   },
+  RUNPOD: {
+    PROCESS: "/runpod/process",
+  },
 } as const;

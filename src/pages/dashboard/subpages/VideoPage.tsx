@@ -1,43 +1,59 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useFetchVideoDetail } from "../hooks/useFetchVideoDetail";
 import { useDeleteMyVideo } from "../hooks/useDeleteMyVideo";
 import { API } from "@apis/endpoints";
-import { BarLoader } from "react-spinners";
+import { BarLoader, BeatLoader } from "react-spinners";
 import { ToggleButton } from "@components/Toggle";
+import { useProcess } from "../hooks/useProcess";
+
+type MethodType = "llm_only" | "echofusion";
 
 export default function VideoPage() {
   const id = useParams().id!;
   const { data } = useFetchVideoDetail({ id });
-  const { mutate } = useDeleteMyVideo();
+  const { mutate: mutateDelete } = useDeleteMyVideo();
+  const { mutate: mutateProcess } = useProcess();
 
   const [loading, setLoading] = useState(true);
+  const [method, setMethod] = useState<MethodType>("echofusion");
+
+  if (!data) return null;
 
   return (
     <DashBoardPageWrapper>
-      <ContentContainer>
-        <HeaderSection>
-          <Title>Video Review</Title>
-          <DownloadLink
-            href={`${import.meta.env.VITE_BACKEND_API_URL}${
-              API.VIDEO.DOWNLOAD
-            }?video_id=${id}`}
-            download
-          >
-            Download Original
-          </DownloadLink>
-        </HeaderSection>
+      <Container>
+        <Header>
+          <HeaderContent>
+            <TitleSection>
+              <Title>Video Review</Title>
+              <Subtitle>Review and process your video content</Subtitle>
+            </TitleSection>
+            <DownloadButton
+              href={`${import.meta.env.VITE_BACKEND_API_URL}${
+                API.VIDEO.DOWNLOAD
+              }?video_id=${id}`}
+              download
+            >
+              <DownloadIcon>↓</DownloadIcon>
+              Download Original
+            </DownloadButton>
+          </HeaderContent>
+        </Header>
 
-        <VideoSection>
+        <VideoContainer>
           {loading && (
-            <LoadingContainer>
-              <LoadingText>Loading video...</LoadingText>
-              <BarLoader color="#9333ea" width="100%" />
-            </LoadingContainer>
+            <LoadingOverlay>
+              <LoadingContent>
+                <LoadingSpinner />
+                <LoadingText>Loading video...</LoadingText>
+                <BarLoader color="#8b5cf6" width="200px" height="4px" />
+              </LoadingContent>
+            </LoadingOverlay>
           )}
           {data?.file_path && (
-            <StyledVideo
+            <Video
               src={
                 data.file_path.startsWith("http")
                   ? data.file_path
@@ -45,65 +61,197 @@ export default function VideoPage() {
               }
               controls
               onLoadedData={() => setLoading(false)}
-              style={{ display: loading ? "none" : "block" }}
+              style={{ opacity: loading ? 0 : 1 }}
             />
           )}
-        </VideoSection>
+        </VideoContainer>
 
-        <OptionsSection>
-          <OptionCard>
-            <OptionLabel>Method</OptionLabel>
-            <StyledSelect>
-              <option value="llm">LLM: faster, verbal videos only</option>
-              <option value="echofusion">
-                EchoFusion: slower, deep-search
-              </option>
-            </StyledSelect>
-          </OptionCard>
+        <ProcessingCard>
+          <CardHeader>
+            <CardTitle>Processing Options</CardTitle>
+            <CardDescription>
+              Configure how you want to process this video
+            </CardDescription>
+          </CardHeader>
 
-          <OptionCard>
-            <OptionLabel>Subtitles</OptionLabel>
-            <ToggleButton />
-          </OptionCard>
+          <OptionsGrid>
+            <OptionItem>
+              <OptionHeader>
+                <OptionIcon>⚡</OptionIcon>
+                <OptionInfo>
+                  <OptionTitle>Processing Method</OptionTitle>
+                  <OptionDesc>
+                    Choose your preferred processing algorithm
+                  </OptionDesc>
+                </OptionInfo>
+              </OptionHeader>
+              <Select
+                value={method}
+                onChange={(e) => setMethod(e.target.value as MethodType)}
+              >
+                <option value="llm_only">
+                  LLM - Faster, verbal videos only
+                </option>
+                <option value="echofusion">
+                  EchoFusion - Slower, deep-search
+                </option>
+              </Select>
+            </OptionItem>
 
-          <OptionCard>
-            <OptionLabel>9:16 ratio conversion</OptionLabel>
-            <ToggleButton />
-          </OptionCard>
+            <OptionItem>
+              <OptionHeader>
+                <OptionIcon>💬</OptionIcon>
+                <OptionInfo>
+                  <OptionTitle>Subtitles</OptionTitle>
+                  <OptionDesc>Add subtitles to your video</OptionDesc>
+                </OptionInfo>
+              </OptionHeader>
+              <ToggleButton />
+            </OptionItem>
 
-          <GenerateButton onClick={() => console.log("Request generate")}>
-            Generate shorts
+            <OptionItem>
+              <OptionHeader>
+                <OptionIcon>📱</OptionIcon>
+                <OptionInfo>
+                  <OptionTitle>Vertical Format</OptionTitle>
+                  <OptionDesc>Convert to 9:16 ratio for mobile</OptionDesc>
+                </OptionInfo>
+              </OptionHeader>
+              <ToggleButton />
+            </OptionItem>
+          </OptionsGrid>
+
+          <GenerateButton
+            onClick={() =>
+              mutateProcess({
+                command: "run",
+                data: {
+                  input: {
+                    job_id: data.result_path.split("/").pop() ?? "",
+                    task: "process_video",
+                    video_url: data.file_path,
+                    options: { method, language: "auto" },
+                  },
+                },
+              })
+            }
+          >
+            <ButtonIcon>✨</ButtonIcon>
+            Generate Shorts
           </GenerateButton>
-        </OptionsSection>
+        </ProcessingCard>
 
-        <DetailsSection>
-          <summary>Review Detail</summary>
-          <DetailContent>
-            <DetailItem>
-              <DetailLabel>Video ID:</DetailLabel>
+        <ResultSection>
+          <SectionTitle>Generated Result</SectionTitle>
+          <VideoWithRetry
+            file_path={`${data.result_path}/summary.mp4`}
+            retryInterval={5000}
+          />
+        </ResultSection>
+
+        <DetailsAccordion>
+          <summary>
+            <AccordionHeader>
+              <span>Technical Details</span>
+              <AccordionIcon>▼</AccordionIcon>
+            </AccordionHeader>
+          </summary>
+          <DetailsContent>
+            <DetailRow>
+              <DetailLabel>Video ID</DetailLabel>
               <DetailValue>{data?.id}</DetailValue>
-            </DetailItem>
-            <DetailItem>
-              <DetailLabel>Uploader user ID:</DetailLabel>
+            </DetailRow>
+            <DetailRow>
+              <DetailLabel>Uploader ID</DetailLabel>
               <DetailValue>{data?.user_id}</DetailValue>
-            </DetailItem>
-            <DetailItem>
-              <DetailLabel>Youtube ID:</DetailLabel>
+            </DetailRow>
+            <DetailRow>
+              <DetailLabel>YouTube ID</DetailLabel>
               <DetailValue>{data?.youtube_id}</DetailValue>
-            </DetailItem>
-            <DetailItem>
-              <DetailLabel>Static file path:</DetailLabel>
+            </DetailRow>
+            <DetailRow>
+              <DetailLabel>File Path</DetailLabel>
               <DetailValue>{data?.file_path}</DetailValue>
-            </DetailItem>
-          </DetailContent>
-        </DetailsSection>
+            </DetailRow>
+          </DetailsContent>
+        </DetailsAccordion>
 
-        <DeleteButton onClick={() => mutate(id)}>Delete Video</DeleteButton>
-      </ContentContainer>
+        <DangerZone>
+          <DangerHeader>
+            <DangerTitle>Danger Zone</DangerTitle>
+            <DangerDescription>Irreversible actions</DangerDescription>
+          </DangerHeader>
+          <DeleteButton onClick={() => mutateDelete(id)}>
+            <span>🗑️</span>
+            Delete Video Permanently
+          </DeleteButton>
+        </DangerZone>
+      </Container>
     </DashBoardPageWrapper>
   );
 }
 
+const VideoWithRetry = ({
+  file_path,
+  retryInterval = 15000,
+}: {
+  file_path: string;
+  retryInterval: number;
+}) => {
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let intervalId: number;
+
+    const loadVideo = async () => {
+      try {
+        const response = await fetch(file_path);
+
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          setVideoUrl(url);
+          setLoading(false);
+          clearInterval(intervalId);
+        }
+      } catch (error) {
+        console.log("Video not ready yet...");
+      }
+    };
+
+    loadVideo();
+    intervalId = setInterval(loadVideo, retryInterval);
+
+    return () => {
+      clearInterval(intervalId);
+      if (videoUrl) URL.revokeObjectURL(videoUrl);
+    };
+  }, [file_path]);
+
+  return (
+    <ResultContainer>
+      {loading && (
+        <LoadingState>
+          <LoadingStateIcon>⏳</LoadingStateIcon>
+          <LoadingStateText>
+            Video generation in progress or not started yet...
+          </LoadingStateText>
+          <BeatLoader color="#8b5cf6" size={10} />
+        </LoadingState>
+      )}
+      {videoUrl && (
+        <Video
+          src={videoUrl}
+          controls
+          style={{ display: loading ? "none" : "block" }}
+        />
+      )}
+    </ResultContainer>
+  );
+};
+
+// Styled Components
 const DashBoardPageWrapper = styled.div`
   background: #ffffff;
   height: calc(100vh - 150px);
@@ -111,204 +259,438 @@ const DashBoardPageWrapper = styled.div`
   overflow-y: auto;
 `;
 
-const ContentContainer = styled.div`
-  max-width: 1000px;
+const Container = styled.div`
+  max-width: 1100px;
   margin: 0 auto;
 `;
 
-const HeaderSection = styled.div`
+const Header = styled.header`
+  margin-bottom: 40px;
+`;
+
+const HeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
+  align-items: flex-start;
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const TitleSection = styled.div`
+  flex: 1;
 `;
 
 const Title = styled.h1`
-  font-size: 32px;
-  font-weight: 600;
-  color: #1a1a2e;
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+`;
+
+const Subtitle = styled.p`
+  font-size: 15px;
+  color: #64748b;
   margin: 0;
 `;
 
-const DownloadLink = styled.a`
-  color: #9333ea;
+const DownloadButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: white;
+  color: #6366f1;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
-  padding: 10px 20px;
-  border: 2px solid #9333ea;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  font-weight: 600;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 
   &:hover {
-    background: #9333ea;
+    background: #6366f1;
     color: white;
+    border-color: #6366f1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
-const VideoSection = styled.div`
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 32px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+const DownloadIcon = styled.span`
+  font-size: 18px;
+  font-weight: bold;
 `;
 
-const LoadingContainer = styled.div`
+const VideoContainer = styled.div`
+  position: relative;
+  background: #1e293b;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  aspect-ratio: 16 / 9;
+`;
+
+const LoadingOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  z-index: 10;
+`;
+
+const LoadingContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 40px;
-`;
-
-const LoadingText = styled.p`
-  color: #6b7280;
-  font-size: 14px;
-  margin: 0;
-`;
-
-const StyledVideo = styled.video`
-  width: 100%;
-  max-height: 500px;
-  border-radius: 8px;
-  background: #000;
-`;
-
-const OptionsSection = styled.div`
-  display: grid;
   gap: 20px;
-  margin-bottom: 32px;
 `;
 
-const OptionCard = styled.div`
-  background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: border-color 0.3s ease;
+const LoadingSpinner = styled.div`
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(139, 92, 246, 0.1);
+  border-top-color: #8b5cf6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 
-  &:hover {
-    border-color: #d1d5db;
-  }
-`;
-
-const OptionLabel = styled.label`
-  font-size: 16px;
-  font-weight: 500;
-  color: #374151;
-`;
-
-const StyledSelect = styled.select`
-  padding: 8px 16px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #374151;
-  background: white;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-
-  &:hover {
-    border-color: #9333ea;
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #9333ea;
-  }
-`;
-
-const DetailsSection = styled.details`
-  background: white;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 32px;
-
-  summary {
-    font-size: 16px;
-    font-weight: 500;
-    color: #374151;
-    cursor: pointer;
-    user-select: none;
-
-    &:hover {
-      color: #9333ea;
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
     }
   }
 `;
 
-const DetailContent = styled.div`
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #e5e7eb;
-`;
-
-const DetailItem = styled.div`
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const DetailLabel = styled.span`
-  font-size: 14px;
-  color: #6b7280;
+const LoadingText = styled.p`
+  color: #cbd5e1;
+  font-size: 15px;
   font-weight: 500;
-  min-width: 140px;
+  margin: 0;
 `;
 
-const DetailValue = styled.span`
-  font-size: 14px;
-  color: #1f2937;
-  word-break: break-all;
-`;
-
-const DeleteButton = styled.button`
+const Video = styled.video`
   width: 100%;
-  padding: 14px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+`;
+
+const ProcessingCard = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+`;
+
+const CardHeader = styled.div`
+  margin-bottom: 28px;
+`;
+
+const CardTitle = styled.h2`
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+`;
+
+const CardDescription = styled.p`
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+`;
+
+const OptionsGrid = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+`;
+
+const OptionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: #dc2626;
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+`;
+
+const OptionHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+`;
+
+const OptionIcon = styled.div`
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+`;
+
+const OptionInfo = styled.div`
+  flex: 1;
+`;
+
+const OptionTitle = styled.div`
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+`;
+
+const OptionDesc = styled.div`
+  font-size: 13px;
+  color: #64748b;
+`;
+
+const Select = styled.select`
+  padding: 10px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
   }
 
-  &:active {
-    transform: translateY(1px);
+  &:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
   }
 `;
 
 const GenerateButton = styled.button`
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 14px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
 
   &:hover {
-    background: linear-gradient(135deg, #6366f1 20%, #ec4899 80%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
   }
 
   &:active {
-    transform: translateY(1px);
+    transform: translateY(0);
+  }
+`;
+
+const ButtonIcon = styled.span`
+  font-size: 20px;
+`;
+
+const ResultSection = styled.div`
+  margin-bottom: 32px;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 16px 0;
+`;
+
+const ResultContainer = styled.div`
+  background: #1e293b;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  aspect-ratio: 16 / 9;
+`;
+
+const LoadingState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  height: 100%;
+`;
+
+const LoadingStateIcon = styled.div`
+  font-size: 48px;
+`;
+
+const LoadingStateText = styled.p`
+  color: #cbd5e1;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+  max-width: 300px;
+`;
+
+const DetailsAccordion = styled.details`
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+
+  summary {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+`;
+
+const AccordionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+
+  &:hover {
+    color: #6366f1;
+  }
+`;
+
+const AccordionIcon = styled.span`
+  font-size: 12px;
+  color: #64748b;
+  transition: transform 0.2s ease;
+
+  details[open] & {
+    transform: rotate(180deg);
+  }
+`;
+
+const DetailsContent = styled.div`
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+const DetailRow = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+const DetailLabel = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 120px;
+`;
+
+const DetailValue = styled.span`
+  font-size: 14px;
+  color: #1e293b;
+  word-break: break-all;
+  font-family: "Monaco", "Courier New", monospace;
+  background: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex: 1;
+`;
+
+const DangerZone = styled.div`
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 16px;
+  padding: 24px;
+`;
+
+const DangerHeader = styled.div`
+  margin-bottom: 16px;
+`;
+
+const DangerTitle = styled.h3`
+  font-size: 18px;
+  font-weight: 700;
+  color: #991b1b;
+  margin: 0 0 4px 0;
+`;
+
+const DangerDescription = styled.p`
+  font-size: 13px;
+  color: #b91c1c;
+  margin: 0;
+`;
+
+const DeleteButton = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
