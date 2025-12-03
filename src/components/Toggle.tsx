@@ -1,10 +1,26 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export function ToggleButton() {
-  const [isOn, setIsOn] = useState(false);
+interface ToggleButtonProps {
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+}
 
-  return <Switch $isOn={isOn} onClick={() => setIsOn(!isOn)} />;
+export function ToggleButton({ checked, onChange }: ToggleButtonProps = {}) {
+  const [internalIsOn, setInternalIsOn] = useState(false);
+
+  const isControlled = checked !== undefined && onChange !== undefined;
+  const isOn = isControlled ? checked : internalIsOn;
+
+  const handleToggle = () => {
+    if (isControlled) {
+      onChange(!checked);
+    } else {
+      setInternalIsOn(!internalIsOn);
+    }
+  };
+
+  return <Switch $isOn={isOn} onClick={handleToggle} />;
 }
 
 const Switch = styled.button<{ $isOn: boolean }>`
