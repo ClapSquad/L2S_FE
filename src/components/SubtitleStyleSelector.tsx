@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect } from "react";
 
-export type SubtitleStyle = "simple1" | "simple2" | "simple3" | "highlighted" | "casual" | "dynamic";
+export type SubtitleStyle = "simple1" | "simple2" | "simple3" | "casual" | "dynamic";
 
 interface SubtitleStyleSelectorProps {
   value: SubtitleStyle;
@@ -13,7 +13,7 @@ export default function SubtitleStyleSelector({
   onChange,
 }: SubtitleStyleSelectorProps) {
   useEffect(() => {
-    // Start animations for dynamic and highlighted
+    // Start animations for dynamic
     const dynamicInterval = setInterval(() => {
       const dynamicWords = document.querySelectorAll('.dynamic-preview-word');
       dynamicWords.forEach((word) => {
@@ -25,20 +25,8 @@ export default function SubtitleStyleSelector({
       }
     }, 800);
 
-    const highlightedInterval = setInterval(() => {
-      const highlightedWords = document.querySelectorAll('.highlighted-preview-word');
-      highlightedWords.forEach((word) => {
-        word.classList.remove('highlight-active');
-      });
-      const currentTime = Math.floor(Date.now() / 600) % highlightedWords.length;
-      if (highlightedWords[currentTime]) {
-        highlightedWords[currentTime].classList.add('highlight-active');
-      }
-    }, 600);
-
     return () => {
       clearInterval(dynamicInterval);
-      clearInterval(highlightedInterval);
     };
   }, []);
 
@@ -90,19 +78,6 @@ export default function SubtitleStyleSelector({
           <PreviewText $style="casual">캐주얼 자막</PreviewText>
           <PreviewText $style="casual">Casual Text</PreviewText>
         </PreviewContainer>
-      </StyleOption>
-
-      <StyleOption
-        $active={value === "highlighted"}
-        onClick={() => onChange("highlighted")}
-      >
-        <StyleName>Highlighted</StyleName>
-        <StyleDescription>Color emphasis (white/yellow/red)</StyleDescription>
-        <HighlightedPreviewContainer>
-          <HighlightedWord className="highlighted-preview-word" data-color="white">normal</HighlightedWord>
-          <HighlightedWord className="highlighted-preview-word" data-color="yellow">important</HighlightedWord>
-          <HighlightedWord className="highlighted-preview-word" data-color="red">critical</HighlightedWord>
-        </HighlightedPreviewContainer>
       </StyleOption>
 
       <StyleOption
@@ -167,14 +142,6 @@ const PreviewContainer = styled.div`
   min-height: 50px;
 `;
 
-const HighlightedPreviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-  align-items: flex-start;
-`;
-
 const DynamicPreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -228,31 +195,6 @@ const PreviewText = styled.span<{ $style: string }>`
         return "";
     }
   }}
-`;
-
-const HighlightedWord = styled.span`
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 4px;
-  display: inline-block;
-  color: white;
-  text-transform: uppercase;
-  -webkit-text-stroke: 2px #000;
-  paint-order: stroke fill;
-  transition: all 0.3s ease;
-
-  &.highlight-active {
-    font-size: 14px;
-  }
-
-  &.highlight-active[data-color="yellow"] {
-    color: #fbbf24 !important;
-  }
-
-  &.highlight-active[data-color="red"] {
-    color: #ef4444 !important;
-  }
 `;
 
 const DynamicWord = styled.span`

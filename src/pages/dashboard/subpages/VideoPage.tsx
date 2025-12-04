@@ -21,7 +21,7 @@ export default function VideoPage() {
   useEffect(() => {
     if (!isVideoPlaying) return;
 
-    // Start animations for dynamic and highlighted overlays
+    // Start animations for dynamic overlay
     const dynamicInterval = setInterval(() => {
       const dynamicWords = document.querySelectorAll('.subtitle-overlay-dynamic-word');
       dynamicWords.forEach((word) => {
@@ -33,20 +33,8 @@ export default function VideoPage() {
       }
     }, 800);
 
-    const highlightedInterval = setInterval(() => {
-      const highlightedWords = document.querySelectorAll('.subtitle-overlay-highlighted-word');
-      highlightedWords.forEach((word) => {
-        word.classList.remove('highlight-active');
-      });
-      const currentTime = Math.floor(Date.now() / 600) % highlightedWords.length;
-      if (highlightedWords[currentTime]) {
-        highlightedWords[currentTime].classList.add('highlight-active');
-      }
-    }, 600);
-
     return () => {
       clearInterval(dynamicInterval);
-      clearInterval(highlightedInterval);
     };
   }, [isVideoPlaying]);
 
@@ -91,13 +79,7 @@ export default function VideoPage() {
               {subtitleEnabled && !loading && (
                 <SubtitleOverlay>
                   <SubtitlePreview $style={subtitleStyle}>
-                    {subtitleStyle === "highlighted" ? (
-                      <>
-                        <SubtitleWord className="subtitle-overlay-highlighted-word" $color="white" data-color="white">normal</SubtitleWord>
-                        <SubtitleWord className="subtitle-overlay-highlighted-word" $color="yellow" data-color="yellow">important</SubtitleWord>
-                        <SubtitleWord className="subtitle-overlay-highlighted-word" $color="red" data-color="red">critical</SubtitleWord>
-                      </>
-                    ) : subtitleStyle === "dynamic" ? (
+                    {subtitleStyle === "dynamic" ? (
                       <>
                         <SubtitleWord className="subtitle-overlay-dynamic-word">This</SubtitleWord>
                         <SubtitleWord className="subtitle-overlay-dynamic-word">is</SubtitleWord>
@@ -314,13 +296,6 @@ const SubtitlePreview = styled.div<{ $style: SubtitleStyle }>`
           background: rgba(0, 0, 0, 0.5);
           text-transform: uppercase;
         `;
-      case "highlighted":
-        return `
-          color: white;
-          text-transform: uppercase;
-          -webkit-text-stroke: 3px #000;
-          paint-order: stroke fill;
-        `;
       case "casual":
         return `
           font-family: 'Jua', sans-serif;
@@ -342,32 +317,10 @@ const SubtitlePreview = styled.div<{ $style: SubtitleStyle }>`
   }}
 `;
 
-const SubtitleWord = styled.span<{ $color?: "white" | "yellow" | "red" }>`
+const SubtitleWord = styled.span`
   display: inline-block;
   margin: 0 4px;
   transition: all 0.3s ease;
-
-  ${({ $color }) => {
-    if ($color === "yellow") {
-      return "color: #fbbf24;";
-    } else if ($color === "red") {
-      return "color: #ef4444;";
-    }
-    return "";
-  }}
-
-  /* Highlighted animation */
-  &.subtitle-overlay-highlighted-word.highlight-active {
-    font-size: 24px;
-  }
-
-  &.subtitle-overlay-highlighted-word.highlight-active[data-color="yellow"] {
-    color: #fbbf24 !important;
-  }
-
-  &.subtitle-overlay-highlighted-word.highlight-active[data-color="red"] {
-    color: #ef4444 !important;
-  }
 
   /* Dynamic animation */
   &.subtitle-overlay-dynamic-word.animate-active {
