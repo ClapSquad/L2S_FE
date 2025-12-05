@@ -6,18 +6,50 @@ import { useDeleteMyVideo } from "../hooks/useDeleteMyVideo";
 import { API } from "@apis/endpoints";
 import { BarLoader, BeatLoader } from "react-spinners";
 import { ToggleButton } from "@components/Toggle";
-import { useProcess } from "../hooks/useProcess";
+import { useSummarize } from "../hooks/useSummarize";
+import { useMyJob } from "../hooks/useMyJob";
+import { useJobStatus } from "../hooks/useJobStatus";
+import { useDeleteJob } from "../hooks/useDeleteJob";
+import { useQueryClient } from "@tanstack/react-query";
 
 type MethodType = "llm_only" | "echofusion";
+
+function A({ job_id }: { job_id: string }) {
+  const { data, isLoading, isError } = useJobStatus({ id: job_id });
+
+  if (isLoading) return <>Loading job data...</>;
+  if (isError) return <>Couldn't retrive your job</>;
+  if (!data) return;
+
+  return (
+    <div>
+      {data.result_url && (
+        <VideoWithRetry file_path={data.result_url} retryInterval={5000} />
+      )}
+      <p>Method: {data.method}</p>
+      <p>Status: {data.status}</p>
+      {data.error_message && <p>Error: {data.error_message}</p>}
+      <p>Created at {data.created_at}</p>
+      <p>Started at {data.started_at}</p>
+      <p>Completed at {data.completed_at}</p>
+    </div>
+  );
+}
 
 export default function VideoPage() {
   const id = useParams().id!;
   const { data } = useFetchVideoDetail({ id });
   const { mutate: mutateDelete } = useDeleteMyVideo();
-  const { mutate: mutateProcess } = useProcess();
+  const { mutate: mutateSummarize } = useSummarize();
+  const { data: jobData } = useMyJob({ video_id: id });
+  const { mutate: mutateDeleteJob } = useDeleteJob();
 
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
+  const [subtitle, setSubtitle] = useState(false);
+  const [vertical, setVertical] = useState(false);
+
+  const queryClient = useQueryClient();
 
   if (!data) return null;
 
@@ -106,7 +138,7 @@ export default function VideoPage() {
                   <OptionDesc>Add subtitles to your video</OptionDesc>
                 </OptionInfo>
               </OptionHeader>
-              <ToggleButton />
+              <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionItem>
 
             <OptionItem>
@@ -117,23 +149,27 @@ export default function VideoPage() {
                   <OptionDesc>Convert to 9:16 ratio for mobile</OptionDesc>
                 </OptionInfo>
               </OptionHeader>
-              <ToggleButton />
+              <ToggleButton isOn={vertical} setIsOn={setVertical} />
             </OptionItem>
           </OptionsGrid>
 
           <GenerateButton
             onClick={() =>
-              mutateProcess({
-                command: "run",
-                data: {
-                  input: {
-                    job_id: data.result_path.split("/").pop() ?? "",
-                    task: "process_video",
-                    video_url: data.file_path,
-                    options: { method, language: "auto" },
-                  },
+              mutateSummarize(
+                {
+                  video_id: id,
+                  method,
+                  subtitle,
+                  vertical,
                 },
-              })
+                {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries({
+                      queryKey: ["job", "my", id],
+                    });
+                  },
+                }
+              )
             }
           >
             <ButtonIcon>✨</ButtonIcon>
@@ -143,10 +179,32 @@ export default function VideoPage() {
 
         <ResultSection>
           <SectionTitle>Generated Result</SectionTitle>
-          <VideoWithRetry
-            file_path={`${data.result_path}/summary.mp4`}
-            retryInterval={5000}
-          />
+          {jobData?.map((job) => {
+            return (
+              <details key={job.job_id}>
+                <summary>
+                  job id: {job.job_id} method: {job.method} status: {job.status}{" "}
+                  <button
+                    onClick={() =>
+                      mutateDeleteJob(
+                        { id: job.job_id },
+                        {
+                          onSuccess: () => {
+                            queryClient.invalidateQueries({
+                              queryKey: ["job", "my", id],
+                            });
+                          },
+                        }
+                      )
+                    }
+                  >
+                    x
+                  </button>
+                </summary>
+                <A job_id={job.job_id} />
+              </details>
+            );
+          })}
         </ResultSection>
 
         <DetailsAccordion>

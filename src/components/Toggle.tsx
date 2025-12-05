@@ -1,9 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export function ToggleButton() {
-  const [isOn, setIsOn] = useState(false);
-
+export function ToggleButton({
+  isOn,
+  setIsOn,
+}: {
+  isOn: boolean;
+  setIsOn: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return <Switch $isOn={isOn} onClick={() => setIsOn(!isOn)} />;
 }
 
