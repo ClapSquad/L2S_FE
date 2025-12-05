@@ -23,5 +23,11 @@ export const API = {
   },
   RUNPOD: {
     PROCESS: "/runpod/process",
+    SUMMARIZE: "/runpod/summarize",
+    JOB: {
+      MY: "/runpod/job/my",
+      DELETE: (id: string) => `/runpod/job/${id}`,
+      STATUS: (id: string) => `/runpod/job/${id}/status`,
+    },
   },
 } as const;

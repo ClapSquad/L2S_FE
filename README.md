@@ -26,24 +26,29 @@ Tech Stacks
 ## Tech Stacks
 
 ### Core Framework
+
 - **React 19** - Modern UI library with latest features
 - **TypeScript 5.8** - Type-safe JavaScript development
 - **Vite 7** - Fast build tool and development server
 
 ### Routing & State Management
+
 - **React Router DOM v7** - Client-side routing
 - **TanStack React Query v5** - Server state management and data fetching
 - **React Context API** - Global state management (authentication)
 
 ### Data & Forms
+
 - **Axios** - HTTP client for API communication
 - **React Hook Form** - Performant form validation and management
 
 ### Styling & UI
+
 - **Styled Components** - CSS-in-JS styling solution
 - **React Toastify** - Toast notification system
 
 ### Code Quality
+
 - **ESLint** - Code linting and quality checks
 - **TypeScript ESLint** - TypeScript-specific linting rules
 </details>
@@ -67,6 +72,7 @@ src/
 ├── styles/         # Global styles and CSS
 └── icons/          # Icon components
 ```
+
 </details>
 
 <details>
@@ -126,4 +132,26 @@ Run TypeScript type checking without emitting files:
 ```bash
 npm run check
 ```
+
+</details>
+<details>
+
+<summary>
+Docker Environment
+</summary>
+
+## Docker Environment
+
+### built
+
+```
+docker build -t l2s-fe .
+```
+
+### run
+
+```
+docker run -it --rm -p 5173:5173 -v .:/app -v /app/node_modules l2s-fe
+```
+
 </details>
