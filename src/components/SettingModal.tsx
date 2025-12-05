@@ -2,8 +2,10 @@ import { CloseIcon } from "src/icons/CloseIcon";
 import styled from "styled-components";
 import { globalButtonStyle } from "@styles/globalStyle";
 import { ToggleButton } from "./Toggle";
+import { useState } from "react";
 
 export default function SettingModal({ onClose }: { onClose: () => void }) {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   return (
     <ModalWrapper>
       <TopBar>
@@ -17,13 +19,13 @@ export default function SettingModal({ onClose }: { onClose: () => void }) {
         <HorizontalLayout>
           <label htmlFor="language-select">언어 선택</label>
           <select>
-            <option value="">한국어</option>
             <option value="">English</option>
+            <option value="">한국어</option>
           </select>
         </HorizontalLayout>
         <HorizontalLayout>
           <label htmlFor="language-select">다크 모드</label>
-          <ToggleButton />
+          <ToggleButton isOn={darkMode} setIsOn={setDarkMode} />
         </HorizontalLayout>
       </VerticalLayout>
     </ModalWrapper>
