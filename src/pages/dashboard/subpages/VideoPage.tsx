@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useFetchVideoDetail } from "../hooks/useFetchVideoDetail";
@@ -22,6 +22,7 @@ import { TrashIcon } from "@icons/TrashIcon";
 import { DownloadIcon } from "@icons/DownloadIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
 import { CoinIcon } from "@icons/CoinIcon";
+import SubtitleStyleSelector, { type SubtitleStyle } from "@components/SubtitleStyleSelector";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -37,9 +38,31 @@ export default function VideoPage() {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyle>("simple1");
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [vertical, setVertical] = useState(false);
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!isVideoPlaying) return;
+
+    // Start animations for dynamic overlay
+    const dynamicInterval = setInterval(() => {
+      const dynamicWords = document.querySelectorAll('.subtitle-overlay-dynamic-word');
+      dynamicWords.forEach((word) => {
+        word.classList.remove('animate-active');
+      });
+      const currentTime = Math.floor(Date.now() / 800) % dynamicWords.length;
+      if (dynamicWords[currentTime]) {
+        dynamicWords[currentTime].classList.add('animate-active');
+      }
+    }, 800);
+
+    return () => {
+      clearInterval(dynamicInterval);
+    };
+  }, [isVideoPlaying]);
 
   if (!data) return null;
 
@@ -90,8 +113,25 @@ export default function VideoPage() {
                 }
                 controls
                 onLoadedData={() => setLoading(false)}
+                onPlay={() => setIsVideoPlaying(true)}
+                onPause={() => setIsVideoPlaying(false)}
                 style={{ opacity: loading ? 0 : 1 }}
               />
+            )}
+            {subtitle && !loading && (
+              <SubtitleOverlay>
+                <SubtitlePreview $style={subtitleStyle}>
+                  {subtitleStyle === "dynamic" ? (
+                    <>
+                      <SubtitleWord className="subtitle-overlay-dynamic-word">This</SubtitleWord>
+                      <SubtitleWord className="subtitle-overlay-dynamic-word">is</SubtitleWord>
+                      <SubtitleWord className="subtitle-overlay-dynamic-word">dynamic</SubtitleWord>
+                    </>
+                  ) : (
+                    "SAMPLE SUBTITLE TEXT"
+                  )}
+                </SubtitlePreview>
+              </SubtitleOverlay>
             )}
           </VideoContainer>
         </VideoSection>
@@ -147,6 +187,24 @@ export default function VideoPage() {
               </OptionHeader>
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
+
+            {subtitle && (
+              <SubtitleStyleCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>🎨</OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>Subtitle Style</OptionTitle>
+                    <OptionDesc>Choose your subtitle appearance</OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+                <SubtitleStyleSelector
+                  value={subtitleStyle}
+                  onChange={setSubtitleStyle}
+                />
+              </SubtitleStyleCard>
+            )}
 
             <OptionCard>
               <OptionHeader>
@@ -457,6 +515,87 @@ const Video = styled.video`
   height: 100%;
   object-fit: contain;
   transition: opacity 0.4s ease;
+`;
+
+const SubtitleOverlay = styled.div`
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%;
+  pointer-events: none;
+  z-index: 10;
+`;
+
+const SubtitlePreview = styled.div<{ $style: SubtitleStyle }>`
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 6px;
+
+  ${({ $style }) => {
+    switch ($style) {
+      case "simple1":
+        return `
+          color: white;
+          text-transform: uppercase;
+          -webkit-text-stroke: 3px #000;
+          paint-order: stroke fill;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        `;
+      case "simple2":
+        return `
+          color: black;
+          background: rgba(255, 255, 255, 0.5);
+          text-transform: uppercase;
+        `;
+      case "simple3":
+        return `
+          color: white;
+          background: rgba(0, 0, 0, 0.5);
+          text-transform: uppercase;
+        `;
+      case "casual":
+        return `
+          font-family: 'Jua', sans-serif;
+          color: white;
+          -webkit-text-stroke: 3px #000;
+          paint-order: stroke fill;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        `;
+      case "dynamic":
+        return `
+          color: white;
+          text-transform: uppercase;
+          -webkit-text-stroke: 3px #000;
+          paint-order: stroke fill;
+        `;
+      default:
+        return "";
+    }
+  }}
+`;
+
+const SubtitleWord = styled.span`
+  display: inline-block;
+  margin: 0 4px;
+  transition: all 0.3s ease;
+
+  &.subtitle-overlay-dynamic-word.animate-active {
+    color: #39ff14 !important;
+    font-size: 24px;
+  }
+`;
+
+const SubtitleStyleCard = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  grid-column: 1 / -1;
 `;
 
 const ProcessingCard = styled.div`
