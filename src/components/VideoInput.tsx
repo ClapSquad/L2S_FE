@@ -12,11 +12,12 @@ import { useMe } from "src/apis/hooks/useMe";
 import { showCreditConfirmToast } from "./ConfirmToast";
 
 export default function VideoInput() {
-  const [mode, setMode] = useState<"youtube" | "file">("youtube");
+  const [mode, setMode] = useState<"youtube" | "file">("file");
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: meData } = useMe();
+  const [isDragging, setIsDragging] = useState(false);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,28 +130,57 @@ export default function VideoInput() {
               {isYoutubeUploading ? (
                 <ClipLoader color="white" size={15} />
               ) : (
-                "Create"
+                "Create (1🪙)"
               )}
             </GenerateButton>
           </Slide>
           <Slide>
             <VerticalLayout>
               <HorizontalLayout style={{ width: "100%" }}>
-                {!selectedFile ? (
-                  <FileLabel>
-                    <FileInput type="file" onChange={handleFileChange} />
-                    Drop or select a file
-                  </FileLabel>
-                ) : (
-                  <FileInfo>
-                    <strong>File:</strong> {selectedFile.name + " | "}
-                    <strong>Size:</strong>
-                    {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    <ClearButton onClick={() => setSelectedFile(null)}>
-                      X
-                    </ClearButton>
-                  </FileInfo>
-                )}
+                <DropZone
+                  $dragging={isDragging}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setIsDragging(false);
+                    if (
+                      e.dataTransfer.files &&
+                      e.dataTransfer.files.length > 0
+                    ) {
+                      setSelectedFile(e.dataTransfer.files[0]);
+                    }
+                  }}
+                  onClick={() =>
+                    document.getElementById("fileInputHidden")?.click()
+                  }
+                >
+                  {selectedFile ? (
+                    <FileInfo>
+                      <strong>File:</strong> {selectedFile.name} |{" "}
+                      <strong>Size:</strong>{" "}
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                      <ClearButton onClick={() => setSelectedFile(null)}>
+                        X
+                      </ClearButton>
+                    </FileInfo>
+                  ) : (
+                    "Drop or click to select a file"
+                  )}
+                </DropZone>
+
+                <FileInput
+                  id="fileInputHidden"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+
                 <GenerateButton
                   onClick={handleButtonClick}
                   disabled={isFileUploading}
@@ -158,7 +188,7 @@ export default function VideoInput() {
                   {isFileUploading ? (
                     <ClipLoader color="white" size={15} />
                   ) : (
-                    "Upload"
+                    "Upload (1🪙)"
                   )}
                 </GenerateButton>
               </HorizontalLayout>
@@ -170,6 +200,19 @@ export default function VideoInput() {
     </VideoInputWrapper>
   );
 }
+
+const DropZone = styled.div<{ $dragging: boolean }>`
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 15px;
+  color: #555;
+  cursor: pointer;
+  border: 2px dashed ${({ $dragging }) => ($dragging ? "#4f46e5" : "#ccc")};
+  background: ${({ $dragging }) => ($dragging ? "#eef2ff" : "#fafafa")};
+  transition: all 0.2s ease-in-out;
+`;
 
 const HorizontalLayout = styled.div`
   width: 100%;
@@ -293,22 +336,6 @@ const StyledInput = styled.input`
   padding: 10px;
   &::placeholder {
     color: #aaa;
-  }
-`;
-
-const FileLabel = styled.label`
-  flex: 1;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  text-align: center;
-  padding: 12px;
-  color: #777;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  &:hover {
-    border-color: #999;
-    background: #fafafa;
   }
 `;
 

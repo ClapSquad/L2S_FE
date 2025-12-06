@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import routePath from "@router/routePath";
+import { useNavigate } from "react-router-dom";
 
 export default function ErrorPage() {
+  const navigate = useNavigate();
   const handleGoHome = () => {
-    window.location.href = routePath.HOME;
+    navigate(routePath.HOME);
   };
 
   return (

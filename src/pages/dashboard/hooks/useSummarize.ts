@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { axiosInstance } from "src/apis/axiosInstance";
@@ -19,6 +19,7 @@ interface SummarizeResponse {
 }
 
 export function useSummarize() {
+  const queryClient = useQueryClient();
   return useMutation<SummarizeResponse, Error, SummarizeRequest>({
     mutationFn: async (data) => {
       const res = await axiosInstance.post(API.RUNPOD.SUMMARIZE, data, {
@@ -27,6 +28,7 @@ export function useSummarize() {
       return res.data;
     },
     onSuccess: async (_data) => {
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.info("Your video is being processed");
     },
     onError: (error: any) => {

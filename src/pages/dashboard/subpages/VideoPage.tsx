@@ -170,7 +170,7 @@ export default function VideoPage() {
             ) : (
               <>
                 <ButtonIcon>✨</ButtonIcon>
-                Generate Shorts
+                Generate Shorts (1🪙)
               </>
             )}
           </GenerateButton>

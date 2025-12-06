@@ -1,3 +1,5 @@
+import { showCreditConfirmToast } from "@components/ConfirmToast";
+import { globalNavigate } from "@router/navigation";
 import routePath from "@router/routePath";
 import axios, { AxiosError } from "axios";
 
@@ -14,8 +16,18 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.code === "ERR_NETWORK" && error.request.status === 0) {
-      window.location.href = routePath.ERROR;
+      globalNavigate(routePath.ERROR);
     }
+
+    if (error.response?.status === 402) {
+      showCreditConfirmToast({
+        message: "Insufficient credits, Get more?",
+        onYes: () => {
+          globalNavigate(routePath.CREDIT);
+        },
+      });
+    }
+
     return Promise.reject(error);
   }
 );

@@ -18,6 +18,7 @@ import { useLogout } from "@apis/hooks/useLogout";
 import { useNavigateBack } from "@hooks/userNavigateBack";
 import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
 import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
+import { useMe } from "@apis/hooks/useMe";
 
 export default function NavigationBar() {
   const navigateBack = useNavigateBack();
@@ -32,6 +33,7 @@ export default function NavigationBar() {
     location.pathname === routePath.REGISTER;
   const isHomePage = location.pathname === routePath.HOME;
   const isDashboardPage = location.pathname === routePath.DASHBOARD;
+  const { data } = useMe();
 
   return (
     <>
@@ -52,6 +54,10 @@ export default function NavigationBar() {
         <ButtonSet>
           {isLoggedIn ? (
             <>
+              <UserInfoWrapper>
+                <Username>{data?.user.username}</Username>
+                <CreditBadge>{data?.user.credit}🪙</CreditBadge>
+              </UserInfoWrapper>
               <PointButton onClick={() => mutate()}>
                 <LogoutIcon size="30" color="white" />
                 Sign out
@@ -84,10 +90,39 @@ export default function NavigationBar() {
   );
 }
 
+const UserInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+const Username = styled.span`
+  color: #333;
+  font-weight: 600;
+`;
+
+const CreditBadge = styled.span`
+  background: #6e6e6e;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
 const PointButton = styled.button`
   ${globalButtonStyle}
   ${globalPointButtonStyle}
 `;
+
 const SecondaryButton = styled.button`
   ${globalButtonStyle}
   ${globalPointButtonSecondaryStyle}

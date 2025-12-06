@@ -1,6 +1,6 @@
 import { axiosInstance } from "@apis/axiosInstance";
 import { API } from "@apis/endpoints";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -14,6 +14,7 @@ interface VideoFileUploadResponse {
 }
 
 export const useVideoUploadFile = () => {
+  const queryClient = useQueryClient();
   const [progress, setProgress] = useState(0);
 
   const mutation = useMutation<VideoFileUploadResponse, Error, any>({
@@ -37,6 +38,7 @@ export const useVideoUploadFile = () => {
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success("Video successfully uploaded.");
     },
     onSettled: () => {
