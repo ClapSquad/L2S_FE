@@ -5,6 +5,8 @@ import {
   InputWrapper,
   StyledInput,
 } from "@auth/styles/inputFieldStyle";
+import { VisibilityIcon } from "src/icons/VisibilityIcon";
+import { VisibilityOffIcon } from "src/icons/VisibilityOffIcon";
 
 interface PasswordInputProps {
   register: UseFormRegister<any>;
@@ -47,7 +49,11 @@ export default function PasswordInput({
           fontSize: "14px",
         }}
       >
-        {visible ? "🙈" : "👁"}
+        {!visible ? (
+          <VisibilityIcon size="24px" color="gray" />
+        ) : (
+          <VisibilityOffIcon size="24px" color="gray" />
+        )}
       </button>
 
       {errors.password && (
