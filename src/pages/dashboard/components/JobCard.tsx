@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useJobStatus } from "../hooks/useJobStatus";
 import { useState } from "react";
 import VideoWithRetry from "./VideoWithRetry";
+import { formatDate } from "src/utils/timezone";
 
 export default function JobCard({
   job_id,
@@ -131,24 +132,18 @@ export default function JobCard({
             <Timeline>
               <TimelineItem>
                 <TimelineLabel>Created</TimelineLabel>
-                <TimelineValue>
-                  {new Date(data.created_at).toLocaleString()}
-                </TimelineValue>
+                <TimelineValue>{formatDate(data.created_at)}</TimelineValue>
               </TimelineItem>
               {data.started_at && (
                 <TimelineItem>
                   <TimelineLabel>Started</TimelineLabel>
-                  <TimelineValue>
-                    {new Date(data.started_at).toLocaleString()}
-                  </TimelineValue>
+                  <TimelineValue>{formatDate(data.started_at)}</TimelineValue>
                 </TimelineItem>
               )}
               {data.completed_at && (
                 <TimelineItem>
                   <TimelineLabel>Completed</TimelineLabel>
-                  <TimelineValue>
-                    {new Date(data.completed_at).toLocaleString()}
-                  </TimelineValue>
+                  <TimelineValue>{formatDate(data.completed_at)}</TimelineValue>
                 </TimelineItem>
               )}
             </Timeline>
