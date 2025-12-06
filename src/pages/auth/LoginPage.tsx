@@ -5,7 +5,6 @@ import EmailInput from "./components/EmailInput";
 import PasswordInput from "./components/PasswordInput";
 import { useLogin } from "@auth/hooks/useLogin";
 import NavigationBar from "@components/NavigationBar";
-import { useRejectLoggedInUser } from "./hooks/useRejectLoggedInUser";
 import Logo from "@components/Logo";
 import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
 
@@ -15,8 +14,6 @@ interface LoginFormData {
 }
 
 export default function LoginPage() {
-  useRejectLoggedInUser();
-
   const {
     register,
     handleSubmit,

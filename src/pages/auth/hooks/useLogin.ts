@@ -30,7 +30,6 @@ export function useLogin() {
     },
     onSuccess: async (_data) => {
       toast.success("You're logged in");
-      navigate(routePath.DASHBOARD);
 
       const me = await queryClient.fetchQuery<UserInfoResponse>({
         queryKey: ["me"],
@@ -44,6 +43,7 @@ export function useLogin() {
         username: me.user.username,
         credit: me.user.credit,
       });
+      setTimeout(() => navigate(routePath.DASHBOARD), 0);
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {

@@ -5,7 +5,6 @@ import ConfirmPasswordInput from "./components/ConfirmPasswordInput";
 import { useRegister } from "@auth/hooks/useRegister";
 import UsernameInput from "./components/UsernameInput";
 import NavigationBar from "@components/NavigationBar";
-import { useRejectLoggedInUser } from "./hooks/useRejectLoggedInUser";
 import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
 import Logo from "@components/Logo";
 
@@ -17,8 +16,6 @@ interface RegisterFormData {
 }
 
 export default function RegisterPage() {
-  useRejectLoggedInUser();
-
   const {
     register,
     handleSubmit,
