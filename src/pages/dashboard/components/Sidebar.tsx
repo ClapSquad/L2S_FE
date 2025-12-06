@@ -14,10 +14,32 @@ export default function Sidebar() {
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState<string>("");
+  const [failedThumbnails, setFailedThumbnails] = useState<Set<number>>(
+    new Set()
+  );
+  const [imageTimestamps, setImageTimestamps] = useState<Map<number, number>>(
+    new Map()
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate } = useDeleteMyVideo();
   const { mutate: mutateName } = useRenameVideo();
+
+  useEffect(() => {
+    if (failedThumbnails.size === 0) return;
+
+    const interval = setInterval(() => {
+      setImageTimestamps((prev) => {
+        const newMap = new Map(prev);
+        failedThumbnails.forEach((videoId) => {
+          newMap.set(videoId, Date.now()); // timestamp 변경
+        });
+        return newMap;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [failedThumbnails]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -100,6 +122,22 @@ export default function Sidebar() {
     setOpenDropdownId(openDropdownId === videoId ? null : videoId);
   };
 
+  const handleThumbnailError = (videoId: number) => {
+    setFailedThumbnails((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(videoId);
+      return newSet;
+    });
+  };
+
+  const handleThumbnailLoad = (videoId: number) => {
+    setFailedThumbnails((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(videoId);
+      return newSet;
+    });
+  };
+
   return (
     <SidebarWrapper>
       <UploadButton onClick={() => navigate(dashboardSubPath.UPLOAD)}>
@@ -111,6 +149,7 @@ export default function Sidebar() {
         .sort((a, b) => a.id - b.id)
         .map((video) => {
           const isEditing = editingId === video.id;
+          const thumbnailFailed = failedThumbnails.has(video.id);
 
           return (
             <ThumbnailCard
@@ -170,7 +209,28 @@ export default function Sidebar() {
               </VideoHeader>
 
               <ThumbnailImageWrapper>
-                <ThumbnailImage src={video.thumbnail_path} alt="thumbnail" />
+                {thumbnailFailed ? (
+                  <ThumbnailPlaceholder>
+                    <LoadingText>Thumbnail is being generated</LoadingText>
+                    <LoadingDots>
+                      <Dot delay="0s" />
+                      <Dot delay="0.2s" />
+                      <Dot delay="0.4s" />
+                    </LoadingDots>
+                  </ThumbnailPlaceholder>
+                ) : (
+                  <ThumbnailImage
+                    key={`${video.id}` + (imageTimestamps.get(video.id) ?? "")}
+                    src={`${video.thumbnail_path}${
+                      imageTimestamps.has(video.id)
+                        ? `?t=${imageTimestamps.get(video.id)}`
+                        : ""
+                    }`}
+                    alt="thumbnail"
+                    onError={() => handleThumbnailError(video.id)}
+                    onLoad={() => handleThumbnailLoad(video.id)}
+                  />
+                )}
               </ThumbnailImageWrapper>
             </ThumbnailCard>
           );
@@ -354,4 +414,48 @@ const ThumbnailImage = styled.img`
   height: 120px;
   object-fit: cover;
   display: block;
+`;
+
+const ThumbnailPlaceholder = styled.div`
+  width: 100%;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const LoadingText = styled.div`
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+`;
+
+const LoadingDots = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+const Dot = styled.div<{ delay: string }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  animation: bounce 1.4s infinite ease-in-out both;
+  animation-delay: ${(props) => props.delay};
+
+  @keyframes bounce {
+    0%,
+    80%,
+    100% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 `;
