@@ -5,9 +5,10 @@ import { API } from "src/apis/endpoints";
 export interface MyVideoResponse {
   videos: {
     id: number;
-    user_id: number;
-    youtube_id: string | null;
-    file_path: string;
+    user: string;
+    method: string;
+    result_url: string;
+    thumbnail_path: string;
   }[];
   total: number;
 }
