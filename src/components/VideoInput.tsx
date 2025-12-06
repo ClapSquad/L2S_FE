@@ -66,7 +66,7 @@ export default function VideoInput() {
             queryKey: ["myvideo"],
             exact: true,
           });
-          navigate(dashboardSubPath.R_VIDEO(data.data.video_id));
+          navigate(dashboardSubPath.R_VIDEO(data.video_id));
         },
       });
     } else {
@@ -166,7 +166,15 @@ export default function VideoInput() {
                       <strong>File:</strong> {selectedFile.name} |{" "}
                       <strong>Size:</strong>{" "}
                       {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                      <ClearButton onClick={() => setSelectedFile(null)}>
+                      <ClearButton
+                        onClick={() => {
+                          setSelectedFile(null);
+                          const fileInput = document.getElementById(
+                            "fileInputHidden"
+                          ) as HTMLInputElement;
+                          if (fileInput) fileInput.value = "";
+                        }}
+                      >
                         X
                       </ClearButton>
                     </FileInfo>
