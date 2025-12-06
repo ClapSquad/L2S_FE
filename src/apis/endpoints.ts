@@ -3,7 +3,12 @@ export const API = {
     ALIVE: "/health/alive",
   },
   VIDEO: {
-    UPLOAD: { FILE: "/video/upload/file", YOUTUBE: "/video/upload/youtube" },
+    UPLOAD: {
+      FILE: "/video/upload/file",
+      YOUTUBE: "/video/upload/youtube",
+      PRESIGN: "/video/upload/presign",
+      DONE: "/video/upload/done",
+    },
     MY: "/video/my",
     DETAIL: (id: string) => `/video/${id}/detail`,
     DELETE: (id: string) => `/video/${id}/delete`,

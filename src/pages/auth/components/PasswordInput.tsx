@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import {
   ErrorMessage,
@@ -14,8 +15,10 @@ export default function PasswordInput({
   register,
   errors,
 }: PasswordInputProps) {
+  const [visible, setVisible] = useState(false);
+
   return (
-    <InputWrapper>
+    <InputWrapper style={{ position: "relative" }}>
       <StyledInput
         {...register("password", {
           required: "Put your password",
@@ -25,8 +28,28 @@ export default function PasswordInput({
           },
         })}
         placeholder="Password"
-        type="password"
+        type={visible ? "text" : "password"}
       />
+
+      {/* 👁 Eye Toggle Button */}
+      <button
+        type="button"
+        onClick={() => setVisible((prev) => !prev)}
+        style={{
+          position: "absolute",
+          right: "12px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          color: "#9ca3af",
+          fontSize: "14px",
+        }}
+      >
+        {visible ? "🙈" : "👁"}
+      </button>
+
       {errors.password && (
         <ErrorMessage style={{ color: "red" }}>
           {errors.password.message?.toString()}
