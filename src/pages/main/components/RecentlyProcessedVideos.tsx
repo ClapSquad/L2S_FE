@@ -11,6 +11,7 @@ export default function RecentlyProcessedVideos() {
   const [ref, isVisible] = useSlideInAnimation();
   const { data, isLoading } = useFetchRecentVideos({ limit: 10 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
 
   return (
     <RecentlyProcessedVideosWrapper ref={ref} $visible={isVisible}>
@@ -22,11 +23,14 @@ export default function RecentlyProcessedVideos() {
           {data?.videos.map((video) => (
             <VideoCard
               key={video.id}
+              id={video.id}
               user={video.user}
               method={video.method as "llm_only" | "echofusion"}
               videoUrl={video.result_url}
               thumbnail={video.thumbnail_path}
               containerRef={containerRef}
+              isHovered={(hoveredCardId ?? "") === video.id.toString()}
+              onHoverChange={setHoveredCardId}
             />
           ))}
         </CardsContainer>
@@ -36,21 +40,26 @@ export default function RecentlyProcessedVideos() {
 }
 
 interface VideoCardProps {
+  id: number;
   videoUrl: string;
   thumbnail: string;
   user: string;
   method: "llm_only" | "echofusion";
   containerRef: React.RefObject<HTMLDivElement | null>;
+  isHovered: boolean;
+  onHoverChange: (id: string | null) => void;
 }
 
 function VideoCard({
+  id,
   videoUrl,
   thumbnail,
   user,
   method,
   containerRef,
+  isHovered,
+  onHoverChange,
 }: VideoCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -59,18 +68,15 @@ function VideoCard({
 
     const cardRect = cardRef.current.getBoundingClientRect();
     const containerRect = containerRef.current.getBoundingClientRect();
-    const scale = 3;
-    const padding = 10; // 경계로부터의 여백
+    const scale = 2;
+    const padding = 20;
 
-    // 스케일된 카드의 실제 크기
     const scaledWidth = cardRect.width * scale;
     const scaledHeight = cardRect.height * scale;
 
-    // 카드의 현재 중심점 (컨테이너 기준)
     const cardCenterX = cardRect.left - containerRect.left + cardRect.width / 2;
     const cardCenterY = cardRect.top - containerRect.top + cardRect.height / 2;
 
-    // 스케일 후 카드가 차지할 영역
     const scaledLeft = cardCenterX - scaledWidth / 2;
     const scaledRight = cardCenterX + scaledWidth / 2;
     const scaledTop = cardCenterY - scaledHeight / 2;
@@ -79,53 +85,55 @@ function VideoCard({
     let offsetX = 0;
     let offsetY = 0;
 
-    // 가로 방향 조정
     if (scaledLeft < padding) {
-      // 왼쪽으로 넘어가는 경우
       offsetX = padding - scaledLeft;
     } else if (scaledRight > containerRect.width - padding) {
-      // 오른쪽으로 넘어가는 경우
       offsetX = containerRect.width - padding - scaledRight;
     }
 
-    // 세로 방향 조정
     if (scaledTop < padding) {
-      // 위로 넘어가는 경우
       offsetY = padding - scaledTop;
     } else if (scaledBottom > containerRect.height - padding) {
-      // 아래로 넘어가는 경우
       offsetY = containerRect.height - padding - scaledBottom;
     }
 
     setOffset({ x: offsetX, y: offsetY });
-    setIsHovered(true);
+    onHoverChange(id.toString());
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    onHoverChange(null);
     setOffset({ x: 0, y: 0 });
   };
 
   return (
-    <CardWrapper
-      ref={cardRef}
-      $hovered={isHovered}
-      $offset={offset}
+    <CardContainer
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <UserBadge $hovered={isHovered}>{user}</UserBadge>
-      <MethodBadge $hovered={isHovered}>{method}</MethodBadge>
-      {isHovered ? (
-        <CardVideo autoPlay muted loop src={videoUrl} />
-      ) : (
-        <CardThumbnail src={thumbnail} />
-      )}
-    </CardWrapper>
+      {/* 호버 영역을 유지하는 투명한 오버레이 */}
+      <HoverArea $hovered={isHovered} />
+
+      <CardWrapper ref={cardRef} $hovered={isHovered} $offset={offset}>
+        <UserBadge $hovered={isHovered}>{user}</UserBadge>
+        <MethodBadge $hovered={isHovered}>{method}</MethodBadge>
+        {isHovered ? (
+          <CardVideo
+            autoPlay
+            muted
+            loop
+            controls
+            controlsList="nodownload"
+            src={videoUrl}
+          />
+        ) : (
+          <CardThumbnail src={thumbnail} />
+        )}
+      </CardWrapper>
+    </CardContainer>
   );
 }
 
-// ---------------- Styled Components ----------------
 const RecentlyProcessedVideosWrapper = styled.div<{ $visible: boolean }>`
   width: 100%;
   max-width: 1200px;
@@ -150,7 +158,7 @@ const CardsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  overflow: visible; /* 호버된 카드가 보이도록 */
+  overflow: visible;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -161,13 +169,33 @@ const CardsContainer = styled.div`
   }
 `;
 
+// 새로운 컨테이너: 마우스 이벤트를 감지하는 영역
+const CardContainer = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; // 16:9 비율 유지
+`;
+
+// 호버 상태를 유지하기 위한 투명 오버레이
+const HoverArea = styled.div<{ $hovered: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: ${({ $hovered }) => ($hovered ? 51 : 0)};
+  pointer-events: ${({ $hovered }) => ($hovered ? "auto" : "none")};
+`;
+
 const CardWrapper = styled.div<{
   $hovered: boolean;
   $offset: { x: number; y: number };
 }>`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding-top: 56.25%; // 16:9 비율
+  height: 100%;
   overflow: hidden;
   border-radius: 12px;
   cursor: pointer;
@@ -178,13 +206,14 @@ const CardWrapper = styled.div<{
 
   transform: ${({ $hovered, $offset }) =>
     $hovered
-      ? `translate(${$offset.x}px, ${$offset.y}px) scale(3)`
+      ? `translate(${$offset.x}px, ${$offset.y}px) scale(2)`
       : "scale(1)"};
 
   box-shadow: ${({ $hovered }) =>
     $hovered ? "0 20px 60px rgba(0,0,0,0.5)" : "0 2px 8px rgba(0,0,0,0.1)"};
 
   will-change: transform, box-shadow;
+  pointer-events: none; // 마우스 이벤트는 CardContainer에서 처리
 
   &:hover {
     box-shadow: ${({ $hovered }) => !$hovered && "0 4px 12px rgba(0,0,0,0.15)"};
@@ -198,6 +227,7 @@ const CardThumbnail = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 `;
 
 const CardVideo = styled.video`
@@ -207,6 +237,7 @@ const CardVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: auto; // 비디오 컨트롤은 클릭 가능하게
 `;
 
 const UserBadge = styled.div<{ $hovered: boolean }>`
@@ -221,6 +252,7 @@ const UserBadge = styled.div<{ $hovered: boolean }>`
   border-radius: 8px;
   z-index: 2;
   transition: font-size 0.3s ease;
+  pointer-events: none;
 `;
 
 const MethodBadge = styled.div<{ $hovered: boolean }>`
@@ -235,4 +267,5 @@ const MethodBadge = styled.div<{ $hovered: boolean }>`
   border-radius: 8px;
   z-index: 2;
   transition: font-size 0.3s ease;
+  pointer-events: none;
 `;
