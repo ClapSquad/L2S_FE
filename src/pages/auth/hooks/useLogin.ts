@@ -30,7 +30,7 @@ export function useLogin() {
     },
     onSuccess: async (_data) => {
       toast.success("You're logged in");
-      navigate(routePath.HOME);
+      navigate(routePath.DASHBOARD);
 
       const me = await queryClient.fetchQuery<UserInfoResponse>({
         queryKey: ["me"],
