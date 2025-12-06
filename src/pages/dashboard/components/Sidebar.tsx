@@ -6,13 +6,18 @@ import { useFetchMyVideo } from "../hooks/useFetchMyVideo";
 import { useDeleteMyVideo } from "../hooks/useDeleteMyVideo";
 import { MovieEditIcon } from "src/icons/MovieEditIcon";
 import { YoutubeActivityIcon } from "src/icons/YoutubeActivityIcon";
+import { useRenameVideo } from "../hooks/useRenameVideo";
 
 export default function Sidebar() {
   const { data } = useFetchMyVideo();
   const navigate = useNavigate();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingName, setEditingName] = useState<string>("");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { mutate } = useDeleteMyVideo();
+  const { mutate: mutateName } = useRenameVideo();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,6 +33,13 @@ export default function Sidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (editingId !== null && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [editingId]);
+
   const handleDeleteVideo = async (videoId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (window.confirm("이 비디오를 삭제하시겠습니까?")) {
@@ -37,6 +49,49 @@ export default function Sidebar() {
         },
       });
       setOpenDropdownId(null);
+    }
+  };
+
+  const handleEditClick = (
+    videoId: number,
+    currentName: string,
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation();
+    setEditingId(videoId);
+    setEditingName(currentName ?? `Video ${videoId}`);
+    setOpenDropdownId(null);
+  };
+
+  const handleRenameSubmit = (videoId: number) => {
+    if (
+      editingName.trim() &&
+      editingName !== data?.videos.find((v) => v.id === videoId)?.name
+    ) {
+      mutateName(
+        { video_id: `${videoId}`, name: editingName.trim() },
+        {
+          onSuccess: () => {
+            setEditingId(null);
+            setEditingName("");
+          },
+        }
+      );
+    } else {
+      setEditingId(null);
+      setEditingName("");
+    }
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    videoId: number
+  ) => {
+    if (e.key === "Enter") {
+      handleRenameSubmit(videoId);
+    } else if (e.key === "Escape") {
+      setEditingId(null);
+      setEditingName("");
     }
   };
 
@@ -51,45 +106,75 @@ export default function Sidebar() {
         + Upload Video
       </UploadButton>
 
-      {data?.videos.map((video) => {
-        return (
-          <ThumbnailCard
-            key={video.id}
-            onClick={() => navigate(dashboardSubPath.R_VIDEO(video.id))}
-          >
-            <VideoHeader onMouseLeave={() => setOpenDropdownId(null)}>
-              {video.youtube_id ? (
-                <YoutubeActivityIcon size="24px" color="white" />
-              ) : (
-                <MovieEditIcon size="24px" color="white" />
-              )}
-              <VideoTitle>{`Video ${video.id}`}</VideoTitle>
+      {data?.videos
+        .slice()
+        .sort((a, b) => a.id - b.id)
+        .map((video) => {
+          const isEditing = editingId === video.id;
 
-              <DropdownWrapper
-                ref={openDropdownId === video.id ? dropdownRef : null}
-              >
-                <MenuButton onClick={(e) => toggleDropdown(video.id, e)}>
-                  ⋮
-                </MenuButton>
-
-                {openDropdownId === video.id && (
-                  <DropdownMenu>
-                    <DropdownItem
-                      onClick={(e) => handleDeleteVideo(video.id, e)}
-                    >
-                      🗑️ Delete
-                    </DropdownItem>
-                  </DropdownMenu>
+          return (
+            <ThumbnailCard
+              key={video.id}
+              onClick={() =>
+                !isEditing && navigate(dashboardSubPath.R_VIDEO(video.id))
+              }
+            >
+              <VideoHeader onMouseLeave={() => setOpenDropdownId(null)}>
+                {video.youtube_id ? (
+                  <YoutubeActivityIcon size="24px" color="white" />
+                ) : (
+                  <MovieEditIcon size="24px" color="white" />
                 )}
-              </DropdownWrapper>
-            </VideoHeader>
 
-            <ThumbnailImageWrapper>
-              <ThumbnailImage src={video.thumbnail_path} alt="thumbnail" />
-            </ThumbnailImageWrapper>
-          </ThumbnailCard>
-        );
-      })}
+                {isEditing ? (
+                  <EditInput
+                    ref={inputRef}
+                    value={editingName}
+                    onChange={(e) => setEditingName(e.target.value)}
+                    onBlur={() => handleRenameSubmit(video.id)}
+                    onKeyDown={(e) => handleKeyDown(e, video.id)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                ) : (
+                  <VideoTitle>{video.name ?? `Video ${video.id}`}</VideoTitle>
+                )}
+
+                <DropdownWrapper
+                  ref={openDropdownId === video.id ? dropdownRef : null}
+                >
+                  <MenuButton onClick={(e) => toggleDropdown(video.id, e)}>
+                    ⋮
+                  </MenuButton>
+
+                  {openDropdownId === video.id && (
+                    <DropdownMenu>
+                      <DropdownItem
+                        onClick={(e) =>
+                          handleEditClick(
+                            video.id,
+                            video.name ?? `Video ${video.id}`,
+                            e
+                          )
+                        }
+                      >
+                        ✏️ Edit
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={(e) => handleDeleteVideo(video.id, e)}
+                      >
+                        🗑️ Delete
+                      </DropdownItem>
+                    </DropdownMenu>
+                  )}
+                </DropdownWrapper>
+              </VideoHeader>
+
+              <ThumbnailImageWrapper>
+                <ThumbnailImage src={video.thumbnail_path} alt="thumbnail" />
+              </ThumbnailImageWrapper>
+            </ThumbnailCard>
+          );
+        })}
     </SidebarWrapper>
   );
 }
@@ -183,6 +268,23 @@ const VideoTitle = styled.div`
   flex: 1;
 `;
 
+const EditInput = styled.input`
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #e5e7eb;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #6366f1;
+  border-radius: 4px;
+  padding: 4px 8px;
+  outline: none;
+
+  &:focus {
+    border-color: #ec4899;
+    background: rgba(255, 255, 255, 0.15);
+  }
+`;
+
 const DropdownWrapper = styled.div`
   position: relative;
   display: flex;
@@ -239,6 +341,11 @@ const DropdownItem = styled.button`
   &:hover {
     background: rgba(239, 68, 68, 0.2);
     color: #ef4444;
+  }
+
+  &:first-child:hover {
+    background: rgba(99, 102, 241, 0.2);
+    color: #6366f1;
   }
 `;
 

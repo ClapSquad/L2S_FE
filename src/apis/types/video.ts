@@ -4,5 +4,5 @@ export type VideoData = {
   youtube_id: string | null;
   file_path: string;
   thumbnail_path: string;
-  result_path: string;
+  name: string;
 };

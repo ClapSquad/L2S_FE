@@ -6,9 +6,11 @@ import { formatDate } from "src/utils/timezone";
 
 export default function JobCard({
   job_id,
+  job_name,
   onDelete,
 }: {
   job_id: string;
+  job_name: string;
   onDelete: () => void;
 }) {
   const { data, isLoading, isError } = useJobStatus({ id: job_id });
@@ -19,7 +21,7 @@ export default function JobCard({
       <JobCardWrapper>
         <JobCardHeader>
           <JobInfo>
-            <JobId>Job {job_id}...</JobId>
+            <JobId>{job_name}...</JobId>
             <StatusBadge $status="loading">
               <StatusDot $status="loading" />
               Loading...
@@ -35,7 +37,7 @@ export default function JobCard({
       <JobCardWrapper>
         <JobCardHeader>
           <JobInfo>
-            <JobId>Job {job_id}...</JobId>
+            <JobId>{job_name}...</JobId>
             <StatusBadge $status="failed">
               <StatusDot $status="failed" />
               Error loading job
@@ -82,7 +84,7 @@ export default function JobCard({
     <JobCardWrapper>
       <JobCardHeader onClick={() => setIsOpen(!isOpen)}>
         <JobInfo>
-          <JobId>Job {job_id}...</JobId>
+          <JobId>{job_name}...</JobId>
           <JobMeta>
             <MethodBadge>{data.method}</MethodBadge>
             <StatusBadge $status={getStatusType(data.status)}>

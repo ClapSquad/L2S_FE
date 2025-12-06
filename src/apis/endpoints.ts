@@ -9,6 +9,7 @@ export const API = {
     DELETE: (id: string) => `/video/${id}/delete`,
     DOWNLOAD: "/video/download",
     RECENT: "/video/recent",
+    RENAME: "/video/rename",
   },
   AUTH: {
     REGISTER: "/auth/register",

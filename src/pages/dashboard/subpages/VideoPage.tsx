@@ -189,6 +189,7 @@ export default function VideoPage() {
                 <JobCard
                   key={job.job_id}
                   job_id={job.job_id}
+                  job_name={job.name}
                   onDelete={() =>
                     mutateDeleteJob(
                       { id: job.job_id },

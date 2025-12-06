@@ -7,6 +7,7 @@ type JobData = {
   video_id: string;
   method: string;
   status: string;
+  name: string;
 };
 
 export function useMyJob({ video_id }: { video_id: string }) {
