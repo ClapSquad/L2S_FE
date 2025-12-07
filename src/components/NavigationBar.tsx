@@ -35,7 +35,7 @@ export default function NavigationBar() {
   const isHomePage = location.pathname === routePath.HOME;
   const isDashboardPage = location.pathname === routePath.DASHBOARD;
   const { data } = useMe();
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDarkMode } = useTheme();
 
   return (
     <>
