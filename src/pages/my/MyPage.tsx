@@ -8,11 +8,13 @@ import { MailIcon } from "src/icons/MailIcon";
 import { PersonOffIcon } from "src/icons/PersonOffIcon";
 import routePath from "@router/routePath";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function MyPage() {
   const { user } = useContext(AuthContext);
   const { mutate } = useWithdraw();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -20,8 +22,8 @@ export default function MyPage() {
       <MyPageWrapper>
         <ContentContainer>
           <Header>
-            <Title>My Information</Title>
-            <Subtitle>Check and manage your account information</Subtitle>
+            <Title>{t("myPage.title")}</Title>
+            <Subtitle>{t("myPage.subtitle")}</Subtitle>
           </Header>
 
           <ProfileCard>
@@ -35,7 +37,7 @@ export default function MyPage() {
                   <MailIcon size="24px" color="white" />
                 </IconWrapper>
                 <InfoContent>
-                  <Label>Email</Label>
+                  <Label>{t("myPage.email")}</Label>
                   <Value>{user!.email}</Value>
                 </InfoContent>
               </InfoItem>
@@ -43,7 +45,7 @@ export default function MyPage() {
               <InfoItem>
                 <IconWrapper>Aa</IconWrapper>
                 <InfoContent>
-                  <Label>Username</Label>
+                  <Label>{t("myPage.username")}</Label>
                   <Value>{user!.username}</Value>
                 </InfoContent>
               </InfoItem>
@@ -51,32 +53,30 @@ export default function MyPage() {
               <InfoItem>
                 <IconWrapper>C</IconWrapper>
                 <InfoContent>
-                  <Label>Credits</Label>
-                  <Value>{user!.credit} credits left</Value>
+                  <Label>{t("myPage.credits")}</Label>
+                  <Value>{user!.credit} {t("myPage.creditsLeft")}</Value>
                 </InfoContent>
               </InfoItem>
 
               <GetCreditButton onClick={() => navigate(routePath.CREDIT)}>
-                Get more credits
+                {t("myPage.getMoreCredits")}
               </GetCreditButton>
             </InfoSection>
           </ProfileCard>
 
           <DangerZone>
-            <DangerTitle>Manage account</DangerTitle>
+            <DangerTitle>{t("myPage.manageAccount")}</DangerTitle>
             <WithdrawButton
               onClick={() => {
                 if (
-                  window.confirm(
-                    "Are you sure? Note that this action is irreversible"
-                  )
+                  window.confirm(t("myPage.deleteConfirm"))
                 ) {
                   mutate();
                 }
               }}
             >
               <PersonOffIcon size="24px" color="red" />
-              Delete my account
+              {t("myPage.deleteAccount")}
             </WithdrawButton>
           </DangerZone>
         </ContentContainer>

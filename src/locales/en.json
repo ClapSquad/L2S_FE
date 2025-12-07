@@ -111,5 +111,35 @@
     "darkMode": "다크 모드",
     "english": "English",
     "korean": "한국어"
+  },
+  "myPage": {
+    "title": "My Information",
+    "subtitle": "Check and manage your account information",
+    "email": "Email",
+    "username": "Username",
+    "credits": "Credits",
+    "creditsLeft": "credits left",
+    "getMoreCredits": "Get more credits",
+    "manageAccount": "Manage account",
+    "deleteAccount": "Delete my account",
+    "deleteConfirm": "Are you sure? Note that this action is irreversible"
+  },
+  "creditPage": {
+    "title": "Credit",
+    "titleHighlight": "Management",
+    "subtitle": "Manage your credits and purchase more to continue creating amazing content",
+    "currentBalance": "Your Current Balance",
+    "creditsAvailable": "credits available",
+    "choosePackage": "Choose Your Package",
+    "purchaseCredits": "Purchase {{amount}} Credits",
+    "getCredits": "Get {{amount}} Credits",
+    "useCredits": "Use {{amount}} Credits",
+    "completePurchase": "Complete Your Purchase",
+    "orderSummary": {
+      "credits": "Credits",
+      "price": "Price",
+      "total": "Total"
+    },
+    "securityNotice": "🔒 Your payment information is secure and encrypted"
   }
 }
