@@ -149,7 +149,6 @@ export default function Sidebar() {
         .sort((a, b) => a.id - b.id)
         .map((video) => {
           const isEditing = editingId === video.id;
-          const thumbnailFailed = failedThumbnails.has(video.id);
 
           return (
             <ThumbnailCard
@@ -209,7 +208,17 @@ export default function Sidebar() {
               </VideoHeader>
 
               <ThumbnailImageWrapper>
-                {thumbnailFailed ? (
+                <ThumbnailImage
+                  key={imageTimestamps.get(video.id) ?? "init"}
+                  src={`${video.thumbnail_path}?t=${
+                    imageTimestamps.get(video.id) ?? 0
+                  }`}
+                  onError={() => handleThumbnailError(video.id)}
+                  onLoad={() => handleThumbnailLoad(video.id)}
+                  style={{ opacity: failedThumbnails.has(video.id) ? 0 : 1 }}
+                />
+
+                {failedThumbnails.has(video.id) && (
                   <ThumbnailPlaceholder>
                     <LoadingText>Thumbnail is being generated</LoadingText>
                     <LoadingDots>
@@ -218,18 +227,6 @@ export default function Sidebar() {
                       <Dot delay="0.4s" />
                     </LoadingDots>
                   </ThumbnailPlaceholder>
-                ) : (
-                  <ThumbnailImage
-                    key={`${video.id}` + (imageTimestamps.get(video.id) ?? "")}
-                    src={`${video.thumbnail_path}${
-                      imageTimestamps.has(video.id)
-                        ? `?t=${imageTimestamps.get(video.id)}`
-                        : ""
-                    }`}
-                    alt="thumbnail"
-                    onError={() => handleThumbnailError(video.id)}
-                    onLoad={() => handleThumbnailLoad(video.id)}
-                  />
                 )}
               </ThumbnailImageWrapper>
             </ThumbnailCard>
@@ -306,6 +303,7 @@ const ThumbnailImageWrapper = styled.div`
   opacity: 0;
   transform: translateY(-10px);
   transition: max-height 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+  position: relative;
 `;
 
 const ThumbnailCard = styled.div`
@@ -442,6 +440,10 @@ const ThumbnailImage = styled.img`
 `;
 
 const ThumbnailPlaceholder = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+
   width: 100%;
   height: 120px;
   background: rgba(255, 255, 255, 0.05);

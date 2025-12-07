@@ -6,6 +6,8 @@ type JobData = {
   job_id: string;
   video_id: string;
   method: string;
+  subtitle: boolean;
+  vertical: boolean;
   status: string;
   name: string;
 };

@@ -47,7 +47,9 @@ export function useLogin() {
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.detail || "Failed to login";
+        const message =
+          error.response?.data?.detail ||
+          "Server error. Please try again later.";
         toast.error(`❌ ${message}`);
       } else {
         toast.error("Unexpected error occured");
