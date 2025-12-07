@@ -2,16 +2,16 @@ import { CloseIcon } from "src/icons/CloseIcon";
 import styled from "styled-components";
 import { globalButtonStyle } from "@styles/globalStyle";
 import { ToggleButton } from "./Toggle";
-import { useState } from "react";
+import { useTheme } from "src/contexts/ThemeContext";
 
 export default function SettingModal({ onClose }: { onClose: () => void }) {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   return (
     <ModalWrapper>
       <TopBar>
         <Title>Setting</Title>
         <Button onClick={onClose}>
-          <CloseIcon size="30" color="black" />
+          <CloseIcon size="30" color={isDarkMode ? "white" : "black"} />
         </Button>
       </TopBar>
       <hr />
@@ -25,7 +25,7 @@ export default function SettingModal({ onClose }: { onClose: () => void }) {
         </HorizontalLayout>
         <HorizontalLayout>
           <label htmlFor="language-select">다크 모드</label>
-          <ToggleButton isOn={darkMode} setIsOn={setDarkMode} />
+          <ToggleButton isOn={isDarkMode} setIsOn={toggleTheme} />
         </HorizontalLayout>
       </VerticalLayout>
     </ModalWrapper>
@@ -60,9 +60,22 @@ const HorizontalLayout = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.modalBackground};
+  color: ${({ theme }) => theme.colors.text};
   border-radius: 8px;
   padding: 20px;
 
   width: 300px;
+
+  hr {
+    border-color: ${({ theme }) => theme.colors.border};
+  }
+
+  select {
+    background-color: ${({ theme }) => theme.colors.inputBackground};
+    color: ${({ theme }) => theme.colors.text};
+    border: 1px solid ${({ theme }) => theme.colors.inputBorder};
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
 `;

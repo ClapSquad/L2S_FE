@@ -38,6 +38,7 @@ const HeroSectionWrapper = styled.div`
   margin: 80px auto;
   padding: 0 40px;
   gap: 60px;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "transparent" : "#000"};
   @media (max-width: 900px) {
     flex-direction: column;
     text-align: center;
@@ -60,12 +61,12 @@ const Title = styled.h1`
   font-size: 3rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #111;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#111" : "white"};
 `;
 
 const Subtitle = styled.p`
   font-size: 1.2rem;
-  color: #555;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#555" : "white"};
   line-height: 1.6;
 `;
 
@@ -76,8 +77,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const DownloadButton = styled.button`
-  background-color: black;
-  color: white;
+  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "black" : "white"};
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "black"};
   border: none;
   border-radius: 12px;
   padding: 14px 26px;
@@ -90,11 +91,11 @@ const DownloadButton = styled.button`
 `;
 
 const ProductHuntBadge = styled.div`
-  background-color: #f3f3f3;
+  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f3f3f3" : "#333"};
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 0.9rem;
-  color: #555;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#555" : "#999"};
   font-weight: 500;
 `;
 

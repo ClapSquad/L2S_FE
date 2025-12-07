@@ -41,7 +41,7 @@ const PackagesGridWrapper = styled.div`
 `;
 
 const PackageCard = styled.div<{ $isSelected: boolean; $isPopular: boolean }>`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
   border-radius: 20px;
   padding: 32px;
   text-align: center;
@@ -49,21 +49,32 @@ const PackageCard = styled.div<{ $isSelected: boolean; $isPopular: boolean }>`
   transition: all 0.3s ease;
   border: 3px solid
     ${(props) =>
-      props.$isSelected
+      props.theme.colors.background === "#ffffff"
+        ? props.$isSelected
+          ? "#667eea"
+          : props.$isPopular
+          ? "#e91e63"
+          : "transparent"
+        : props.$isSelected
         ? "#667eea"
-        : props.$isPopular
-        ? "#e91e63"
-        : "transparent"};
+        : "#666"};
   box-shadow: ${(props) =>
-    props.$isSelected
-      ? "0 12px 40px rgba(102, 126, 234, 0.3)"
-      : "0 4px 20px rgba(0, 0, 0, 0.08)"};
+    props.theme.colors.background === "#ffffff"
+      ? props.$isSelected
+        ? "0 12px 40px rgba(102, 126, 234, 0.3)"
+        : "0 4px 20px rgba(0, 0, 0, 0.08)"
+      : props.$isSelected
+      ? "0 12px 40px rgba(102, 126, 234, 0.5)"
+      : "0 4px 12px rgba(255, 255, 255, 0.25), 4px 0 12px rgba(255, 255, 255, 0.25), -4px 0 12px rgba(255, 255, 255, 0.25), 0 -4px 12px rgba(255, 255, 255, 0.25)"};
   transform: ${(props) => (props.$isSelected ? "scale(1.05)" : "scale(1)")};
   position: relative;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "0 12px 40px rgba(0, 0, 0, 0.15)"
+        : "0 6px 24px rgba(255, 255, 255, 0.3), 6px 0 24px rgba(255, 255, 255, 0.3), -6px 0 24px rgba(255, 255, 255, 0.3), 0 -6px 24px rgba(255, 255, 255, 0.3)"};
   }
 `;
 
@@ -84,7 +95,7 @@ const PopularBadge = styled.div`
 
 const PackageLabel = styled.div`
   font-size: 14px;
-  color: #6b7280;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#6b7280" : "white"};
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 16px;
@@ -103,18 +114,18 @@ const PackageCredits = styled.div`
 
 const PackageCreditsLabel = styled.div`
   font-size: 14px;
-  color: #9ca3af;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#9ca3af" : "white"};
   margin-bottom: 20px;
 `;
 
 const PackagePrice = styled.div`
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
   margin-bottom: 8px;
 `;
 
 const PackagePricePerCredit = styled.div`
   font-size: 12px;
-  color: #9ca3af;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#9ca3af" : "white"};
 `;

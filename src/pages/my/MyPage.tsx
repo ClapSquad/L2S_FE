@@ -87,7 +87,10 @@ export default function MyPage() {
 
 const MyPageWrapper = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%)"
+      : "#000000"};
   padding: 40px 20px;
   display: flex;
   justify-content: center;
@@ -115,17 +118,20 @@ const Title = styled.h2`
 `;
 
 const Subtitle = styled.p`
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "white"};
   font-size: 16px;
   font-weight: 400;
 `;
 
 const ProfileCard = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   border-radius: 24px;
   padding: 40px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
   margin-bottom: 24px;
 `;
 
@@ -152,12 +158,12 @@ const InfoItem = styled.div`
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: #f8fafc;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   border-radius: 12px;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #f1f5f9;
+    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#555"};
     transform: translateY(-2px);
   }
 `;
@@ -183,35 +189,38 @@ const InfoContent = styled.div`
 
 const Label = styled.span`
   font-size: 13px;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#ccc"};
   font-weight: 500;
 `;
 
 const Value = styled.span`
   font-size: 16px;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   font-weight: 600;
 `;
 
 const DangerZone = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   border-radius: 24px;
   padding: 32px 40px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 `;
 
 const DangerTitle = styled.h3`
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin-bottom: 16px;
 `;
 
 const WithdrawButton = styled.button`
   width: 100%;
   padding: 14px 24px;
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
   color: #ef4444;
   border: 2px solid #fee2e2;
   border-radius: 12px;

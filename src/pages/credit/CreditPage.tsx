@@ -26,8 +26,7 @@ export default function CreditPage() {
               Credit <HighlightText>Management</HighlightText>
             </Title>
             <Subtitle>
-              Manage your credits and purchase more to continue creating amazing
-              content
+              Manage your credits and purchase more to continue creating amazing content
             </Subtitle>
           </Header>
 
@@ -196,7 +195,10 @@ export default function CreditPage() {
 
 const CreditPageWrapper = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%)"
+      : "#000000"};
   padding: 40px 20px;
   padding-top: 100px;
 `;
@@ -215,7 +217,7 @@ const Title = styled.h1`
   font-size: 56px;
   font-weight: 800;
   margin-bottom: 20px;
-  color: #1a1a2e;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
   line-height: 1.2;
 `;
 
@@ -228,8 +230,8 @@ const HighlightText = styled.span`
 
 const Subtitle = styled.p`
   font-size: 18px;
-  color: #6b7280;
-  max-width: 600px;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#6b7280" : "white"};
+  max-width: 800px;
   margin: 0 auto;
 `;
 
@@ -284,7 +286,7 @@ const BalanceSubtext = styled.div`
 const SectionTitle = styled.h2`
   font-size: 32px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
   margin-bottom: 32px;
   text-align: center;
 `;

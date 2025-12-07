@@ -238,7 +238,8 @@ export default function Sidebar() {
 
 const SidebarWrapper = styled.div`
   width: 240px;
-  background: #111827;
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#111827" : "#000"};
   color: #fff;
   padding: 20px;
   display: flex;
@@ -246,6 +247,24 @@ const SidebarWrapper = styled.div`
   gap: 16px;
   height: calc(100vh - 110px);
   overflow-y: auto;
+  position: relative;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "none"
+      : "8px 0 24px rgba(255, 255, 255, 0.25)"};
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "none"
+        : "none"};
+  }
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -294,14 +313,20 @@ const ThumbnailCard = styled.div`
   overflow: hidden;
   text-align: left;
   padding: 0;
-  background: rgba(255, 255, 255, 0.05);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "rgba(255, 255, 255, 0.05)"
+      : "#333"};
   transition: 0.25s;
   display: flex;
   flex-direction: column;
   position: relative;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "rgba(255, 255, 255, 0.1)"
+        : "#444"};
   }
 
   &:hover ${ThumbnailImageWrapper} {

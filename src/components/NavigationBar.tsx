@@ -19,6 +19,7 @@ import { useNavigateBack } from "@hooks/userNavigateBack";
 import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
 import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
 import { useMe } from "@apis/hooks/useMe";
+import { useTheme } from "src/contexts/ThemeContext";
 
 export default function NavigationBar() {
   const navigateBack = useNavigateBack();
@@ -34,6 +35,7 @@ export default function NavigationBar() {
   const isHomePage = location.pathname === routePath.HOME;
   const isDashboardPage = location.pathname === routePath.DASHBOARD;
   const { data } = useMe();
+  const { isDarkMode } = useTheme();
 
   return (
     <>
@@ -47,7 +49,7 @@ export default function NavigationBar() {
           </Button>
         ) : (
           <Button onClick={() => navigateBack()}>
-            <ArrowBackIcon size="30" color="black" />
+            <ArrowBackIcon size="30" color={isDarkMode ? "white" : "black"} />
           </Button>
         )}
 
@@ -59,7 +61,7 @@ export default function NavigationBar() {
                 <CreditBadge>{data?.user.credit}🪙</CreditBadge>
               </UserInfoWrapper>
               <PointButton onClick={() => mutate()}>
-                <LogoutIcon size="30" color="white" />
+                <LogoutIcon size="30" color={isDarkMode ? "black" : "white"} />
                 Sign out
               </PointButton>
               {!isDashboardPage && (
@@ -69,20 +71,20 @@ export default function NavigationBar() {
               )}
               {!isMyPage && (
                 <Button onClick={() => navigate(routePath.MY)}>
-                  <AccountCircleIcon size="30" color="black" />
+                  <AccountCircleIcon size="30" color={isDarkMode ? "white" : "black"} />
                 </Button>
               )}
             </>
           ) : (
             !isAuthPage && (
               <PointButton onClick={() => navigate(routePath.LOGIN)}>
-                <LoginIcon size="30" color="white" />
+                <LoginIcon size="30" color={isDarkMode ? "black" : "white"} />
                 Sign in
               </PointButton>
             )
           )}
           <Button onClick={open}>
-            <SettingsIcon size="30" color="black" />
+            <SettingsIcon size="30" color={isDarkMode ? "white" : "black"} />
           </Button>
         </ButtonSet>
       </NavigationBarWrapper>
@@ -95,14 +97,17 @@ const UserInfoWrapper = styled.div`
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  background: rgba(0, 0, 0, 0.05);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "rgba(0, 0, 0, 0.05)"
+      : "rgba(255, 255, 255, 0.1)"};
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
 `;
 
 const Username = styled.span`
-  color: #333;
+  color: ${({ theme }) => theme.colors.text};
   font-weight: 600;
 `;
 
@@ -154,8 +159,12 @@ const NavigationBarWrapper = styled.nav`
   padding: 8px;
   height: 60px;
 
-  background-color: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: ${({ theme }) => theme.colors.navBackground};
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? `0 2px 8px ${theme.colors.navShadow}`
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  position: relative;
 `;

@@ -6,33 +6,47 @@ export const FormStyle = styled.form`
   gap: 16px;
   width: 75%;
   max-width: 400px;
-  background: rgba(255, 255, 255, 0.8);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "rgba(255, 255, 255, 0.8)"
+      : "#000"};
   backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 40px 32px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "none" : "1px solid #666"};
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? `0 10px 25px ${theme.colors.cardShadow}`
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 
   button[type="submit"] {
     margin-top: 8px;
     padding: 10px 0;
     font-size: 1rem;
     font-weight: 600;
-    background: #111;
-    color: white;
+    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#111" : "white"};
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
     border: none;
     border-radius: 8px;
     transition: all 0.25s ease;
     cursor: pointer;
 
     &:hover {
-      background: #000;
+      background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#000" : "#f0f0f0"};
       transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      box-shadow: ${({ theme }) =>
+        theme.colors.background === "#ffffff"
+          ? "0 6px 14px rgba(0, 0, 0, 0.2)"
+          : "0 6px 14px rgba(255, 255, 255, 0.3)"};
     }
 
     &:active {
       transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: ${({ theme }) =>
+        theme.colors.background === "#ffffff"
+          ? "0 2px 6px rgba(0, 0, 0, 0.15)"
+          : "0 2px 6px rgba(255, 255, 255, 0.2)"};
     }
   }
 `;
@@ -49,19 +63,19 @@ export const PageWrapper = styled.div`
   h2 {
     font-size: 2rem;
     font-weight: 800;
-    color: #111;
+    color: ${({ theme }) => theme.colors.text};
     margin-bottom: 12px;
   }
 
   a {
     margin-top: 12px;
-    color: #333;
+    color: ${({ theme }) => theme.colors.textSecondary};
     text-decoration: none;
     font-weight: 500;
     transition: color 0.25s ease;
 
     &:hover {
-      color: #000;
+      color: ${({ theme }) => theme.colors.text};
       text-decoration: underline;
     }
   }

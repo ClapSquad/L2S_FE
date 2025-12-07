@@ -159,15 +159,18 @@ export default function JobCard({
 }
 
 const JobCardWrapper = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
   border-radius: 20px;
-  border: 2px solid #e2e8f0;
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#666"};
   overflow: hidden;
   transition: all 0.3s ease;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 
   &:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "#777"};
   }
 `;
 
@@ -180,7 +183,7 @@ const JobCardHeader = styled.div`
   transition: background 0.2s ease;
 
   &:hover {
-    background: #f8fafc;
+    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   }
 `;
 
@@ -194,7 +197,7 @@ const JobInfo = styled.div`
 const JobId = styled.div`
   font-size: 14px;
   font-weight: 600;
-  color: #475569;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#475569" : "white"};
   font-family: "Monaco", monospace;
 `;
 
@@ -208,8 +211,8 @@ const JobMeta = styled.div`
 const MethodBadge = styled.span`
   font-size: 12px;
   font-weight: 600;
-  color: #667eea;
-  background: #eef2ff;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#eef2ff" : "#333"};
   padding: 4px 12px;
   border-radius: 8px;
   text-transform: uppercase;
@@ -250,27 +253,28 @@ const StatusBadge = styled.span<{ $status: string }>`
   border-radius: 8px;
   text-transform: capitalize;
 
-  ${({ $status }) => {
+  ${({ $status, theme }) => {
+    const isDark = theme.colors.background !== "#ffffff";
     switch ($status) {
       case "completed":
         return `
-          color: #10b981;
-          background: #d1fae5;
+          color: ${isDark ? "#6ee7b7" : "#10b981"};
+          background: ${isDark ? "#064e3b" : "#d1fae5"};
         `;
       case "failed":
         return `
-          color: #ef4444;
-          background: #fee2e2;
+          color: ${isDark ? "#fca5a5" : "#ef4444"};
+          background: ${isDark ? "#7f1d1d" : "#fee2e2"};
         `;
       case "processing":
         return `
-          color: #f59e0b;
-          background: #fef3c7;
+          color: ${isDark ? "#fcd34d" : "#f59e0b"};
+          background: ${isDark ? "#78350f" : "#fef3c7"};
         `;
       default:
         return `
-          color: #6366f1;
-          background: #e0e7ff;
+          color: ${isDark ? "#a5b4fc" : "#6366f1"};
+          background: ${isDark ? "#312e81" : "#e0e7ff"};
         `;
     }
   }}
@@ -350,8 +354,8 @@ const DeleteJobButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f0f0;
-  color: #000000;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f0f0f0" : "#333"};
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#000000" : "white"};
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -371,14 +375,14 @@ const DeleteJobButton = styled.button`
 
 const ExpandIcon = styled.span<{ $isOpen: boolean }>`
   font-size: 12px;
-  color: #94a3b8;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
   transition: transform 0.3s ease;
   transform: ${({ $isOpen }) => ($isOpen ? "rotate(180deg)" : "rotate(0)")};
 `;
 
 const JobCardBody = styled.div`
   padding: 0 24px 24px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#555"};
 `;
 
 const VideoResult = styled.div`
@@ -396,10 +400,10 @@ const ErrorMessage = styled.div`
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fef2f2" : "#7f1d1d"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
   border-radius: 12px;
-  color: #991b1b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#991b1b" : "#fca5a5"};
   font-size: 14px;
   line-height: 1.5;
 `;
@@ -414,7 +418,7 @@ const Timeline = styled.div`
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  background: #f8fafc;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   border-radius: 12px;
 `;
 
@@ -427,11 +431,11 @@ const TimelineItem = styled.div`
 const TimelineLabel = styled.span`
   font-size: 13px;
   font-weight: 600;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
 `;
 
 const TimelineValue = styled.span`
   font-size: 13px;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
   font-family: "Monaco", monospace;
 `;

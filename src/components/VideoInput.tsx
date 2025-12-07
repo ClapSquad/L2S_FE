@@ -215,10 +215,20 @@ const DropZone = styled.div<{ $dragging: boolean }>`
   border-radius: 10px;
   text-align: center;
   font-size: 15px;
-  color: #555;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#555" : "white"};
   cursor: pointer;
-  border: 2px dashed ${({ $dragging }) => ($dragging ? "#4f46e5" : "#ccc")};
-  background: ${({ $dragging }) => ($dragging ? "#eef2ff" : "#fafafa")};
+  border: ${({ $dragging, theme }) =>
+    $dragging
+      ? "2px dashed #4f46e5"
+      : theme.colors.background === "#ffffff"
+        ? "2px dashed #ccc"
+        : "none"};
+  background: ${({ $dragging, theme }) =>
+    $dragging
+      ? "#eef2ff"
+      : theme.colors.background === "#ffffff"
+        ? "#fafafa"
+        : "#333"};
   transition: all 0.2s ease-in-out;
 `;
 
@@ -237,13 +247,13 @@ const FileInfo = styled.div`
   flex: 1;
   padding: 10px;
   border-radius: 10px;
-  background: #f5f5f5;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f5f5f5" : "#333"};
   font-size: 14px;
-  color: #333;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#333" : "white"};
   line-height: 1.4;
 
   div strong {
-    color: #111;
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#111" : "white"};
   }
 `;
 
@@ -283,15 +293,21 @@ const VideoInputWrapper = styled.div`
 
 const ToggleWrapper = styled.div`
   display: flex;
-  background: #f2f3f5;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f2f3f5" : "#333"};
   border-radius: 10px;
   padding: 4px;
   width: fit-content;
 `;
 
 const ToggleButton = styled.button<{ $active?: boolean }>`
-  background: ${({ $active: active }) => (active ? "#fff" : "transparent")};
-  color: ${({ $active: active }) => (active ? "#111" : "#777")};
+  background: ${({ $active: active, theme }) =>
+    active
+      ? (theme.colors.background === "#ffffff" ? "#fff" : "#555")
+      : "transparent"};
+  color: ${({ $active: active, theme }) =>
+    active
+      ? (theme.colors.background === "#ffffff" ? "#111" : "#fff")
+      : (theme.colors.background === "#ffffff" ? "#777" : "#999")};
   border: none;
   border-radius: 8px;
   padding: 8px 20px;
@@ -303,7 +319,7 @@ const ToggleButton = styled.button<{ $active?: boolean }>`
     active ? "0 2px 8px rgba(0,0,0,0.08)" : "none"};
 
   &:hover {
-    color: #111;
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#111" : "#fff"};
   }
 `;
 
@@ -312,9 +328,12 @@ const InputWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   border-radius: 12px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 `;
 
 const Slider = styled.div<{ $activeMode: "youtube" | "file" }>`
@@ -339,11 +358,11 @@ const StyledInput = styled.input`
   border: none;
   outline: none;
   font-size: 15px;
-  color: #444;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#444" : "white"};
   background: transparent;
   padding: 10px;
   &::placeholder {
-    color: #aaa;
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#aaa" : "white"};
   }
 `;
 
@@ -352,8 +371,8 @@ const FileInput = styled.input`
 `;
 
 const GenerateButton = styled.button`
-  background-color: #0e1116;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "white"};
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border: none;
   border-radius: 10px;
   padding: 10px 18px;
@@ -365,5 +384,14 @@ const GenerateButton = styled.button`
 
   &:hover {
     opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   }
 `;
