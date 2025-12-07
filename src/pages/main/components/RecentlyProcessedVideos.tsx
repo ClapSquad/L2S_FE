@@ -6,16 +6,18 @@ import {
 import { useFetchRecentVideos } from "@main/hooks/useFetchRecentVideos";
 import { ClipLoader } from "react-spinners";
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function RecentlyProcessedVideos() {
   const [ref, isVisible] = useSlideInAnimation();
   const { data, isLoading } = useFetchRecentVideos({ limit: 10 });
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   return (
     <RecentlyProcessedVideosWrapper ref={ref} $visible={isVisible}>
-      <SectionTitle>Recently processed</SectionTitle>
+      <SectionTitle>{t("recentVideos.title")}</SectionTitle>
       {isLoading ? (
         <ClipLoader />
       ) : (

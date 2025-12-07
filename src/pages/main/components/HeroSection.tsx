@@ -2,9 +2,11 @@ import styled from "styled-components";
 import a from "../assets/Long2ShortTextHorizontal.png";
 import { useNavigate } from "react-router-dom";
 import routePath from "@router/routePath";
+import { useTranslation } from "react-i18next";
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleGetStarted = () => {
     navigate(routePath.REGISTER);
@@ -13,16 +15,15 @@ export default function HeroSection() {
   return (
     <HeroSectionWrapper>
       <HeroContent>
-        <Title>Turn Long Videos Into Viral Shorts in Minutes</Title>
+        <Title>{t("hero.title")}</Title>
         <Subtitle>
-          AI-powered video summarization, analysis, and editing for content
-          creators who want to maximize their reach across all platforms
+          {t("hero.subtitle")}
         </Subtitle>
         <ButtonWrapper>
           <DownloadButton onClick={handleGetStarted}>
-            Get Started
+            {t("hero.getStarted")}
           </DownloadButton>
-          <ProductHuntBadge>Reduce your workload</ProductHuntBadge>
+          <ProductHuntBadge>{t("hero.reduceWorkload")}</ProductHuntBadge>
         </ButtonWrapper>
       </HeroContent>
       <PreviewImage src={a} alt="App preview" />

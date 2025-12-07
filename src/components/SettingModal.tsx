@@ -3,13 +3,22 @@ import styled from "styled-components";
 import { globalButtonStyle } from "@styles/globalStyle";
 import { ToggleButton } from "./Toggle";
 import { useTheme } from "src/contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 export default function SettingModal({ onClose }: { onClose: () => void }) {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value;
+    i18n.changeLanguage(newLang);
+    localStorage.setItem("language", newLang);
+  };
+
   return (
     <ModalWrapper>
       <TopBar>
-        <Title>Setting</Title>
+        <Title>{t("settings.title")}</Title>
         <Button onClick={onClose}>
           <CloseIcon size="30" color={isDarkMode ? "white" : "black"} />
         </Button>
@@ -17,14 +26,18 @@ export default function SettingModal({ onClose }: { onClose: () => void }) {
       <hr />
       <VerticalLayout>
         <HorizontalLayout>
-          <label htmlFor="language-select">언어 선택</label>
-          <select>
-            <option value="">English</option>
-            <option value="">한국어</option>
+          <label htmlFor="language-select">{t("settings.language")}</label>
+          <select
+            id="language-select"
+            value={i18n.language}
+            onChange={handleLanguageChange}
+          >
+            <option value="en">{t("settings.english")}</option>
+            <option value="ko">{t("settings.korean")}</option>
           </select>
         </HorizontalLayout>
         <HorizontalLayout>
-          <label htmlFor="language-select">다크 모드</label>
+          <label htmlFor="dark-mode-toggle">{t("settings.darkMode")}</label>
           <ToggleButton isOn={isDarkMode} setIsOn={toggleTheme} />
         </HorizontalLayout>
       </VerticalLayout>

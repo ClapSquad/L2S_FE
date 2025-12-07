@@ -7,6 +7,7 @@ import {
 } from "@auth/styles/inputFieldStyle";
 import { VisibilityIcon } from "src/icons/VisibilityIcon";
 import { VisibilityOffIcon } from "src/icons/VisibilityOffIcon";
+import { useTranslation } from "react-i18next";
 
 interface PasswordInputProps {
   register: UseFormRegister<any>;
@@ -18,18 +19,19 @@ export default function PasswordInput({
   errors,
 }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <InputWrapper style={{ position: "relative" }}>
       <StyledInput
         {...register("password", {
-          required: "Put your password",
+          required: t("auth.putYourPassword"),
           minLength: {
             value: 6,
-            message: "Password must be longer than 6 characters",
+            message: t("auth.passwordTooShort"),
           },
         })}
-        placeholder="Password"
+        placeholder={t("auth.password")}
         type={visible ? "text" : "password"}
       />
 

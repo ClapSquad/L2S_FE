@@ -7,6 +7,7 @@ import { useLogin } from "@auth/hooks/useLogin";
 import NavigationBar from "@components/NavigationBar";
 import Logo from "@components/Logo";
 import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
+import { useTranslation } from "react-i18next";
 
 interface LoginFormData {
   email: string;
@@ -25,20 +26,22 @@ export default function LoginPage() {
     mutate(data);
   };
 
+  const { t } = useTranslation();
+
   return (
     <PageFiller>
       <NavigationBar />
       <PageWrapper>
-        <h2>Sign in</h2>
+        <h2>{t("auth.signIn")}</h2>
         <FormStyle onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Logo size="100px" />
           </div>
           <EmailInput register={register} errors={errors} />
           <PasswordInput register={register} errors={errors} />
-          <button type="submit">Sign in</button>
+          <button type="submit">{t("auth.signIn")}</button>
         </FormStyle>
-        <Link to={routePath.REGISTER}>Create account</Link>
+        <Link to={routePath.REGISTER}>{t("auth.createAccount")}</Link>
       </PageWrapper>
     </PageFiller>
   );

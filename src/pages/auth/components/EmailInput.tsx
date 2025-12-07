@@ -4,6 +4,7 @@ import {
   InputWrapper,
   StyledInput,
 } from "@auth/styles/inputFieldStyle";
+import { useTranslation } from "react-i18next";
 
 interface EmailInputProps {
   register: UseFormRegister<any>;
@@ -12,18 +13,19 @@ interface EmailInputProps {
 
 export default function EmailInput({ register, errors }: EmailInputProps) {
   const hasError = Boolean(errors.email);
+  const { t } = useTranslation();
 
   return (
     <InputWrapper>
       <StyledInput
         {...register("email", {
-          required: "Put your email address",
+          required: t("auth.putYourEmail"),
           pattern: {
             value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: "Not a valid email format",
+            message: t("auth.notValidEmail"),
           },
         })}
-        placeholder="Email"
+        placeholder={t("auth.email")}
         type="email"
         $hasError={hasError}
       />
