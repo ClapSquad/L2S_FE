@@ -87,6 +87,8 @@ export default function JobCard({
           <JobId>{job_name}...</JobId>
           <JobMeta>
             <MethodBadge>{data.method}</MethodBadge>
+            {data.subtitle && <SubtitleBadge>SUB</SubtitleBadge>}
+            {data.vertical && <VerticalBadge>VERT</VerticalBadge>}
             <StatusBadge $status={getStatusType(data.status)}>
               <StatusDot $status={getStatusType(data.status)} />
               {data.status}
@@ -200,6 +202,7 @@ const JobMeta = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const MethodBadge = styled.span`
@@ -211,6 +214,30 @@ const MethodBadge = styled.span`
   border-radius: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+`;
+
+const SubtitleBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0891b2;
+  background: #cffafe;
+  padding: 4px 12px;
+  border-radius: 8px;
+`;
+
+const VerticalBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #c026d3;
+  background: #fae8ff;
+  padding: 4px 12px;
+  border-radius: 8px;
 `;
 
 const StatusBadge = styled.span<{ $status: string }>`
