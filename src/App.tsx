@@ -4,7 +4,7 @@ import { useValidateAuth } from "@apis/hooks/useValidateAuth";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { initialOptions } from "./payment/paypal/paypalOptions";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { useTheme } from "src/contexts/ThemeContext";
+import { useTheme } from "./contexts/ThemeContext";
 import { lightTheme, darkTheme } from "./styles/theme";
 import { GlobalStyle } from "./styles/GlobalStyle.tsx";
 

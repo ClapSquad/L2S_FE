@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import favicon from "public/favicon.png";
+import favicon from "/favicon.png";
 
 export default function Logo({ size }: { size: string }) {
   return <LogoWrapper src={favicon} alt="Logo" size={size} />;
