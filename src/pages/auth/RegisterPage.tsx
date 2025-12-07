@@ -7,6 +7,7 @@ import UsernameInput from "./components/UsernameInput";
 import NavigationBar from "@components/NavigationBar";
 import { FormStyle, PageFiller, PageWrapper } from "./styles/formStyle";
 import Logo from "@components/Logo";
+import { useTranslation } from "react-i18next";
 
 interface RegisterFormData {
   email: string;
@@ -33,11 +34,13 @@ export default function RegisterPage() {
     });
   };
 
+  const { t } = useTranslation();
+
   return (
     <PageFiller>
       <NavigationBar />
       <PageWrapper>
-        <h2>Sign up</h2>
+        <h2>{t("auth.signUp")}</h2>
         <FormStyle onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Logo size="100px" />
@@ -50,7 +53,7 @@ export default function RegisterPage() {
             errors={errors}
             password={password}
           />
-          <button type="submit">Sign up</button>
+          <button type="submit">{t("auth.signUp")}</button>
         </FormStyle>
       </PageWrapper>
     </PageFiller>

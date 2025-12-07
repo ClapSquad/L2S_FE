@@ -2,8 +2,10 @@ import styled from "styled-components";
 import Logo from "@components/Logo";
 import { Link } from "react-router-dom";
 import githubImage from "../assets/github.png";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <FooterWrapper>
       <TopGradientBorder />
@@ -11,48 +13,47 @@ export default function Footer() {
         <AboutSection>
           <Logo size="30px" />
           <Description>
-            Transform your long-form videos into viral short-form content with
-            AI-powered editing and automation.
+            {t('footer.description')}
           </Description>
         </AboutSection>
 
         <LinksSection>
           <LinkColumn>
-            <ColumnTitle>Product</ColumnTitle>
-            <FooterLink to="/">Features</FooterLink>
-            <FooterLink to="/">Pricing</FooterLink>
-            <FooterLink to="/">Use Cases</FooterLink>
-            <FooterLink to="/">Demo</FooterLink>
-            <FooterLink to="/">API</FooterLink>
+            <ColumnTitle>{t('footer.product')}</ColumnTitle>
+            <FooterLink to="/">{t('footer.features')}</FooterLink>
+            <FooterLink to="/">{t('footer.pricing')}</FooterLink>
+            <FooterLink to="/">{t('footer.useCases')}</FooterLink>
+            <FooterLink to="/">{t('footer.demo')}</FooterLink>
+            <FooterLink to="/">{t('footer.api')}</FooterLink>
           </LinkColumn>
           <LinkColumn>
-            <ColumnTitle>Company</ColumnTitle>
-            <FooterLink to="/">About</FooterLink>
-            <FooterLink to="/">Blog</FooterLink>
-            <FooterLink to="/">Careers</FooterLink>
-            <FooterLink to="/">Press</FooterLink>
-            <FooterLink to="/">Partners</FooterLink>
+            <ColumnTitle>{t('footer.company')}</ColumnTitle>
+            <FooterLink to="/">{t('footer.about')}</FooterLink>
+            <FooterLink to="/">{t('footer.blog')}</FooterLink>
+            <FooterLink to="/">{t('footer.careers')}</FooterLink>
+            <FooterLink to="/">{t('footer.press')}</FooterLink>
+            <FooterLink to="/">{t('footer.partners')}</FooterLink>
           </LinkColumn>
           <LinkColumn>
-            <ColumnTitle>Resources</ColumnTitle>
-            <FooterLink to="/">Help Center</FooterLink>
-            <FooterLink to="/">Tutorials</FooterLink>
-            <FooterLink to="/">Community</FooterLink>
-            <FooterLink to="/">Creator Stories</FooterLink>
-            <FooterLink to="/">Status</FooterLink>
+            <ColumnTitle>{t('footer.resources')}</ColumnTitle>
+            <FooterLink to="/">{t('footer.helpCenter')}</FooterLink>
+            <FooterLink to="/">{t('footer.tutorials')}</FooterLink>
+            <FooterLink to="/">{t('footer.community')}</FooterLink>
+            <FooterLink to="/">{t('footer.creatorStories')}</FooterLink>
+            <FooterLink to="/">{t('footer.status')}</FooterLink>
           </LinkColumn>
           <LinkColumn>
-            <ColumnTitle>Legal</ColumnTitle>
-            <FooterLink to="/">Privacy Policy</FooterLink>
-            <FooterLink to="/">Terms of Service</FooterLink>
-            <FooterLink to="/">Cookie Policy</FooterLink>
-            <FooterLink to="/">GDPR</FooterLink>
+            <ColumnTitle>{t('footer.legal')}</ColumnTitle>
+            <FooterLink to="/">{t('footer.privacyPolicy')}</FooterLink>
+            <FooterLink to="/">{t('footer.termsOfService')}</FooterLink>
+            <FooterLink to="/">{t('footer.cookiePolicy')}</FooterLink>
+            <FooterLink to="/">{t('footer.gdpr')}</FooterLink>
           </LinkColumn>
         </LinksSection>
       </FooterContent>
       <HorizontalRule />
       <FooterBottom>
-        <Copyright>© 2025 Long2Short. All rights reserved.</Copyright>
+        <Copyright>{t('footer.copyright')}</Copyright>
         <SocialIcons>
           <SocialIconLink href="https://github.com/ClapSquad" target="_blank">
             <img src={githubImage} alt="Github Image" width="25px" />

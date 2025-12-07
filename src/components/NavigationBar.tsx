@@ -20,6 +20,7 @@ import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
 import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
 import { useMe } from "@apis/hooks/useMe";
 import { useTheme } from "src/contexts/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 export default function NavigationBar() {
   const navigateBack = useNavigateBack();
@@ -36,6 +37,7 @@ export default function NavigationBar() {
   const isDashboardPage = location.pathname === routePath.DASHBOARD;
   const { data } = useMe();
   const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -62,11 +64,11 @@ export default function NavigationBar() {
               </UserInfoWrapper>
               <PointButton onClick={() => mutate()}>
                 <LogoutIcon size="30" color={isDarkMode ? "black" : "white"} />
-                Sign out
+                {t("nav.signOut")}
               </PointButton>
               {!isDashboardPage && (
                 <SecondaryButton onClick={() => navigate(routePath.DASHBOARD)}>
-                  Dashboard
+                  {t("nav.dashboard")}
                 </SecondaryButton>
               )}
               {!isMyPage && (
@@ -79,7 +81,7 @@ export default function NavigationBar() {
             !isAuthPage && (
               <PointButton onClick={() => navigate(routePath.LOGIN)}>
                 <LoginIcon size="30" color={isDarkMode ? "black" : "white"} />
-                Sign in
+                {t("nav.signIn")}
               </PointButton>
             )
           )}

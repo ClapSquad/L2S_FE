@@ -6,6 +6,7 @@ import {
   StyledInput,
 } from "@auth/styles/inputFieldStyle";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 interface PasswordInputProps {
   register: UseFormRegister<any>;
@@ -17,19 +18,20 @@ export default function PasswordInput({
   errors,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <InputWrapper>
       <PasswordInputContainer>
         <StyledInput
           {...register("password", {
-            required: "Put your password",
+            required: t("auth.putYourPassword"),
             minLength: {
               value: 6,
-              message: "Password must be longer than 6 characters",
+              message: t("auth.passwordTooShort"),
             },
           })}
-          placeholder="Password"
+          placeholder={t("auth.password")}
           type={showPassword ? "text" : "password"}
         />
         <ToggleButton

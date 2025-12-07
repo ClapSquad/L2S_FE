@@ -4,6 +4,7 @@ import {
   InputWrapper,
   StyledInput,
 } from "@auth/styles/inputFieldStyle";
+import { useTranslation } from "react-i18next";
 
 interface ConfirmPasswordInputProps {
   register: UseFormRegister<any>;
@@ -16,14 +17,16 @@ export default function ConfirmPasswordInput({
   errors,
   password,
 }: ConfirmPasswordInputProps) {
+  const { t } = useTranslation();
+
   return (
     <InputWrapper>
       <StyledInput
         {...register("confirmPassword", {
-          required: "Fill in the confirm password field",
-          validate: (value) => value === password || "Password do not match.",
+          required: t("auth.fillConfirmPassword"),
+          validate: (value) => value === password || t("auth.passwordsDoNotMatch"),
         })}
-        placeholder="Password confirm"
+        placeholder={t("auth.passwordConfirm")}
         type="password"
       />
       {errors.confirmPassword && (

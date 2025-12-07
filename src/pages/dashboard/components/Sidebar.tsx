@@ -7,8 +7,10 @@ import { useDeleteMyVideo } from "../hooks/useDeleteMyVideo";
 import { MovieEditIcon } from "src/icons/MovieEditIcon";
 import { YoutubeActivityIcon } from "src/icons/YoutubeActivityIcon";
 import { useRenameVideo } from "../hooks/useRenameVideo";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const { data } = useFetchMyVideo();
   const navigate = useNavigate();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
@@ -64,7 +66,7 @@ export default function Sidebar() {
 
   const handleDeleteVideo = async (videoId: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (window.confirm("이 비디오를 삭제하시겠습니까?")) {
+    if (window.confirm(t('sidebar.deleteConfirm'))) {
       mutate(`${videoId}`, {
         onSuccess: () => {
           navigate(dashboardSubPath.UPLOAD);
@@ -141,7 +143,7 @@ export default function Sidebar() {
   return (
     <SidebarWrapper>
       <UploadButton onClick={() => navigate(dashboardSubPath.UPLOAD)}>
-        + Upload Video
+        + {t('sidebar.uploadVideo')}
       </UploadButton>
 
       {data?.videos
@@ -195,12 +197,12 @@ export default function Sidebar() {
                           )
                         }
                       >
-                        ✏️ Edit
+                        ✏️ {t('sidebar.edit')}
                       </DropdownItem>
                       <DropdownItem
                         onClick={(e) => handleDeleteVideo(video.id, e)}
                       >
-                        🗑️ Delete
+                        🗑️ {t('sidebar.delete')}
                       </DropdownItem>
                     </DropdownMenu>
                   )}
@@ -220,7 +222,7 @@ export default function Sidebar() {
 
                 {failedThumbnails.has(video.id) && (
                   <ThumbnailPlaceholder>
-                    <LoadingText>Thumbnail is being generated</LoadingText>
+                    <LoadingText>{t('sidebar.thumbnailGenerating')}</LoadingText>
                     <LoadingDots>
                       <Dot delay="0s" />
                       <Dot delay="0.2s" />

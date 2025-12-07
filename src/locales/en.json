@@ -1,0 +1,115 @@
+{
+  "nav": {
+    "signOut": "Sign out",
+    "signIn": "Sign in",
+    "dashboard": "Dashboard"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "createAccount": "Create account",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "passwordConfirm": "Password confirm",
+    "putYourEmail": "Put your email address",
+    "notValidEmail": "Not a valid email format",
+    "putYourUsername": "Put your username.",
+    "usernameTooShort": "Username must be longer than 2 characters",
+    "usernameCannotBeEmpty": "User name cannot be empty.",
+    "putYourPassword": "Put your password",
+    "passwordTooShort": "Password must be longer than 6 characters",
+    "passwordsDoNotMatch": "Password do not match.",
+    "fillConfirmPassword": "Fill in the confirm password field"
+  },
+  "hero": {
+    "title": "Turn Long Videos Into Viral Shorts in Minutes",
+    "subtitle": "AI-powered video summarization, analysis, and editing for content creators who want to maximize their reach across all platforms",
+    "getStarted": "Get Started",
+    "reduceWorkload": "Reduce your workload"
+  },
+  "videoInput": {
+    "youtube": "YouTube",
+    "fileUpload": "File Upload",
+    "pasteYoutubeLink": "Paste YouTube link...",
+    "createWithCredit": "Create (1🪙)",
+    "uploadWithCredit": "Upload (1🪙)",
+    "dropOrClick": "Drop or click to select a file",
+    "file": "File",
+    "size": "Size",
+    "noFileSelected": "No file selected",
+    "noYoutubeUrl": "No YouTube URL",
+    "notValidYoutubeUrl": "Not a valid YouTube URL",
+    "invalidUrlFormat": "Invalid URL format",
+    "insufficientCredits": "Insufficient credits, Get more?"
+  },
+  "aiPowered": {
+    "title": "AI-Powered Summarization",
+    "description": "Our advanced AI analyzes your long-form content and identifies the most engaging moments automatically. Using dual-branched highlight detection model, Long2Short understands context, motion, and audience engagement patterns to extract the clips that will perform best.",
+    "feature1Title": "Multi-modal context analysis",
+    "feature1Description": "Context aware highlight extraction based video summarization",
+    "feature2Title": "Real-data based",
+    "feature2Description": "Tested over real highlight data that reflects true virality",
+    "feature3Title": "Automated post-processing",
+    "feature3Description": "Reduce your work by automating clip cutting & merging, portrait change"
+  },
+  "autoCaption": {
+    "title": "Auto Subtitles & Captions",
+    "description": "Generate accurate, animated captions in multiple languages with customizable styles instantly. You can customize fonts, colors, animations, and positioning to match your brand.",
+    "feature1Title": "Multi-Language Support",
+    "feature1Description": "Context aware highlight extraction based video summarization",
+    "feature2Title": "Custom Styling",
+    "feature2Description": "Tested over real highlight data that reflects true virality"
+  },
+  "packages": {
+    "title": "Choose Your Package",
+    "mostPopular": "Most Popular",
+    "credits": "credits",
+    "perCredit": "per credit"
+  },
+  "recentVideos": {
+    "title": "Recently processed"
+  },
+  "footer": {
+    "description": "Transform your long-form videos into viral short-form content with AI-powered editing and automation.",
+    "product": "Product",
+    "features": "Features",
+    "pricing": "Pricing",
+    "useCases": "Use Cases",
+    "demo": "Demo",
+    "api": "API",
+    "company": "Company",
+    "about": "About",
+    "blog": "Blog",
+    "careers": "Careers",
+    "press": "Press",
+    "partners": "Partners",
+    "resources": "Resources",
+    "helpCenter": "Help Center",
+    "tutorials": "Tutorials",
+    "community": "Community",
+    "creatorStories": "Creator Stories",
+    "status": "Status",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy",
+    "gdpr": "GDPR",
+    "copyright": "© 2025 Long2Short. All rights reserved."
+  },
+  "sidebar": {
+    "uploadVideo": "Upload Video",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "이 비디오를 삭제하시겠습니까?",
+    "thumbnailGenerating": "Thumbnail is being generated"
+  },
+  "settings": {
+    "title": "Setting",
+    "language": "언어 선택",
+    "darkMode": "다크 모드",
+    "english": "English",
+    "korean": "한국어"
+  }
+}

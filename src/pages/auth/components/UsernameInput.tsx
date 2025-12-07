@@ -4,6 +4,7 @@ import {
   InputWrapper,
   StyledInput,
 } from "@auth/styles/inputFieldStyle";
+import { useTranslation } from "react-i18next";
 
 interface UserNameInputProps {
   register: UseFormRegister<any>;
@@ -14,24 +15,26 @@ export default function UsernameInput({
   register,
   errors,
 }: UserNameInputProps) {
+  const { t } = useTranslation();
+
   return (
     <InputWrapper>
       <StyledInput
         {...register("username", {
-          required: "Put your username.",
+          required: t("auth.putYourUsername"),
           minLength: {
             value: 2,
-            message: "Username must be longer than 2 characters",
+            message: t("auth.usernameTooShort"),
           },
           validate: (value) =>
-            value.trim() !== "" || "User name cannot be empty.",
+            value.trim() !== "" || t("auth.usernameCannotBeEmpty"),
         })}
-        placeholder="Username"
+        placeholder={t("auth.username")}
         type="text"
       />
-      {errors.email && (
+      {errors.username && (
         <ErrorMessage style={{ color: "red" }}>
-          {errors.email.message?.toString()}
+          {errors.username.message?.toString()}
         </ErrorMessage>
       )}
     </InputWrapper>

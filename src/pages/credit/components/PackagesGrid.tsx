@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { creditPackages } from "../data/creditPackages";
+import { useTranslation } from "react-i18next";
 
 type PackagesGridProps = {
   selectedAmount: number;
@@ -10,25 +11,37 @@ export default function PackagesGrid({
   selectedAmount,
   setSelectedAmount,
 }: PackagesGridProps) {
+  const { t, i18n } = useTranslation();
+
   return (
     <PackagesGridWrapper>
-      {creditPackages.map((pkg) => (
-        <PackageCard
-          key={pkg.credits}
-          $isSelected={selectedAmount === pkg.credits}
-          $isPopular={pkg.popular}
-          onClick={() => setSelectedAmount(pkg.credits)}
-        >
-          {pkg.popular && <PopularBadge>Most Popular</PopularBadge>}
-          <PackageLabel>{pkg.label}</PackageLabel>
-          <PackageCredits>{pkg.credits}</PackageCredits>
-          <PackageCreditsLabel>credits</PackageCreditsLabel>
-          <PackagePrice>${pkg.price}</PackagePrice>
-          <PackagePricePerCredit>
-            ${(pkg.price / pkg.credits).toFixed(2)} per credit
-          </PackagePricePerCredit>
-        </PackageCard>
-      ))}
+      {creditPackages.map((pkg) => {
+        const pricePerCredit = `$${(pkg.price / pkg.credits).toFixed(2)}`;
+        const perCreditText = t("packages.perCredit");
+
+        // 한국어일 때는 "크레딧 당 $1.00", 영어일 때는 "$1.00 per credit"
+        const priceText = i18n.language === 'ko'
+          ? `${perCreditText} ${pricePerCredit}`
+          : `${pricePerCredit} ${perCreditText}`;
+
+        return (
+          <PackageCard
+            key={pkg.credits}
+            $isSelected={selectedAmount === pkg.credits}
+            $isPopular={pkg.popular}
+            onClick={() => setSelectedAmount(pkg.credits)}
+          >
+            {pkg.popular && <PopularBadge>{t("packages.mostPopular")}</PopularBadge>}
+            <PackageLabel>{pkg.label}</PackageLabel>
+            <PackageCredits>{pkg.credits}</PackageCredits>
+            <PackageCreditsLabel>{t("packages.credits")}</PackageCreditsLabel>
+            <PackagePrice>${pkg.price}</PackagePrice>
+            <PackagePricePerCredit>
+              {priceText}
+            </PackagePricePerCredit>
+          </PackageCard>
+        );
+      })}
     </PackagesGridWrapper>
   );
 }
