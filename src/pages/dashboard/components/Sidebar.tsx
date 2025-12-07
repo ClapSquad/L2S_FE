@@ -153,7 +153,6 @@ export default function Sidebar() {
           return (
             <ThumbnailCard
               key={video.id}
-              $open={failedThumbnails.has(video.id)}
               onClick={() =>
                 !isEditing && navigate(dashboardSubPath.R_VIDEO(video.id))
               }
@@ -288,7 +287,7 @@ const ThumbnailImageWrapper = styled.div`
   position: relative;
 `;
 
-const ThumbnailCard = styled.div<{ $open: boolean }>`
+const ThumbnailCard = styled.div`
   border: none;
   cursor: pointer;
   border-radius: 8px;
@@ -310,16 +309,6 @@ const ThumbnailCard = styled.div<{ $open: boolean }>`
     opacity: 1;
     transform: translateY(0);
   }
-
-  ${({ $open }) =>
-    $open &&
-    `
-    ${ThumbnailImageWrapper} {
-      max-height: 140px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-  `}
 `;
 
 const VideoHeader = styled.div`
