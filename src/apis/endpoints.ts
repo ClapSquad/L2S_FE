@@ -28,7 +28,6 @@ export const API = {
     USE: "/credit/use",
   },
   RUNPOD: {
-    PROCESS: "/runpod/process",
     SUMMARIZE: "/runpod/summarize",
     JOB: {
       MY: "/runpod/job/my",
