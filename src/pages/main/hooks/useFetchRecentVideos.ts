@@ -7,6 +7,8 @@ export interface MyVideoResponse {
     id: number;
     user: string;
     method: string;
+    subtitle: boolean;
+    vertical: boolean;
     result_url: string;
     thumbnail_path: string;
   }[];

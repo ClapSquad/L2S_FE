@@ -6,6 +6,8 @@ type JobStatusData = {
   video_id: string;
   status: string;
   method: string;
+  subtitle: boolean;
+  vertical: boolean;
   result_url: string;
   error_message: string;
   created_at: string;
