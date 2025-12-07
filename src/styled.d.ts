@@ -1,6 +1,6 @@
-import "styled-components";
+import 'styled-components';
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       background: string;
@@ -10,6 +10,10 @@ declare module "styled-components" {
       inputBorder: string;
       inputPlaceholder: string;
       cardShadow: string;
+      navBackground?: string;
+      navShadow?: string;
+      modalBackground?: string;
+      border?: string;
     };
   }
 }
