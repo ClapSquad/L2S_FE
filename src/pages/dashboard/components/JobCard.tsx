@@ -3,6 +3,7 @@ import { useJobStatus } from "../hooks/useJobStatus";
 import { useState } from "react";
 import VideoWithRetry from "./VideoWithRetry";
 import { formatDate } from "src/utils/timezone";
+import { useTranslation } from "react-i18next";
 
 export default function JobCard({
   job_id,
@@ -13,6 +14,7 @@ export default function JobCard({
   job_name: string;
   onDelete: () => void;
 }) {
+  const { t } = useTranslation();
   const { data, isLoading, isError } = useJobStatus({ id: job_id });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,7 +26,7 @@ export default function JobCard({
             <JobId>{job_name}...</JobId>
             <StatusBadge $status="loading">
               <StatusDot $status="loading" />
-              Loading...
+              {t("dashboard.loading")}
             </StatusBadge>
           </JobInfo>
         </JobCardHeader>
@@ -40,7 +42,7 @@ export default function JobCard({
             <JobId>{job_name}...</JobId>
             <StatusBadge $status="failed">
               <StatusDot $status="failed" />
-              Error loading job
+              {t("dashboard.errorLoading")}
             </StatusBadge>
           </JobInfo>
           <DeleteJobButton onClick={onDelete}>
@@ -97,7 +99,7 @@ export default function JobCard({
         </JobInfo>
         <JobActions>
           {data.result_url && data.status === "completed" && (
-            <DownloadButton onClick={handleDownload} title="Download video">
+            <DownloadButton onClick={handleDownload} title={t("dashboard.downloadVideo")}>
               <DownloadIcon>↓</DownloadIcon>
             </DownloadButton>
           )}
@@ -106,7 +108,7 @@ export default function JobCard({
               e.stopPropagation();
               onDelete();
             }}
-            title="Delete job"
+            title={t("dashboard.deleteJob")}
           >
             <span>✕</span>
           </DeleteJobButton>
@@ -135,18 +137,18 @@ export default function JobCard({
 
             <Timeline>
               <TimelineItem>
-                <TimelineLabel>Created</TimelineLabel>
+                <TimelineLabel>{t("dashboard.created")}</TimelineLabel>
                 <TimelineValue>{formatDate(data.created_at)}</TimelineValue>
               </TimelineItem>
               {data.started_at && (
                 <TimelineItem>
-                  <TimelineLabel>Started</TimelineLabel>
+                  <TimelineLabel>{t("dashboard.started")}</TimelineLabel>
                   <TimelineValue>{formatDate(data.started_at)}</TimelineValue>
                 </TimelineItem>
               )}
               {data.completed_at && (
                 <TimelineItem>
-                  <TimelineLabel>Completed</TimelineLabel>
+                  <TimelineLabel>{t("dashboard.completed")}</TimelineLabel>
                   <TimelineValue>{formatDate(data.completed_at)}</TimelineValue>
                 </TimelineItem>
               )}

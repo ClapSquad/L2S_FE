@@ -11,11 +11,13 @@ import { useMyJob } from "../hooks/useMyJob";
 import { useDeleteJob } from "../hooks/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import JobCard from "../components/JobCard";
+import { useTranslation } from "react-i18next";
 
 type MethodType = "llm_only" | "echofusion";
 
 export default function VideoPage() {
   const id = useParams().id!;
+  const { t } = useTranslation();
   const { data } = useFetchVideoDetail({ id });
   const { mutate: mutateDelete } = useDeleteMyVideo();
   const { mutate: mutateSummarize, isPending: isSummarizing } = useSummarize();
@@ -37,8 +39,8 @@ export default function VideoPage() {
         <Header>
           <HeaderContent>
             <TitleSection>
-              <Title>Video Studio</Title>
-              <Subtitle>Transform your content into engaging shorts</Subtitle>
+              <Title>{t("dashboard.videoStudio")}</Title>
+              <Subtitle>{t("dashboard.transformContent")}</Subtitle>
             </TitleSection>
             <DownloadButton
               href={`${import.meta.env.VITE_BACKEND_API_URL}${
@@ -47,22 +49,22 @@ export default function VideoPage() {
               download
             >
               <DownloadIcon>↓</DownloadIcon>
-              Download Original
+              {t("dashboard.downloadOriginal")}
             </DownloadButton>
           </HeaderContent>
         </Header>
 
         <VideoSection>
           <SectionHeader>
-            <SectionTitle>Source Video</SectionTitle>
-            <VideoDuration>Original content</VideoDuration>
+            <SectionTitle>{t("dashboard.sourceVideo")}</SectionTitle>
+            <VideoDuration>{t("dashboard.originalContent")}</VideoDuration>
           </SectionHeader>
           <VideoContainer>
             {loading && (
               <LoadingOverlay>
                 <LoadingContent>
                   <LoadingSpinner />
-                  <LoadingText>Loading video...</LoadingText>
+                  <LoadingText>{t("dashboard.loadingVideo")}</LoadingText>
                   <BarLoader color="#8b5cf6" width="200px" height="4px" />
                 </LoadingContent>
               </LoadingOverlay>
@@ -86,9 +88,9 @@ export default function VideoPage() {
           <CardHeader>
             <CardIcon>⚙️</CardIcon>
             <div>
-              <CardTitle>Processing Configuration</CardTitle>
+              <CardTitle>{t("dashboard.processingConfig")}</CardTitle>
               <CardDescription>
-                Customize your video transformation settings
+                {t("dashboard.customizeSettings")}
               </CardDescription>
             </div>
           </CardHeader>
@@ -100,9 +102,9 @@ export default function VideoPage() {
                   <OptionIcon>⚡</OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
-                  <OptionTitle>Processing Method</OptionTitle>
+                  <OptionTitle>{t("dashboard.processingMethod")}</OptionTitle>
                   <OptionDesc>
-                    Choose your preferred processing algorithm
+                    {t("dashboard.chooseAlgorithm")}
                   </OptionDesc>
                 </OptionInfo>
               </OptionHeader>
@@ -110,8 +112,8 @@ export default function VideoPage() {
                 value={method}
                 onChange={(e) => setMethod(e.target.value as MethodType)}
               >
-                <option value="llm_only">LLM Only - Fast processing</option>
-                <option value="echofusion">EchoFusion - Deep analysis</option>
+                <option value="llm_only">{t("dashboard.llmOnly")}</option>
+                <option value="echofusion">{t("dashboard.echoFusion")}</option>
               </Select>
             </OptionCard>
 
@@ -121,8 +123,8 @@ export default function VideoPage() {
                   <OptionIcon>💬</OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
-                  <OptionTitle>Subtitles</OptionTitle>
-                  <OptionDesc>Add automatic captions</OptionDesc>
+                  <OptionTitle>{t("dashboard.subtitles")}</OptionTitle>
+                  <OptionDesc>{t("dashboard.addCaptions")}</OptionDesc>
                 </OptionInfo>
               </OptionHeader>
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
@@ -134,8 +136,8 @@ export default function VideoPage() {
                   <OptionIcon>📱</OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
-                  <OptionTitle>Vertical Format</OptionTitle>
-                  <OptionDesc>Optimize for mobile (9:16)</OptionDesc>
+                  <OptionTitle>{t("dashboard.verticalFormat")}</OptionTitle>
+                  <OptionDesc>{t("dashboard.optimizeMobile")}</OptionDesc>
                 </OptionInfo>
               </OptionHeader>
               <ToggleButton isOn={vertical} setIsOn={setVertical} />
@@ -165,12 +167,12 @@ export default function VideoPage() {
             {isSummarizing ? (
               <>
                 <ButtonSpinner />
-                Processing...
+                {t("dashboard.processing")}
               </>
             ) : (
               <>
                 <ButtonIcon>✨</ButtonIcon>
-                Generate Shorts (1🪙)
+                {t("dashboard.generateShorts")}
               </>
             )}
           </GenerateButton>
@@ -179,9 +181,9 @@ export default function VideoPage() {
         {jobData && jobData.length > 0 && (
           <ResultSection>
             <SectionHeader>
-              <SectionTitle>Generated Results</SectionTitle>
+              <SectionTitle>{t("dashboard.generatedResults")}</SectionTitle>
               <JobCount>
-                {jobData.length} {jobData.length === 1 ? "job" : "jobs"}
+                {jobData.length} {jobData.length === 1 ? t("dashboard.job") : t("dashboard.jobs")}
               </JobCount>
             </SectionHeader>
             <JobsList>
@@ -213,26 +215,26 @@ export default function VideoPage() {
             <AccordionHeader>
               <AccordionTitle>
                 <span>🔧</span>
-                Technical Details
+                {t("dashboard.technicalDetails")}
               </AccordionTitle>
               <AccordionIcon>▼</AccordionIcon>
             </AccordionHeader>
           </summary>
           <DetailsContent>
             <DetailRow>
-              <DetailLabel>Video ID</DetailLabel>
+              <DetailLabel>{t("dashboard.videoId")}</DetailLabel>
               <DetailValue>{data?.id}</DetailValue>
             </DetailRow>
             <DetailRow>
-              <DetailLabel>Uploader ID</DetailLabel>
+              <DetailLabel>{t("dashboard.uploaderId")}</DetailLabel>
               <DetailValue>{data?.user_id}</DetailValue>
             </DetailRow>
             <DetailRow>
-              <DetailLabel>YouTube ID</DetailLabel>
+              <DetailLabel>{t("dashboard.youtubeId")}</DetailLabel>
               <DetailValue>{data?.youtube_id || "N/A"}</DetailValue>
             </DetailRow>
             <DetailRow>
-              <DetailLabel>File Path</DetailLabel>
+              <DetailLabel>{t("dashboard.filePath")}</DetailLabel>
               <DetailValue>{data?.file_path}</DetailValue>
             </DetailRow>
           </DetailsContent>
@@ -242,15 +244,15 @@ export default function VideoPage() {
           <DangerHeader>
             <DangerIcon>⚠️</DangerIcon>
             <div>
-              <DangerTitle>Danger Zone</DangerTitle>
+              <DangerTitle>{t("dashboard.dangerZone")}</DangerTitle>
               <DangerDescription>
-                This action cannot be undone
+                {t("dashboard.actionCannotUndo")}
               </DangerDescription>
             </div>
           </DangerHeader>
           <DeleteButton onClick={() => mutateDelete(id)}>
             <span>🗑️</span>
-            Delete Video Permanently
+            {t("dashboard.deletePermanently")}
           </DeleteButton>
         </DangerZone>
       </Container>
