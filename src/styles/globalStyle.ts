@@ -16,24 +16,40 @@ export const globalPointButtonStyle = css`
   justify-content: center;
   gap: 8px;
 
-  background: linear-gradient(135deg, #000000, #333333);
-  color: white;
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #000000, #333333)"
+      : "linear-gradient(135deg, #ffffff, #e5e5e5)"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "white" : "black"};
   border-radius: 50px;
   padding: 8px 18px;
   font-weight: 600;
   font-size: 0.95rem;
   letter-spacing: 0.3px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 14px rgba(0, 0, 0, 0.15)"
+      : "0 4px 14px rgba(255, 255, 255, 0.15)"};
 
   &:hover {
-    background: linear-gradient(135deg, #222, #000);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "linear-gradient(135deg, #222, #000)"
+        : "linear-gradient(135deg, #f5f5f5, #ffffff)"};
+    box-shadow: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "0 6px 18px rgba(0, 0, 0, 0.25)"
+        : "0 6px 18px rgba(255, 255, 255, 0.25)"};
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "0 2px 8px rgba(0, 0, 0, 0.15)"
+        : "0 2px 8px rgba(255, 255, 255, 0.15)"};
   }
 `;
 
@@ -44,8 +60,8 @@ export const globalPointButtonSecondaryStyle = css`
   gap: 8px;
 
   background: transparent;
-  color: #000;
-  border: 2px solid #000;
+  color: ${({ theme }) => theme.colors.text};
+  border: 2px solid ${({ theme }) => theme.colors.text};
   border-radius: 50px;
   padding: 8px 18px;
   font-weight: 600;
@@ -54,11 +70,17 @@ export const globalPointButtonSecondaryStyle = css`
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.08);
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "rgba(0, 0, 0, 0.08)"
+        : "rgba(255, 255, 255, 0.08)"};
   }
 
   &:active {
     transform: translateY(0);
-    background: rgba(0, 0, 0, 0.12);
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "rgba(0, 0, 0, 0.12)"
+        : "rgba(255, 255, 255, 0.12)"};
   }
 `;

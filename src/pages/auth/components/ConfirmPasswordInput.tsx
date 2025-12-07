@@ -102,6 +102,7 @@ const ToggleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#000" : "white"};
   opacity: 0.6;
   transition: opacity 0.2s ease;
 

@@ -30,7 +30,7 @@ const DashboardPageWrapper = styled.div`
 const Container = styled.div`
   flex: 1;
   display: flex;
-  background: #f5f7fa;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f5f7fa" : "#000"};
 `;
 
 const ContentWrapper = styled.div`

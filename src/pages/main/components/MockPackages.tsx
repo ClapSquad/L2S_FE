@@ -36,7 +36,7 @@ const MockPackagesWrapper = styled.div<{ $visible: boolean }>`
 const SectionTitle = styled.h2`
   font-size: 32px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
   margin-bottom: 32px;
   text-align: center;
 `;

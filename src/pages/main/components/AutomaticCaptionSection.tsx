@@ -53,7 +53,7 @@ const SectionWrapper = styled.section`
   display: flex;
   justify-content: center;
   padding: 100px 40px;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
 `;
 
 const Content = styled.div<{ $visible: boolean }>`
@@ -82,11 +82,11 @@ const TextBlock = styled.div`
 const Title = styled.h2`
   font-size: 2.5rem;
   font-weight: 800;
-  color: #111;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#111" : "white"};
 `;
 
 const Description = styled.p`
-  color: #555;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#555" : "white"};
   font-size: 1.1rem;
   line-height: 1.6;
   max-width: 600px;
@@ -118,11 +118,11 @@ const FeatureText = styled.div`
 
 const FeatureTitle = styled.div`
   font-weight: 600;
-  color: #222;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#222" : "white"};
 `;
 
 const FeatureDescription = styled.div`
-  color: #666;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#666" : "white"};
   font-size: 0.95rem;
 `;
 
