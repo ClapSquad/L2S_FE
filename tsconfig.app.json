@@ -36,6 +36,5 @@
       "@apis/*": ["src/apis/*"]
     }
   },
-  "include": ["src",
-"src/**/*.d.ts"]
+  "include": ["src"]
 }
