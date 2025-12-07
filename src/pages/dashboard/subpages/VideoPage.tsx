@@ -361,10 +361,10 @@ const SectionTitle = styled.h2`
 
 const VideoDuration = styled.span`
   font-size: 13px;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   font-weight: 500;
   padding: 6px 12px;
-  background: #f1f5f9;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
   border-radius: 8px;
 `;
 
