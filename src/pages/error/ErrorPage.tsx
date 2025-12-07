@@ -50,7 +50,10 @@ export default function ErrorPage() {
 
 const ErrorPageWrapper = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+      : "#000"};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,11 +62,15 @@ const ErrorPageWrapper = styled.div`
 `;
 
 const ErrorContainer = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "transparent" : "#666"};
   border-radius: 24px;
   padding: 60px 40px;
   max-width: 600px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 20px 60px rgba(0, 0, 0, 0.3)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
   text-align: center;
 `;
 
@@ -81,13 +88,13 @@ const ErrorCode = styled.h1`
 const ErrorTitle = styled.h2`
   font-size: 32px;
   font-weight: 700;
-  color: #2d3748;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#2d3748" : "white"};
   margin: 0 0 16px 0;
 `;
 
 const ErrorDescription = styled.p`
   font-size: 18px;
-  color: #718096;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#718096" : "#ccc"};
   line-height: 1.6;
   margin: 0 0 40px 0;
 `;
@@ -100,8 +107,11 @@ const ButtonGroup = styled.div`
 `;
 
 const PrimaryButton = styled.button`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+      : "white"};
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
   border: none;
   padding: 14px 32px;
   border-radius: 12px;
@@ -109,11 +119,18 @@ const PrimaryButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 12px rgba(102, 126, 234, 0.4)"
+      : "0 4px 12px rgba(255, 255, 255, 0.3)"};
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "0 6px 20px rgba(102, 126, 234, 0.6)"
+        : "0 6px 20px rgba(255, 255, 255, 0.5)"};
+    opacity: ${({ theme }) => theme.colors.background === "#ffffff" ? "1" : "0.9"};
   }
 
   &:active {
@@ -134,18 +151,18 @@ const IconWrapper = styled.div`
 const TechnicalDetails = styled.details`
   margin-top: 32px;
   text-align: left;
-  background: #f7fafc;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f7fafc" : "#333"};
   border-radius: 12px;
   padding: 16px;
 
   summary {
     cursor: pointer;
     font-weight: 600;
-    color: #4a5568;
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#4a5568" : "#ccc"};
     user-select: none;
 
     &:hover {
-      color: #667eea;
+      color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "white"};
     }
   }
 `;
@@ -153,9 +170,9 @@ const TechnicalDetails = styled.details`
 const DetailContent = styled.div`
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
   font-size: 14px;
-  color: #718096;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#718096" : "#999"};
   font-family: monospace;
   line-height: 1.8;
 `;

@@ -249,6 +249,24 @@ const SidebarWrapper = styled.div`
   gap: 16px;
   height: calc(100vh - 110px);
   overflow-y: auto;
+  position: relative;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "none"
+      : "8px 0 24px rgba(255, 255, 255, 0.25)"};
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "none"
+        : "none"};
+  }
 
   &::-webkit-scrollbar {
     width: 8px;

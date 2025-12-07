@@ -259,7 +259,7 @@ export default function VideoPage() {
 }
 
 const DashBoardPageWrapper = styled.div`
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#ffffff" : "#000"};
   height: calc(100vh - 150px);
   padding: 40px 20px;
   overflow-y: auto;
@@ -303,7 +303,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 16px;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "white"};
   margin: 0;
   font-weight: 400;
 `;
@@ -355,7 +355,7 @@ const SectionHeader = styled.div`
 const SectionTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin: 0;
 `;
 
@@ -427,17 +427,16 @@ const Video = styled.video`
 `;
 
 const ProcessingCard = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border-radius: 24px;
   padding: 40px;
   margin-bottom: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
-  }
 
   @media (max-width: 768px) {
     padding: 24px;
@@ -466,13 +465,13 @@ const CardIcon = styled.div`
 const CardTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin: 0 0 4px 0;
 `;
 
 const CardDescription = styled.p`
   font-size: 14px;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   margin: 0;
 `;
 
@@ -488,16 +487,22 @@ const OptionCard = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)"
+      : "#333"};
   border-radius: 16px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "transparent"};
   transition: all 0.3s ease;
 
   &:hover {
-    background: white;
-    border-color: #cbd5e1;
+    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#444"};
+    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "transparent"};
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    box-shadow: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? "0 8px 24px rgba(0, 0, 0, 0.06)"
+        : "0 8px 24px rgba(255, 255, 255, 0.1)"};
   }
 `;
 
@@ -514,9 +519,12 @@ const OptionIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 12px rgba(0, 0, 0, 0.06)"
+      : "0 4px 12px rgba(255, 255, 255, 0.1)"};
 `;
 
 const OptionIcon = styled.div`
@@ -530,36 +538,41 @@ const OptionInfo = styled.div`
 const OptionTitle = styled.div`
   font-size: 16px;
   font-weight: 600;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin-bottom: 4px;
 `;
 
 const OptionDesc = styled.div`
   font-size: 13px;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   line-height: 1.4;
 `;
 
 const Select = styled.select`
   padding: 12px 18px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  color: #334155;
-  background: white;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 200px;
 
   &:hover {
-    border-color: #cbd5e1;
+    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "#666"};
   }
 
   &:focus {
     outline: none;
     border-color: #8b5cf6;
     box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+
+  option {
+    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
   }
 `;
 
@@ -620,17 +633,16 @@ const JobsList = styled.div`
 `;
 
 const DetailsAccordion = styled.details`
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 32px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  border: 2px solid #e2e8f0;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 2px 6px rgba(0, 0, 0, 0.05)"
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   transition: all 0.3s ease;
-
-  &:hover {
-    border-color: #cbd5e1;
-  }
 
   summary {
     cursor: pointer;
@@ -659,7 +671,7 @@ const AccordionTitle = styled.div`
   gap: 12px;
   font-size: 16px;
   font-weight: 600;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   transition: color 0.2s ease;
 
   &:hover {
@@ -669,7 +681,7 @@ const AccordionTitle = styled.div`
 
 const AccordionIcon = styled.span`
   font-size: 12px;
-  color: #94a3b8;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
   transition: transform 0.3s ease;
 
   details[open] & {
@@ -680,7 +692,7 @@ const AccordionIcon = styled.span`
 const DetailsContent = styled.div`
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 2px solid #f1f5f9;
+  border-top: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -700,29 +712,35 @@ const DetailRow = styled.div`
 const DetailLabel = styled.span`
   font-size: 14px;
   font-weight: 600;
-  color: #64748b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   min-width: 130px;
   flex-shrink: 0;
 `;
 
 const DetailValue = styled.span`
   font-size: 13px;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
   word-break: break-all;
   font-family: "Monaco", "Courier New", monospace;
-  background: #f8fafc;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   padding: 8px 12px;
   border-radius: 8px;
   flex: 1;
-  border: 1px solid #e2e8f0;
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
 `;
 
 const DangerZone = styled.div`
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 2px solid #fecaca;
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)"
+      : "#000"};
+  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
   border-radius: 20px;
   padding: 28px;
-  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.1);
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 16px rgba(220, 38, 38, 0.1)"
+      : "0 8px 24px rgba(220, 38, 38, 0.3)"};
 `;
 
 const DangerHeader = styled.div`
@@ -739,21 +757,21 @@ const DangerIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#1a0000"};
   border-radius: 12px;
-  border: 2px solid #fecaca;
+  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
 `;
 
 const DangerTitle = styled.h3`
   font-size: 20px;
   font-weight: 700;
-  color: #991b1b;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#991b1b" : "#ff6b6b"};
   margin: 0 0 4px 0;
 `;
 
 const DangerDescription = styled.p`
   font-size: 13px;
-  color: #b91c1c;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#b91c1c" : "#ff9999"};
   margin: 0;
   font-weight: 500;
 `;
