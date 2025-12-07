@@ -8,6 +8,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { creditPackages } from "./data/creditPackages";
 import PackagesGrid from "./components/PackagesGrid";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export default function CreditPage() {
   const { data } = useMe();
@@ -15,6 +16,7 @@ export default function CreditPage() {
   const { mutate: useMutate } = useUseCredit();
   const [selectedAmount, setSelectedAmount] = useState<number>(5);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -23,20 +25,20 @@ export default function CreditPage() {
         <ContentContainer>
           <Header>
             <Title>
-              Credit <HighlightText>Management</HighlightText>
+              {t("creditPage.title")} <HighlightText>{t("creditPage.titleHighlight")}</HighlightText>
             </Title>
             <Subtitle>
-              Manage your credits and purchase more to continue creating amazing content
+              {t("creditPage.subtitle")}
             </Subtitle>
           </Header>
 
           <CreditBalanceCard>
-            <BalanceLabel>Your Current Balance</BalanceLabel>
+            <BalanceLabel>{t("creditPage.currentBalance")}</BalanceLabel>
             <BalanceAmount>{data!.user.credit}</BalanceAmount>
-            <BalanceSubtext>credits available</BalanceSubtext>
+            <BalanceSubtext>{t("creditPage.creditsAvailable")}</BalanceSubtext>
           </CreditBalanceCard>
 
-          <SectionTitle>Choose Your Package</SectionTitle>
+          <SectionTitle>{t("creditPage.choosePackage")}</SectionTitle>
 
           <PackagesGrid
             selectedAmount={selectedAmount}
@@ -45,21 +47,21 @@ export default function CreditPage() {
 
           <ActionButtons>
             <PrimaryButton onClick={() => setShowPaymentForm(true)}>
-              Purchase {selectedAmount} Credits
+              {t("creditPage.purchaseCredits", { amount: selectedAmount })}
             </PrimaryButton>
             <SecondaryButton
               onClick={() => {
                 addMutate({ amount: selectedAmount });
               }}
             >
-              Get {selectedAmount} Credits
+              {t("creditPage.getCredits", { amount: selectedAmount })}
             </SecondaryButton>
             <SecondaryButton
               onClick={() => {
                 useMutate({ amount: selectedAmount });
               }}
             >
-              Use {selectedAmount} Credits
+              {t("creditPage.useCredits", { amount: selectedAmount })}
             </SecondaryButton>
           </ActionButtons>
 
@@ -67,7 +69,7 @@ export default function CreditPage() {
             <PaymentFormOverlay onClick={() => setShowPaymentForm(false)}>
               <PaymentFormModal onClick={(e) => e.stopPropagation()}>
                 <ModalHeader>
-                  <ModalTitle>Complete Your Purchase</ModalTitle>
+                  <ModalTitle>{t("creditPage.completePurchase")}</ModalTitle>
                   <CloseButton onClick={() => setShowPaymentForm(false)}>
                     ×
                   </CloseButton>
@@ -76,11 +78,11 @@ export default function CreditPage() {
                 <ModalContent>
                   <OrderSummary>
                     <SummaryRow>
-                      <span>Credits</span>
+                      <span>{t("creditPage.orderSummary.credits")}</span>
                       <span>{selectedAmount}</span>
                     </SummaryRow>
                     <SummaryRow>
-                      <span>Price</span>
+                      <span>{t("creditPage.orderSummary.price")}</span>
                       <span>
                         $
                         {
@@ -92,7 +94,7 @@ export default function CreditPage() {
                     </SummaryRow>
                     <Divider />
                     <TotalRow>
-                      <span>Total</span>
+                      <span>{t("creditPage.orderSummary.total")}</span>
                       <span>
                         $
                         {
@@ -180,7 +182,7 @@ export default function CreditPage() {
                     </div>
 
                     <SecurityNotice>
-                      🔒 Your payment information is secure and encrypted
+                      {t("creditPage.securityNotice")}
                     </SecurityNotice>
                   </PaymentForm>
                 </ModalContent>

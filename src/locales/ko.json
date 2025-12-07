@@ -111,5 +111,35 @@
     "darkMode": "다크 모드",
     "english": "English",
     "korean": "한국어"
+  },
+  "myPage": {
+    "title": "내 정보",
+    "subtitle": "계정 정보를 확인하고 관리하세요",
+    "email": "이메일",
+    "username": "사용자 이름",
+    "credits": "크레딧",
+    "creditsLeft": "크레딧 남음",
+    "getMoreCredits": "크레딧 추가 구매",
+    "manageAccount": "계정 관리",
+    "deleteAccount": "계정 삭제",
+    "deleteConfirm": "정말로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다"
+  },
+  "creditPage": {
+    "title": "크레딧",
+    "titleHighlight": "관리",
+    "subtitle": "크레딧을 관리하고 더 많은 콘텐츠를 제작하기 위해 추가 구매하세요",
+    "currentBalance": "현재 잔액",
+    "creditsAvailable": "사용 가능한 크레딧",
+    "choosePackage": "패키지 선택",
+    "purchaseCredits": "{{amount}} 크레딧 구매",
+    "getCredits": "{{amount}} 크레딧 받기",
+    "useCredits": "{{amount}} 크레딧 사용",
+    "completePurchase": "구매 완료",
+    "orderSummary": {
+      "credits": "크레딧",
+      "price": "가격",
+      "total": "합계"
+    },
+    "securityNotice": "🔒 결제 정보는 안전하게 암호화되어 보호됩니다"
   }
 }
