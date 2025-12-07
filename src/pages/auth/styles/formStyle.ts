@@ -9,14 +9,16 @@ export const FormStyle = styled.form`
   background: ${({ theme }) =>
     theme.colors.background === "#ffffff"
       ? "rgba(255, 255, 255, 0.8)"
-      : "rgba(31, 41, 55, 0.8)"};
+      : "#000"};
   backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 40px 32px;
+  border: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "none" : "1px solid #666"};
   box-shadow: ${({ theme }) =>
     theme.colors.background === "#ffffff"
       ? `0 10px 25px ${theme.colors.cardShadow}`
-      : "0 12px 48px rgba(255, 255, 255, 0.15), 12px 0 48px rgba(255, 255, 255, 0.15), -12px 0 48px rgba(255, 255, 255, 0.15)"};
+      : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 
   button[type="submit"] {
     margin-top: 8px;

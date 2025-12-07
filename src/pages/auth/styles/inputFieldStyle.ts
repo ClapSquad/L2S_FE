@@ -15,10 +15,19 @@ export const StyledInput = styled.input<{ $hasError?: boolean }>`
   box-sizing: border-box;
   border: 1.5px solid
     ${({ $hasError, theme }) =>
-      $hasError ? "#e74c3c" : theme.colors.inputBorder};
+      $hasError
+        ? "#e74c3c"
+        : theme.colors.background === "#ffffff"
+        ? theme.colors.inputBorder
+        : "#555"};
   background-color: ${({ $hasError, theme }) =>
-    $hasError ? "rgba(255, 230, 230, 0.2)" : theme.colors.inputBackground};
-  color: ${({ theme }) => theme.colors.text};
+    $hasError
+      ? "rgba(255, 230, 230, 0.2)"
+      : theme.colors.background === "#ffffff"
+      ? theme.colors.inputBackground
+      : "#333"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? theme.colors.text : "white"};
   outline: none;
   transition: all 0.25s ease;
 
@@ -31,7 +40,10 @@ export const StyledInput = styled.input<{ $hasError?: boolean }>`
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.inputPlaceholder};
+    color: ${({ theme }) =>
+      theme.colors.background === "#ffffff"
+        ? theme.colors.inputPlaceholder
+        : "#999"};
   }
 `;
 
