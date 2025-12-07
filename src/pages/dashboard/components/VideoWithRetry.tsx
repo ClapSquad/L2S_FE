@@ -13,7 +13,7 @@ export default function VideoWithRetry({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let intervalId: number;
+    let intervalId: any;
 
     const loadVideo = async () => {
       try {
