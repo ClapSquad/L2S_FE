@@ -11,6 +11,9 @@ import { useMyJob } from "../hooks/useMyJob";
 import { useDeleteJob } from "../hooks/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import JobCard from "../components/JobCard";
+import { GearIcon } from "src/icons/GearIcon";
+import { WarningIcon } from "src/icons/WarningIcon";
+import { TrashIcon } from "src/icons/TrashIcon";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -84,7 +87,9 @@ export default function VideoPage() {
 
         <ProcessingCard>
           <CardHeader>
-            <CardIcon>⚙️</CardIcon>
+            <CardIcon>
+              <GearIcon size="24px" color="#6366f1" />
+            </CardIcon>
             <div>
               <CardTitle>Processing Configuration</CardTitle>
               <CardDescription>
@@ -240,7 +245,9 @@ export default function VideoPage() {
 
         <DangerZone>
           <DangerHeader>
-            <DangerIcon>⚠️</DangerIcon>
+            <DangerIcon>
+              <WarningIcon size="24px" color="#ef4444" />
+            </DangerIcon>
             <div>
               <DangerTitle>Danger Zone</DangerTitle>
               <DangerDescription>
@@ -249,7 +256,7 @@ export default function VideoPage() {
             </div>
           </DangerHeader>
           <DeleteButton onClick={() => mutateDelete(id)}>
-            <span>🗑️</span>
+            <TrashIcon size="18px" color="currentColor" />
             Delete Video Permanently
           </DeleteButton>
         </DangerZone>

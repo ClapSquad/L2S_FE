@@ -10,6 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMe } from "src/apis/hooks/useMe";
 import { showCreditConfirmToast } from "./ConfirmToast";
+import { CoinIcon } from "src/icons/CoinIcon";
 
 export default function VideoInput() {
   const [mode, setMode] = useState<"youtube" | "file">("file");
@@ -130,7 +131,10 @@ export default function VideoInput() {
               {isYoutubeUploading ? (
                 <ClipLoader color="white" size={15} />
               ) : (
-                "Create (1🪙)"
+                <>
+                  Create (1
+                  <CoinIcon size="14px" color="currentColor" />)
+                </>
               )}
             </GenerateButton>
           </Slide>
@@ -196,7 +200,10 @@ export default function VideoInput() {
                   {isFileUploading ? (
                     <ClipLoader color="white" size={15} />
                   ) : (
-                    "Upload (1🪙)"
+                    <>
+                      Upload (1
+                      <CoinIcon size="14px" color="currentColor" />)
+                    </>
                   )}
                 </GenerateButton>
               </HorizontalLayout>
@@ -371,6 +378,9 @@ const FileInput = styled.input`
 `;
 
 const GenerateButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 2px;
   background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "white"};
   color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border: none;
