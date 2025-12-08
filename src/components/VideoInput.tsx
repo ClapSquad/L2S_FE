@@ -381,7 +381,7 @@ const GenerateButton = styled.button`
   display: flex;
   align-items: center;
   gap: 2px;
-  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "#d1d5db"};
+  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "#4b5563"};
   color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#ffffff"};
   border: none;
   border-radius: 10px;
