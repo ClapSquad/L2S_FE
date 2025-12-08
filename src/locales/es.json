@@ -145,7 +145,7 @@
   },
   "errorPage": {
     "code": "502",
-    "title": "Puerta de Enlace Incorrecta",
+    "title": "Bad Gateway",
     "description": "Nuestro servidor está tomando un descanso rápido. ¡No te preocupes, volverá a analizar tu contenido en un momento!",
     "tryAgain": "Intentar de Nuevo",
     "whatToDo": "¿Qué debo hacer?",
