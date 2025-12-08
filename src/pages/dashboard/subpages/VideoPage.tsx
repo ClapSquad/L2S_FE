@@ -15,6 +15,7 @@ import { GearIcon } from "src/icons/GearIcon";
 import { WarningIcon } from "src/icons/WarningIcon";
 import { TrashIcon } from "src/icons/TrashIcon";
 import { CoinIcon } from "src/icons/CoinIcon";
+import { WrenchIcon } from "src/icons/WrenchIcon";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -218,7 +219,7 @@ export default function VideoPage() {
           <summary>
             <AccordionHeader>
               <AccordionTitle>
-                <span>🔧</span>
+                <WrenchIcon size="20px" color="#6366f1" />
                 Technical Details
               </AccordionTitle>
               <AccordionIcon>▼</AccordionIcon>
