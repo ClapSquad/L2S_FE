@@ -133,7 +133,7 @@ export default function VideoInput() {
               ) : (
                 <>
                   Create (1
-                  <CoinIcon size="14px" color="currentColor" />)
+                  <CoinIcon size="14px" color="#FFD700" />)
                 </>
               )}
             </GenerateButton>
@@ -202,7 +202,7 @@ export default function VideoInput() {
                   ) : (
                     <>
                       Upload (1
-                      <CoinIcon size="14px" color="currentColor" />)
+                      <CoinIcon size="14px" color="#FFD700" />)
                     </>
                   )}
                 </GenerateButton>
