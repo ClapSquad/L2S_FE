@@ -134,7 +134,7 @@
     "purchaseCredits": "{{amount}} 크레딧 구매",
     "getCredits": "{{amount}} 크레딧 받기",
     "useCredits": "{{amount}} 크레딧 사용",
-    "completePurchase": "구매 완료",
+    "completePurchase": "구매를 완료하세요",
     "orderSummary": {
       "credits": "크레딧",
       "price": "가격",
