@@ -16,7 +16,6 @@ import { GearIcon } from "@icons/GearIcon";
 import { BoltIcon } from "@icons/BoltIcon";
 import { SubtitlesIcon } from "@icons/SubtitlesIcon";
 import { SmartphoneIcon } from "@icons/SmartphoneIcon";
-import { SparkleIcon } from "@icons/SparkleIcon";
 import { WrenchIcon } from "@icons/WrenchIcon";
 import { WarningIcon } from "@icons/WarningIcon";
 import { TrashIcon } from "@icons/TrashIcon";
@@ -648,13 +647,6 @@ const GenerateButton = styled.button`
     opacity: 0.7;
     cursor: not-allowed;
   }
-`;
-
-const ButtonIcon = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
 `;
 
 const CoinIconWrapper = styled.span`
