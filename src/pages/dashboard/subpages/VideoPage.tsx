@@ -539,10 +539,6 @@ const OptionIconWrapper = styled.div`
       : "0 4px 12px rgba(255, 255, 255, 0.1)"};
 `;
 
-const OptionIcon = styled.div`
-  font-size: 24px;
-`;
-
 const OptionInfo = styled.div`
   flex: 1;
 `;
@@ -619,10 +615,6 @@ const GenerateButton = styled.button`
     opacity: 0.7;
     cursor: not-allowed;
   }
-`;
-
-const ButtonIcon = styled.span`
-  font-size: 22px;
 `;
 
 const ButtonSpinner = styled.div`
