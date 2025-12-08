@@ -3,6 +3,7 @@ import { useJobStatus } from "../hooks/useJobStatus";
 import { useState } from "react";
 import VideoWithRetry from "./VideoWithRetry";
 import { formatDate } from "src/utils/timezone";
+import { WarningIcon } from "src/icons/WarningIcon";
 
 export default function JobCard({
   job_id,
@@ -128,7 +129,9 @@ export default function JobCard({
           <JobDetails>
             {data.error_message && (
               <ErrorMessage>
-                <ErrorIcon>⚠️</ErrorIcon>
+                <ErrorIcon>
+                  <WarningIcon size="18px" color="#ef4444" />
+                </ErrorIcon>
                 {data.error_message}
               </ErrorMessage>
             )}
@@ -409,7 +412,9 @@ const ErrorMessage = styled.div`
 `;
 
 const ErrorIcon = styled.span`
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 `;
 
