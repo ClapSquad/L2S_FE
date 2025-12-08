@@ -107,8 +107,8 @@
   },
   "settings": {
     "title": "Setting",
-    "language": "언어 선택",
-    "darkMode": "다크 모드",
+    "language": "Language",
+    "darkMode": "Dark Mode",
     "english": "English",
     "korean": "한국어",
     "spanish": "Español"
