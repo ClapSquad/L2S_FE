@@ -14,6 +14,7 @@ import JobCard from "../components/JobCard";
 import { GearIcon } from "src/icons/GearIcon";
 import { WarningIcon } from "src/icons/WarningIcon";
 import { TrashIcon } from "src/icons/TrashIcon";
+import { CoinIcon } from "src/icons/CoinIcon";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -174,8 +175,8 @@ export default function VideoPage() {
               </>
             ) : (
               <>
-                <ButtonIcon>✨</ButtonIcon>
-                Generate Shorts (1🪙)
+                Generate Shorts (1
+                <CoinIcon size="16px" color="currentColor" />)
               </>
             )}
           </GenerateButton>
