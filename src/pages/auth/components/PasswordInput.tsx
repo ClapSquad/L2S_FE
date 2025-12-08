@@ -35,7 +35,6 @@ export default function PasswordInput({
         type={visible ? "text" : "password"}
       />
 
-      {/* 👁 Eye Toggle Button */}
       <button
         type="button"
         onClick={() => setVisible((prev) => !prev)}
