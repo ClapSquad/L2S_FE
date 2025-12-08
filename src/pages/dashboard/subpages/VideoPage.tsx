@@ -16,6 +16,9 @@ import { WarningIcon } from "src/icons/WarningIcon";
 import { TrashIcon } from "src/icons/TrashIcon";
 import { CoinIcon } from "src/icons/CoinIcon";
 import { WrenchIcon } from "src/icons/WrenchIcon";
+import { BoltIcon } from "src/icons/BoltIcon";
+import { SubtitlesIcon } from "src/icons/SubtitlesIcon";
+import { SmartphoneIcon } from "src/icons/SmartphoneIcon";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -104,7 +107,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>⚡</OptionIcon>
+                  <BoltIcon size="20px" color="#f59e0b" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Processing Method</OptionTitle>
@@ -125,7 +128,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>💬</OptionIcon>
+                  <SubtitlesIcon size="20px" color="#3b82f6" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Subtitles</OptionTitle>
@@ -138,7 +141,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>📱</OptionIcon>
+                  <SmartphoneIcon size="20px" color="#8b5cf6" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Vertical Format</OptionTitle>
