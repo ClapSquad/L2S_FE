@@ -107,7 +107,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <BoltIcon size="20px" color="#f59e0b" />
+                  <BoltIcon size="26px" color="#f59e0b" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Processing Method</OptionTitle>
@@ -128,7 +128,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <SubtitlesIcon size="20px" color="#3b82f6" />
+                  <SubtitlesIcon size="26px" color="#3b82f6" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Subtitles</OptionTitle>
@@ -141,7 +141,7 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <SmartphoneIcon size="20px" color="#8b5cf6" />
+                  <SmartphoneIcon size="26px" color="#8b5cf6" />
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>Vertical Format</OptionTitle>
