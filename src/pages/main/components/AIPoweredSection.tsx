@@ -4,49 +4,46 @@ import {
   slideInAnimationCSS,
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
+import { useTranslation } from "react-i18next";
 
 export default function AIPoweredSection() {
   const [ref, isVisible] = useSlideInAnimation();
+  const { t } = useTranslation();
 
   return (
     <SectionWrapper ref={ref}>
       <Content $visible={isVisible}>
         <TextBlock>
-          <Title>AI-Powered Summarization</Title>
+          <Title>{t('aiPowered.title')}</Title>
           <Description>
-            Our advanced AI analyzes your long-form content and identifies the
-            most engaging moments automatically. Using dual-branched highlight
-            detection model, Long2Short understands context, motion, and
-            audience engagement patterns to extract the clips that will perform
-            best.
+            {t('aiPowered.description')}
           </Description>
 
           <FeatureList>
             <Feature>
               <Icon>🧠</Icon>
               <FeatureText>
-                <FeatureTitle>Multi-modal context analysis</FeatureTitle>
+                <FeatureTitle>{t('aiPowered.feature1Title')}</FeatureTitle>
                 <FeatureDescription>
-                  Context aware highlight extraction based video summarization
+                  {t('aiPowered.feature1Description')}
                 </FeatureDescription>
               </FeatureText>
             </Feature>
             <Feature>
               <Icon>📊</Icon>
               <FeatureText>
-                <FeatureTitle>Real-data based</FeatureTitle>
+                <FeatureTitle>{t('aiPowered.feature2Title')}</FeatureTitle>
                 <FeatureDescription>
-                  Tested over real highlight data that reflects true virality
+                  {t('aiPowered.feature2Description')}
                 </FeatureDescription>
               </FeatureText>
             </Feature>
             <Feature>
               <Icon>⚙️</Icon>
               <FeatureText>
-                <FeatureTitle>Automated post-processing</FeatureTitle>
+                <FeatureTitle>{t('aiPowered.feature3Title')}</FeatureTitle>
                 <FeatureDescription>
-                  Reduce your work by automating clip cutting & merging,
-                  portrait change
+                  {t('aiPowered.feature3Description')}
                 </FeatureDescription>
               </FeatureText>
             </Feature>

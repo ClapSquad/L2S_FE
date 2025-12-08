@@ -6,14 +6,16 @@ import {
   slideInAnimationCSS,
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
+import { useTranslation } from "react-i18next";
 
 export default function MockPackages() {
   const [ref, isVisible] = useSlideInAnimation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <MockPackagesWrapper ref={ref} $visible={isVisible}>
-      <SectionTitle>Choose Your Package</SectionTitle>
+      <SectionTitle>{t('packages.title')}</SectionTitle>
       <PackagesGrid
         selectedAmount={1}
         setSelectedAmount={() => navigate(routePath.CREDIT)}

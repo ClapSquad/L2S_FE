@@ -4,9 +4,11 @@ import {
   slideInAnimationCSS,
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
+import { useTranslation } from "react-i18next";
 
 export default function AutomaticCaptionSection() {
   const [ref, isVisible] = useSlideInAnimation();
+  const { t } = useTranslation();
 
   return (
     <SectionWrapper ref={ref}>
@@ -16,29 +18,27 @@ export default function AutomaticCaptionSection() {
         </ImageBlock>
 
         <TextBlock>
-          <Title>Auto Subtitles & Captions</Title>
+          <Title>{t('autoCaption.title')}</Title>
           <Description>
-            Generate accurate, animated captions in multiple languages with
-            customizable styles instantly. You can customize fonts, colors,
-            animations, and positioning to match your brand.
+            {t('autoCaption.description')}
           </Description>
 
           <FeatureList>
             <Feature>
               <Icon>🌍</Icon>
               <FeatureText>
-                <FeatureTitle>Multi-Language Support</FeatureTitle>
+                <FeatureTitle>{t('autoCaption.feature1Title')}</FeatureTitle>
                 <FeatureDescription>
-                  Context aware highlight extraction based video summarization
+                  {t('autoCaption.feature1Description')}
                 </FeatureDescription>
               </FeatureText>
             </Feature>
             <Feature>
               <Icon>🎨</Icon>
               <FeatureText>
-                <FeatureTitle>Custom Styling</FeatureTitle>
+                <FeatureTitle>{t('autoCaption.feature2Title')}</FeatureTitle>
                 <FeatureDescription>
-                  Tested over real highlight data that reflects true virality
+                  {t('autoCaption.feature2Description')}
                 </FeatureDescription>
               </FeatureText>
             </Feature>

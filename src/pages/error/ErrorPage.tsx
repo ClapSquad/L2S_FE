@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import routePath from "@router/routePath";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function ErrorPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const handleGoHome = () => {
     navigate(routePath.HOME);
   };
@@ -26,21 +29,20 @@ export default function ErrorPage() {
           </svg>
         </IconWrapper>
 
-        <ErrorCode>502</ErrorCode>
-        <ErrorTitle>Bad Gateway</ErrorTitle>
+        <ErrorCode>{t("errorPage.code")}</ErrorCode>
+        <ErrorTitle>{t("errorPage.title")}</ErrorTitle>
         <ErrorDescription>
-          Our server is taking a quick break. Don't worry, they'll be back
-          analyzing your content in just a moment!
+          {t("errorPage.description")}
         </ErrorDescription>
 
         <ButtonGroup>
-          <PrimaryButton onClick={handleGoHome}>Try Again</PrimaryButton>
+          <PrimaryButton onClick={handleGoHome}>{t("errorPage.tryAgain")}</PrimaryButton>
         </ButtonGroup>
 
         <TechnicalDetails>
-          <summary>What should I do?</summary>
+          <summary>{t("errorPage.whatToDo")}</summary>
           <DetailContent>
-            Please refresh the page or try again in a few moments.
+            {t("errorPage.details")}
           </DetailContent>
         </TechnicalDetails>
       </ErrorContainer>

@@ -10,8 +10,10 @@ import { ClipLoader } from "react-spinners";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMe } from "src/apis/hooks/useMe";
 import { showCreditConfirmToast } from "./ConfirmToast";
+import { useTranslation } from "react-i18next";
 
 export default function VideoInput() {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<"youtube" | "file">("file");
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ export default function VideoInput() {
     }
     if (meData!.user.credit <= 0) {
       showCreditConfirmToast({
-        message: "Insufficient credits, Get more?",
+        message: t('videoInput.insufficientCredits'),
         onYes: () => {
           navigate(routePath.CREDIT);
         },
@@ -57,7 +59,7 @@ export default function VideoInput() {
     }
     if (mode === "file") {
       if (!selectedFile) {
-        toast.error("No file selected");
+        toast.error(t('videoInput.noFileSelected'));
         return;
       }
       mutateFile(selectedFile, {
@@ -72,7 +74,7 @@ export default function VideoInput() {
     } else {
       try {
         if (!youtubeURL) {
-          toast.error("No YouTube URL");
+          toast.error(t('videoInput.noYoutubeUrl'));
           return;
         }
 
@@ -80,7 +82,7 @@ export default function VideoInput() {
         const videoId = url.searchParams.get("v");
 
         if (!videoId) {
-          toast.error("Not a valid YouTube URL");
+          toast.error(t('videoInput.notValidYoutubeUrl'));
           return;
         }
 
@@ -97,7 +99,7 @@ export default function VideoInput() {
           }
         );
       } catch (e) {
-        toast.error("Invalid URL format");
+        toast.error(t('videoInput.invalidUrlFormat'));
       }
     }
   };
@@ -109,10 +111,10 @@ export default function VideoInput() {
           $active={mode === "youtube"}
           onClick={() => setMode("youtube")}
         >
-          YouTube
+          {t('videoInput.youtube')}
         </ToggleButton>
         <ToggleButton $active={mode === "file"} onClick={() => setMode("file")}>
-          File Upload
+          {t('videoInput.fileUpload')}
         </ToggleButton>
       </ToggleWrapper>
 
@@ -120,7 +122,7 @@ export default function VideoInput() {
         <Slider $activeMode={mode}>
           <Slide>
             <StyledInput
-              placeholder="Paste YouTube link..."
+              placeholder={t('videoInput.pasteYoutubeLink')}
               onChange={handleYoutubeURLChange}
             />
             <GenerateButton
@@ -130,7 +132,7 @@ export default function VideoInput() {
               {isYoutubeUploading ? (
                 <ClipLoader color="white" size={15} />
               ) : (
-                "Create (1🪙)"
+                t('videoInput.createWithCredit')
               )}
             </GenerateButton>
           </Slide>
@@ -163,8 +165,8 @@ export default function VideoInput() {
                 >
                   {selectedFile ? (
                     <FileInfo>
-                      <strong>File:</strong> {selectedFile.name} |{" "}
-                      <strong>Size:</strong>{" "}
+                      <strong>{t('videoInput.file')}:</strong> {selectedFile.name} |{" "}
+                      <strong>{t('videoInput.size')}:</strong>{" "}
                       {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                       <ClearButton
                         onClick={() => {
@@ -179,7 +181,7 @@ export default function VideoInput() {
                       </ClearButton>
                     </FileInfo>
                   ) : (
-                    "Drop or click to select a file"
+                    t('videoInput.dropOrClick')
                   )}
                 </DropZone>
 
@@ -196,7 +198,7 @@ export default function VideoInput() {
                   {isFileUploading ? (
                     <ClipLoader color="white" size={15} />
                   ) : (
-                    "Upload (1🪙)"
+                    t('videoInput.uploadWithCredit')
                   )}
                 </GenerateButton>
               </HorizontalLayout>

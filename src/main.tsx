@@ -8,6 +8,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import queryClient from "./apis/queryClient.ts";
 import AuthContextProvider from "./contexts/AuthContext.tsx";
 import { ThemeProvider } from "./contexts/ThemeContext.tsx";
+import "./i18n.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
