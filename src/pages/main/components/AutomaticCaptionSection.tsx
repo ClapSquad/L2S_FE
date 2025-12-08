@@ -4,6 +4,8 @@ import {
   slideInAnimationCSS,
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
+import { GlobeIcon } from "src/icons/GlobeIcon";
+import { PaletteIcon } from "src/icons/PaletteIcon";
 
 export default function AutomaticCaptionSection() {
   const [ref, isVisible] = useSlideInAnimation();
@@ -25,7 +27,9 @@ export default function AutomaticCaptionSection() {
 
           <FeatureList>
             <Feature>
-              <Icon>🌍</Icon>
+              <IconWrapper>
+                <GlobeIcon size="24px" color="#6366f1" />
+              </IconWrapper>
               <FeatureText>
                 <FeatureTitle>Multi-Language Support</FeatureTitle>
                 <FeatureDescription>
@@ -34,7 +38,9 @@ export default function AutomaticCaptionSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>🎨</Icon>
+              <IconWrapper>
+                <PaletteIcon size="24px" color="#6366f1" />
+              </IconWrapper>
               <FeatureText>
                 <FeatureTitle>Custom Styling</FeatureTitle>
                 <FeatureDescription>
@@ -105,9 +111,11 @@ const Feature = styled.div`
   gap: 14px;
 `;
 
-const Icon = styled.div`
-  font-size: 24px;
-  line-height: 1;
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 `;
 
 const FeatureText = styled.div`

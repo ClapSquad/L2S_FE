@@ -4,6 +4,9 @@ import {
   slideInAnimationCSS,
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
+import { BrainIcon } from "src/icons/BrainIcon";
+import { ChartIcon } from "src/icons/ChartIcon";
+import { GearIcon } from "src/icons/GearIcon";
 
 export default function AIPoweredSection() {
   const [ref, isVisible] = useSlideInAnimation();
@@ -23,7 +26,9 @@ export default function AIPoweredSection() {
 
           <FeatureList>
             <Feature>
-              <Icon>🧠</Icon>
+              <IconWrapper>
+                <BrainIcon size="24px" color="#6366f1" />
+              </IconWrapper>
               <FeatureText>
                 <FeatureTitle>Multi-modal context analysis</FeatureTitle>
                 <FeatureDescription>
@@ -32,7 +37,9 @@ export default function AIPoweredSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>📊</Icon>
+              <IconWrapper>
+                <ChartIcon size="24px" color="#6366f1" />
+              </IconWrapper>
               <FeatureText>
                 <FeatureTitle>Real-data based</FeatureTitle>
                 <FeatureDescription>
@@ -41,7 +48,9 @@ export default function AIPoweredSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>⚙️</Icon>
+              <IconWrapper>
+                <GearIcon size="24px" color="#6366f1" />
+              </IconWrapper>
               <FeatureText>
                 <FeatureTitle>Automated post-processing</FeatureTitle>
                 <FeatureDescription>
@@ -117,9 +126,11 @@ const Feature = styled.div`
   gap: 14px;
 `;
 
-const Icon = styled.div`
-  font-size: 24px;
-  line-height: 1;
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 `;
 
 const FeatureText = styled.div`

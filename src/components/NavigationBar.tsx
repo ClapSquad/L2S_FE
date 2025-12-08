@@ -18,6 +18,7 @@ import { useLogout } from "@apis/hooks/useLogout";
 import { useNavigateBack } from "@hooks/userNavigateBack";
 import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
 import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
+import { CoinIcon } from "src/icons/CoinIcon";
 import { useMe } from "@apis/hooks/useMe";
 import { useTheme } from "src/contexts/ThemeContext";
 
@@ -58,7 +59,10 @@ export default function NavigationBar() {
             <>
               <UserInfoWrapper>
                 <Username>{data?.user.username}</Username>
-                <CreditBadge>{data?.user.credit}🪙</CreditBadge>
+                <CreditBadge>
+                  {data?.user.credit}
+                  <CoinIcon size="16px" color="#FFD700" />
+                </CreditBadge>
               </UserInfoWrapper>
               <PointButton onClick={() => mutate()}>
                 <LogoutIcon size="30" color={isDarkMode ? "black" : "white"} />
@@ -112,15 +116,15 @@ const Username = styled.span`
 `;
 
 const CreditBadge = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   background: #6e6e6e;
   padding: 6px 8px;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 700;
   color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 4px;
 `;
 
 const PointButton = styled.button`
