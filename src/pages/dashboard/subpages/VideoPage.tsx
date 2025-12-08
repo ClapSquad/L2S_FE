@@ -176,7 +176,7 @@ export default function VideoPage() {
             ) : (
               <>
                 Generate Shorts (1
-                <CoinIcon size="16px" color="currentColor" />)
+                <CoinIcon size="16px" color="#FFD700" />)
               </>
             )}
           </GenerateButton>
