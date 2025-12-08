@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMe } from "src/apis/hooks/useMe";
 import { showCreditConfirmToast } from "./ConfirmToast";
 import { useTranslation } from "react-i18next";
+import { CoinIcon } from "@icons/CoinIcon";
 
 export default function VideoInput() {
   const { t } = useTranslation();
@@ -132,7 +133,12 @@ export default function VideoInput() {
               {isYoutubeUploading ? (
                 <ClipLoader color="white" size={15} />
               ) : (
-                t('videoInput.createWithCredit')
+                <>
+                  {t('videoInput.createWithCredit')}
+                  <CoinIconWrapper>
+                    1<CoinIcon size="16px" color="#FFD700" />
+                  </CoinIconWrapper>
+                </>
               )}
             </GenerateButton>
           </Slide>
@@ -198,7 +204,12 @@ export default function VideoInput() {
                   {isFileUploading ? (
                     <ClipLoader color="white" size={15} />
                   ) : (
-                    t('videoInput.uploadWithCredit')
+                    <>
+                      {t('videoInput.uploadWithCredit')}
+                      <CoinIconWrapper>
+                        1<CoinIcon size="16px" color="#FFD700" />
+                      </CoinIconWrapper>
+                    </>
                   )}
                 </GenerateButton>
               </HorizontalLayout>
@@ -373,8 +384,8 @@ const FileInput = styled.input`
 `;
 
 const GenerateButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "white"};
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  background-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#0e1116" : "#4a4a4a"};
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#fff"};
   border: none;
   border-radius: 10px;
   padding: 10px 18px;
@@ -383,6 +394,9 @@ const GenerateButton = styled.button`
   cursor: pointer;
   margin-left: 10px;
   transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
   &:hover {
     opacity: 0.9;
@@ -394,6 +408,12 @@ const GenerateButton = styled.button`
   }
 
   svg {
-    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#fff"};
   }
+`;
+
+const CoinIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
