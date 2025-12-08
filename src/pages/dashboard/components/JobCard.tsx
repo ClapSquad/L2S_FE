@@ -1,9 +1,12 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useJobStatus } from "../hooks/useJobStatus";
 import { useState } from "react";
 import VideoWithRetry from "./VideoWithRetry";
 import { formatDate } from "src/utils/timezone";
 import { useTranslation } from "react-i18next";
+import { DownloadIcon } from "@icons/DownloadIcon";
+import { CloseIcon } from "@icons/CloseIcon";
+import { ExpandIcon } from "@icons/ExpandIcon";
 
 export default function JobCard({
   job_id,
@@ -15,6 +18,7 @@ export default function JobCard({
   onDelete: () => void;
 }) {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { data, isLoading, isError } = useJobStatus({ id: job_id });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,7 +50,7 @@ export default function JobCard({
             </StatusBadge>
           </JobInfo>
           <DeleteJobButton onClick={onDelete}>
-            <span>✕</span>
+            <CloseIcon size="20px" color="currentColor" />
           </DeleteJobButton>
         </JobCardHeader>
       </JobCardWrapper>
@@ -82,6 +86,9 @@ export default function JobCard({
     }
   };
 
+  // ExpandIcon 색상 결정 로직 (기존 스타일 유지)
+  const expandIconColor = theme?.colors.background === "#ffffff" ? "#94a3b8" : "#999";
+
   return (
     <JobCardWrapper>
       <JobCardHeader onClick={() => setIsOpen(!isOpen)}>
@@ -100,7 +107,7 @@ export default function JobCard({
         <JobActions>
           {data.result_url && data.status === "completed" && (
             <DownloadButton onClick={handleDownload} title={t("dashboard.downloadVideo")}>
-              <DownloadIcon>↓</DownloadIcon>
+              <DownloadIcon size="18px" color="currentColor" />
             </DownloadButton>
           )}
           <DeleteJobButton
@@ -110,9 +117,11 @@ export default function JobCard({
             }}
             title={t("dashboard.deleteJob")}
           >
-            <span>✕</span>
+            <CloseIcon size="20px" color="currentColor" />
           </DeleteJobButton>
-          <ExpandIcon $isOpen={isOpen}>▼</ExpandIcon>
+          <ExpandAction $isOpen={isOpen}>
+            <ExpandIcon size="24px" color={expandIconColor} />
+          </ExpandAction>
         </JobActions>
       </JobCardHeader>
 
@@ -345,11 +354,6 @@ const DownloadButton = styled.button`
   }
 `;
 
-const DownloadIcon = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-`;
-
 const DeleteJobButton = styled.button`
   width: 32px;
   height: 32px;
@@ -375,11 +379,16 @@ const DeleteJobButton = styled.button`
   }
 `;
 
-const ExpandIcon = styled.span<{ $isOpen: boolean }>`
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
+// 기존 ExpandIcon을 ExpandAction으로 변경 (아이콘 래퍼 역할)
+const ExpandAction = styled.div<{ $isOpen: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   transition: transform 0.3s ease;
   transform: ${({ $isOpen }) => ($isOpen ? "rotate(180deg)" : "rotate(0)")};
+  cursor: pointer;
 `;
 
 const JobCardBody = styled.div`

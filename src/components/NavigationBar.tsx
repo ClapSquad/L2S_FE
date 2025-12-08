@@ -21,6 +21,7 @@ import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
 import { useMe } from "@apis/hooks/useMe";
 import { useTheme } from "src/contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
+import { CoinIcon } from "@icons/CoinIcon";
 
 export default function NavigationBar() {
   const navigateBack = useNavigateBack();
@@ -60,7 +61,10 @@ export default function NavigationBar() {
             <>
               <UserInfoWrapper>
                 <Username>{data?.user.username}</Username>
-                <CreditBadge>{data?.user.credit}🪙</CreditBadge>
+                <CreditBadge>
+                  {data?.user.credit}
+                  <CoinIcon size="16px" color="#FFD700" />
+                </CreditBadge>
               </UserInfoWrapper>
               <PointButton onClick={() => mutate()}>
                 <LogoutIcon size="30" color={isDarkMode ? "black" : "white"} />

@@ -5,6 +5,8 @@ import {
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
 import { useTranslation } from "react-i18next";
+import { GlobeIcon } from "@icons/GlobeIcon";
+import { PaletteIcon } from "@icons/PaletteIcon";
 
 export default function AutomaticCaptionSection() {
   const [ref, isVisible] = useSlideInAnimation();
@@ -25,7 +27,9 @@ export default function AutomaticCaptionSection() {
 
           <FeatureList>
             <Feature>
-              <Icon>🌍</Icon>
+              <Icon>
+                <GlobeIcon size="24px" color="currentColor" />
+              </Icon>
               <FeatureText>
                 <FeatureTitle>{t('autoCaption.feature1Title')}</FeatureTitle>
                 <FeatureDescription>
@@ -34,7 +38,9 @@ export default function AutomaticCaptionSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>🎨</Icon>
+              <Icon>
+                <PaletteIcon size="24px" color="currentColor" />
+              </Icon>
               <FeatureText>
                 <FeatureTitle>{t('autoCaption.feature2Title')}</FeatureTitle>
                 <FeatureDescription>
@@ -106,8 +112,15 @@ const Feature = styled.div`
 `;
 
 const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 24px;
   line-height: 1;
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+  }
 `;
 
 const FeatureText = styled.div`
