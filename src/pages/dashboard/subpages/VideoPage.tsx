@@ -12,6 +12,17 @@ import { useDeleteJob } from "../hooks/useDeleteJob";
 import { useQueryClient } from "@tanstack/react-query";
 import JobCard from "../components/JobCard";
 import { useTranslation } from "react-i18next";
+import { GearIcon } from "@icons/GearIcon";
+import { BoltIcon } from "@icons/BoltIcon";
+import { SubtitlesIcon } from "@icons/SubtitlesIcon";
+import { SmartphoneIcon } from "@icons/SmartphoneIcon";
+import { SparkleIcon } from "@icons/SparkleIcon";
+import { WrenchIcon } from "@icons/WrenchIcon";
+import { WarningIcon } from "@icons/WarningIcon";
+import { TrashIcon } from "@icons/TrashIcon";
+import { DownloadIcon } from "@icons/DownloadIcon";
+import { ExpandIcon } from "@icons/ExpandIcon";
+import { CoinIcon } from "@icons/CoinIcon";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -48,7 +59,9 @@ export default function VideoPage() {
               }?video_id=${id}`}
               download
             >
-              <DownloadIcon>↓</DownloadIcon>
+              <DownloadIconWrapper>
+                <DownloadIcon size="18px" color="currentColor" />
+              </DownloadIconWrapper>
               {t("dashboard.downloadOriginal")}
             </DownloadButton>
           </HeaderContent>
@@ -86,7 +99,9 @@ export default function VideoPage() {
 
         <ProcessingCard>
           <CardHeader>
-            <CardIcon>⚙️</CardIcon>
+            <CardIcon>
+              <GearIcon size="32px" color="white" />
+            </CardIcon>
             <div>
               <CardTitle>{t("dashboard.processingConfig")}</CardTitle>
               <CardDescription>
@@ -99,7 +114,9 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>⚡</OptionIcon>
+                  <OptionIcon>
+                    <BoltIcon size="24px" color="currentColor" />
+                  </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>{t("dashboard.processingMethod")}</OptionTitle>
@@ -120,7 +137,9 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>💬</OptionIcon>
+                  <OptionIcon>
+                    <SubtitlesIcon size="24px" color="currentColor" />
+                  </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>{t("dashboard.subtitles")}</OptionTitle>
@@ -133,7 +152,9 @@ export default function VideoPage() {
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
-                  <OptionIcon>📱</OptionIcon>
+                  <OptionIcon>
+                    <SmartphoneIcon size="24px" color="currentColor" />
+                  </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>{t("dashboard.verticalFormat")}</OptionTitle>
@@ -171,8 +192,10 @@ export default function VideoPage() {
               </>
             ) : (
               <>
-                <ButtonIcon>✨</ButtonIcon>
                 {t("dashboard.generateShorts")}
+                <CoinIconWrapper>
+                  1<CoinIcon size="18px" color="#FFD700" />
+                </CoinIconWrapper>
               </>
             )}
           </GenerateButton>
@@ -214,10 +237,14 @@ export default function VideoPage() {
           <summary>
             <AccordionHeader>
               <AccordionTitle>
-                <span>🔧</span>
+                <WrenchIconWrapper>
+                  <WrenchIcon size="20px" color="currentColor" />
+                </WrenchIconWrapper>
                 {t("dashboard.technicalDetails")}
               </AccordionTitle>
-              <AccordionIcon>▼</AccordionIcon>
+              <AccordionIcon>
+                <ExpandIcon size="12px" color="currentColor" />
+              </AccordionIcon>
             </AccordionHeader>
           </summary>
           <DetailsContent>
@@ -242,7 +269,9 @@ export default function VideoPage() {
 
         <DangerZone>
           <DangerHeader>
-            <DangerIcon>⚠️</DangerIcon>
+            <DangerIcon>
+              <WarningIcon size="32px" color="currentColor" />
+            </DangerIcon>
             <div>
               <DangerTitle>{t("dashboard.dangerZone")}</DangerTitle>
               <DangerDescription>
@@ -251,7 +280,9 @@ export default function VideoPage() {
             </div>
           </DangerHeader>
           <DeleteButton onClick={() => mutateDelete(id)}>
-            <span>🗑️</span>
+            <TrashIconWrapper>
+              <TrashIcon size="20px" color="white" />
+            </TrashIconWrapper>
             {t("dashboard.deletePermanently")}
           </DeleteButton>
         </DangerZone>
@@ -338,9 +369,10 @@ const DownloadButton = styled.a`
   }
 `;
 
-const DownloadIcon = styled.span`
-  font-size: 18px;
-  font-weight: bold;
+const DownloadIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const VideoSection = styled.div`
@@ -530,7 +562,14 @@ const OptionIconWrapper = styled.div`
 `;
 
 const OptionIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 24px;
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+  }
 `;
 
 const OptionInfo = styled.div`
@@ -612,7 +651,16 @@ const GenerateButton = styled.button`
 `;
 
 const ButtonIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 22px;
+`;
+
+const CoinIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ButtonSpinner = styled.div`
@@ -681,7 +729,16 @@ const AccordionTitle = styled.div`
   }
 `;
 
+const WrenchIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const AccordionIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
   transition: transform 0.3s ease;
@@ -762,6 +819,10 @@ const DangerIcon = styled.div`
   background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#1a0000"};
   border-radius: 12px;
   border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#dc2626" : "#ff6b6b"};
+  }
 `;
 
 const DangerTitle = styled.h3`
@@ -776,6 +837,12 @@ const DangerDescription = styled.p`
   color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#b91c1c" : "#ff9999"};
   margin: 0;
   font-weight: 500;
+`;
+
+const TrashIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DeleteButton = styled.button`

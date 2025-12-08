@@ -4,6 +4,10 @@ import { useState } from "react";
 import VideoWithRetry from "./VideoWithRetry";
 import { formatDate } from "src/utils/timezone";
 import { useTranslation } from "react-i18next";
+import { DownloadIcon } from "@icons/DownloadIcon";
+import { CloseIcon } from "@icons/CloseIcon";
+import { ExpandIcon } from "@icons/ExpandIcon";
+import { WarningIcon } from "@icons/WarningIcon";
 
 export default function JobCard({
   job_id,
@@ -46,7 +50,7 @@ export default function JobCard({
             </StatusBadge>
           </JobInfo>
           <DeleteJobButton onClick={onDelete}>
-            <span>✕</span>
+            <CloseIcon size="16px" color="currentColor" />
           </DeleteJobButton>
         </JobCardHeader>
       </JobCardWrapper>
@@ -100,7 +104,7 @@ export default function JobCard({
         <JobActions>
           {data.result_url && data.status === "completed" && (
             <DownloadButton onClick={handleDownload} title={t("dashboard.downloadVideo")}>
-              <DownloadIcon>↓</DownloadIcon>
+              <DownloadIcon size="18px" color="white" />
             </DownloadButton>
           )}
           <DeleteJobButton
@@ -110,9 +114,11 @@ export default function JobCard({
             }}
             title={t("dashboard.deleteJob")}
           >
-            <span>✕</span>
+            <CloseIcon size="16px" color="currentColor" />
           </DeleteJobButton>
-          <ExpandIcon $isOpen={isOpen}>▼</ExpandIcon>
+          <ExpandIconWrapper $isOpen={isOpen}>
+            <ExpandIcon size="12px" color="currentColor" />
+          </ExpandIconWrapper>
         </JobActions>
       </JobCardHeader>
 
@@ -130,7 +136,9 @@ export default function JobCard({
           <JobDetails>
             {data.error_message && (
               <ErrorMessage>
-                <ErrorIcon>⚠️</ErrorIcon>
+                <ErrorIconWrapper>
+                  <WarningIcon size="20px" color="currentColor" />
+                </ErrorIconWrapper>
                 {data.error_message}
               </ErrorMessage>
             )}
@@ -345,10 +353,6 @@ const DownloadButton = styled.button`
   }
 `;
 
-const DownloadIcon = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-`;
 
 const DeleteJobButton = styled.button`
   width: 32px;
@@ -375,7 +379,10 @@ const DeleteJobButton = styled.button`
   }
 `;
 
-const ExpandIcon = styled.span<{ $isOpen: boolean }>`
+const ExpandIconWrapper = styled.span<{ $isOpen: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
   color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
   transition: transform 0.3s ease;
@@ -410,7 +417,10 @@ const ErrorMessage = styled.div`
   line-height: 1.5;
 `;
 
-const ErrorIcon = styled.span`
+const ErrorIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
 `;

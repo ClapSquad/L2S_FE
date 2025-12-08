@@ -33,7 +33,8 @@
       "@auth/*": ["src/pages/auth/*"],
       "@main/*": ["src/pages/main/*"],
       "@my/*": ["src/pages/my/*"],
-      "@apis/*": ["src/apis/*"]
+      "@apis/*": ["src/apis/*"],
+      "@icons/*": ["src/icons/*"]
     }
   },
   "include": ["src",

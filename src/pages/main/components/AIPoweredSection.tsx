@@ -5,6 +5,9 @@ import {
   useSlideInAnimation,
 } from "@main/hooks/useSlideInAnimation";
 import { useTranslation } from "react-i18next";
+import { BrainIcon } from "@icons/BrainIcon";
+import { ChartIcon } from "@icons/ChartIcon";
+import { GearIcon } from "@icons/GearIcon";
 
 export default function AIPoweredSection() {
   const [ref, isVisible] = useSlideInAnimation();
@@ -21,7 +24,9 @@ export default function AIPoweredSection() {
 
           <FeatureList>
             <Feature>
-              <Icon>🧠</Icon>
+              <Icon>
+                <BrainIcon size="24px" color="currentColor" />
+              </Icon>
               <FeatureText>
                 <FeatureTitle>{t('aiPowered.feature1Title')}</FeatureTitle>
                 <FeatureDescription>
@@ -30,7 +35,9 @@ export default function AIPoweredSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>📊</Icon>
+              <Icon>
+                <ChartIcon size="24px" color="currentColor" />
+              </Icon>
               <FeatureText>
                 <FeatureTitle>{t('aiPowered.feature2Title')}</FeatureTitle>
                 <FeatureDescription>
@@ -39,7 +46,9 @@ export default function AIPoweredSection() {
               </FeatureText>
             </Feature>
             <Feature>
-              <Icon>⚙️</Icon>
+              <Icon>
+                <GearIcon size="24px" color="currentColor" />
+              </Icon>
               <FeatureText>
                 <FeatureTitle>{t('aiPowered.feature3Title')}</FeatureTitle>
                 <FeatureDescription>
@@ -115,8 +124,15 @@ const Feature = styled.div`
 `;
 
 const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 24px;
   line-height: 1;
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+  }
 `;
 
 const FeatureText = styled.div`
