@@ -46,7 +46,7 @@
   },
   "aiPowered": {
     "title": "Resumen con Inteligencia Artificial",
-    "description": "Nuestra IA avanzada analiza tu contenido de formato largo e identifica automáticamente los momentos más atractivos. Usando un modelo de detección de momentos destacados de doble rama, Long2Short comprende el contexto, el movimiento y los patrones de participación de la audiencia para extraer los clips que tendrán mejor rendimiento.",
+    "description": "Nuestra IA avanzada analiza tu contenido de formato largo e identifica automáticamente los momentos más atractivos. Usando un modelo de detección de momentos destacados, Long2Short comprende el contexto, el movimiento y el audio para extraer los clips de mayor relevancia.",
     "feature1Title": "Análisis de contexto multimodal",
     "feature1Description": "Resumen de video basado en extracción de momentos destacados con conocimiento del contexto",
     "feature2Title": "Basado en datos reales",
@@ -146,7 +146,7 @@
   "errorPage": {
     "code": "502",
     "title": "Puerta de Enlace Incorrecta",
-    "description": "Nuestro servidor está tomando un descanso rápido. ¡No te preocupes, volverán a analizar tu contenido en un momento!",
+    "description": "Nuestro servidor está tomando un descanso rápido. ¡No te preocupes, volverá a analizar tu contenido en un momento!",
     "tryAgain": "Intentar de Nuevo",
     "whatToDo": "¿Qué debo hacer?",
     "details": "Por favor, actualiza la página o inténtalo de nuevo en unos momentos."
@@ -171,8 +171,8 @@
     "generateShorts": "Generar Cortos (1🪙)",
     "processing": "Procesando...",
     "generatedResults": "Resultados Generados",
-    "job": "trabajo",
-    "jobs": "trabajos",
+    "job": "Resumen",
+    "jobs": "Resúmenes",
     "technicalDetails": "Detalles Técnicos",
     "videoId": "ID de Video",
     "uploaderId": "ID de Cargador",
@@ -185,8 +185,8 @@
     "started": "Iniciado",
     "completed": "Completado",
     "downloadVideo": "Descargar video",
-    "deleteJob": "Eliminar trabajo",
+    "deleteJob": "Eliminar resumen",
     "loading": "Cargando...",
-    "errorLoading": "Error al cargar el trabajo"
+    "errorLoading": "Error al cargar el resumen"
   }
 }
