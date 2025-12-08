@@ -89,7 +89,7 @@ export default function VideoPage() {
         <ProcessingCard>
           <CardHeader>
             <CardIcon>
-              <GearIcon size="24px" color="#6366f1" />
+              <GearIcon size="24px" color="#ffffff" />
             </CardIcon>
             <div>
               <CardTitle>Processing Configuration</CardTitle>
