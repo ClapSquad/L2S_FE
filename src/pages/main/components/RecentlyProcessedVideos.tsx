@@ -7,6 +7,7 @@ import { useFetchRecentVideos } from "@main/hooks/useFetchRecentVideos";
 import { ClipLoader } from "react-spinners";
 import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import type { MethodType } from "@apis/types/job";
 
 export default function RecentlyProcessedVideos() {
   const [ref, isVisible] = useSlideInAnimation();
@@ -27,7 +28,7 @@ export default function RecentlyProcessedVideos() {
               key={video.id}
               id={video.id}
               user={video.user}
-              method={video.method as "llm_only" | "echofusion"}
+              method={video.method as MethodType}
               videoUrl={video.result_url}
               thumbnail={video.thumbnail_path}
               containerRef={containerRef}
@@ -46,7 +47,7 @@ interface VideoCardProps {
   videoUrl: string;
   thumbnail: string;
   user: string;
-  method: "llm_only" | "echofusion";
+  method: MethodType;
   containerRef: React.RefObject<HTMLDivElement | null>;
   isHovered: boolean;
   onHoverChange: (id: string | null) => void;
@@ -150,7 +151,8 @@ const RecentlyProcessedVideosWrapper = styled.div<{ $visible: boolean }>`
 const SectionTitle = styled.h2`
   font-size: 32px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#1a1a2e" : "white"};
   margin-bottom: 32px;
   text-align: center;
 `;

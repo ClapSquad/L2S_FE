@@ -1,3 +1,8 @@
+import type {
+  CropMethodType,
+  MethodType,
+  SubtitleStyleType,
+} from "@apis/types/job";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -6,9 +11,11 @@ import { API } from "src/apis/endpoints";
 
 interface SummarizeRequest {
   video_id: string;
-  method: "llm_only" | "echofusion";
+  method: MethodType;
   subtitle: boolean;
+  subtitle_style?: SubtitleStyleType;
   vertical: boolean;
+  crop_method?: CropMethodType;
 }
 
 interface SummarizeResponse {
