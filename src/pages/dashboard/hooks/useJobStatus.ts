@@ -13,6 +13,8 @@ type JobStatusData = {
   created_at: string;
   started_at: string;
   completed_at: string;
+  name: string;
+  public: boolean;
 };
 
 export function useJobStatus({ id }: { id: string }) {
