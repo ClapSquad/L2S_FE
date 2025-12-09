@@ -151,6 +151,37 @@ export default function VideoPage() {
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
 
+            {/* Subtitle Style Option */}
+            {subtitle && (
+              <OptionCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <SubtitlesIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
+                    <OptionDesc>
+                      {t("dashboard.chooseSubtitleStyle")}
+                    </OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+
+                <Select
+                  value={subtitleStyle ?? ""}
+                  onChange={(e) =>
+                    setSubtitleStyle(
+                      (e.target.value || null) as SubtitleStyleType
+                    )
+                  }
+                >
+                  <option value="dynamic">{t("dashboard.dynamicStyle")}</option>
+                  <option value="casual">{t("dashboard.casualStyle")}</option>
+                </Select>
+              </OptionCard>
+            )}
+
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
@@ -165,6 +196,33 @@ export default function VideoPage() {
               </OptionHeader>
               <ToggleButton isOn={vertical} setIsOn={setVertical} />
             </OptionCard>
+
+            {/* Crop Method Option */}
+            {vertical && (
+              <OptionCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <SmartphoneIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>{t("dashboard.cropMethod")}</OptionTitle>
+                    <OptionDesc>{t("dashboard.cropMethodDesc")}</OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+
+                <Select
+                  value={cropMethod ?? ""}
+                  onChange={(e) =>
+                    setCropMethod((e.target.value || null) as CropMethodType)
+                  }
+                >
+                  <option value="center">{t("dashboard.cropCenter")}</option>
+                  <option value="blur">{t("dashboard.cropBlur")}</option>
+                </Select>
+              </OptionCard>
+            )}
           </OptionsGrid>
 
           <GenerateButton
