@@ -114,7 +114,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <BoltIcon size="24px" color="currentColor" />
+                    <BoltIcon size="31px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -137,7 +137,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <SubtitlesIcon size="24px" color="currentColor" />
+                    <SubtitlesIcon size="31px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -152,7 +152,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <SmartphoneIcon size="24px" color="currentColor" />
+                    <SmartphoneIcon size="31px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -242,7 +242,7 @@ export default function VideoPage() {
                 {t("dashboard.technicalDetails")}
               </AccordionTitle>
               <AccordionIcon>
-                <ExpandIcon size="12px" color="currentColor" />
+                <ExpandIcon size="24px" color="currentColor" />
               </AccordionIcon>
             </AccordionHeader>
           </summary>

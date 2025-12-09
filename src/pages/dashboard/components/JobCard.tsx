@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { DownloadIcon } from "@icons/DownloadIcon";
 import { CloseIcon } from "@icons/CloseIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
+import { WarningIcon } from "@icons/WarningIcon";
 
 export default function JobCard({
   job_id,
@@ -139,7 +140,9 @@ export default function JobCard({
           <JobDetails>
             {data.error_message && (
               <ErrorMessage>
-                <ErrorIcon>⚠️</ErrorIcon>
+                <ErrorIconWrapper>
+                  <WarningIcon size="20px" color="currentColor" />
+                </ErrorIconWrapper>
                 {data.error_message}
               </ErrorMessage>
             )}
@@ -419,9 +422,15 @@ const ErrorMessage = styled.div`
   line-height: 1.5;
 `;
 
-const ErrorIcon = styled.span`
-  font-size: 20px;
+const ErrorIconWrapper = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+
+  svg {
+    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#dc2626" : "#fca5a5"};
+  }
 `;
 
 const Timeline = styled.div`
