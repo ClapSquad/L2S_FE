@@ -45,7 +45,7 @@ export default function NavigationBar() {
         <SettingModal onClose={close} />
       </Modal>
       <NavigationBarWrapper>
-        {isHomePage ? (
+        {/* {isHomePage ? (
           <Button onClick={() => navigate(routePath.HOME)}>
             <TitleImage src={titleimage} alt="Title image" size="250px" />
           </Button>
@@ -53,7 +53,11 @@ export default function NavigationBar() {
           <Button onClick={() => navigateBack()}>
             <ArrowBackIcon size="30" color={isDarkMode ? "white" : "black"} />
           </Button>
-        )}
+        )} */}
+
+        <Button onClick={() => navigate(routePath.HOME)}>
+          <TitleImage src={titleimage} alt="Title image" size="250px" />
+        </Button>
 
         <ButtonSet>
           {isLoggedIn ? (
@@ -73,7 +77,10 @@ export default function NavigationBar() {
               )}
               {!isMyPage && (
                 <Button onClick={() => navigate(routePath.MY)}>
-                  <AccountCircleIcon size="30" color={isDarkMode ? "white" : "black"} />
+                  <AccountCircleIcon
+                    size="30"
+                    color={isDarkMode ? "white" : "black"}
+                  />
                 </Button>
               )}
             </>
