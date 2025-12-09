@@ -3,13 +3,22 @@ import a from "../assets/Long2ShortTextHorizontal.png";
 import { useNavigate } from "react-router-dom";
 import routePath from "@router/routePath";
 import { useTranslation } from "react-i18next";
+import { useContext } from "react";
+import { AuthContext } from "src/contexts/AuthContext";
 
 export default function HeroSection() {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
 
   const handleGetStarted = () => {
-    navigate(routePath.REGISTER);
+    if (user) {
+      // 로그인된 상태: Dashboard로 이동
+      navigate(routePath.DASHBOARD);
+    } else {
+      // 로그아웃 상태: Registration 페이지로 이동
+      navigate(routePath.REGISTER);
+    }
   };
 
   return (
