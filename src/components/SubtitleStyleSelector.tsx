@@ -46,7 +46,7 @@ export default function SubtitleStyleSelector({
         onClick={() => onChange("casual")}
       >
         <StyleName>Casual</StyleName>
-        <StyleDescription>Animated word-by-word with casual font</StyleDescription>
+        <StyleDescription>Yellow, black border, bottom</StyleDescription>
         <CasualPreviewContainer>
           <CasualWord className="casual-preview-word">THIS</CasualWord>
           <CasualWord className="casual-preview-word">IS</CasualWord>
@@ -59,7 +59,7 @@ export default function SubtitleStyleSelector({
         onClick={() => onChange("dynamic")}
       >
         <StyleName>Dynamic</StyleName>
-        <StyleDescription>Animated word-by-word emphasis</StyleDescription>
+        <StyleDescription>Green, black border, center</StyleDescription>
         <DynamicPreviewContainer>
           <DynamicWord className="dynamic-preview-word">THIS</DynamicWord>
           <DynamicWord className="dynamic-preview-word">IS</DynamicWord>
