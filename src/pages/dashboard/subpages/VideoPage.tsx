@@ -22,6 +22,8 @@ import { TrashIcon } from "@icons/TrashIcon";
 import { DownloadIcon } from "@icons/DownloadIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
 import { CoinIcon } from "@icons/CoinIcon";
+import { PaletteIcon } from "@icons/PaletteIcon";
+import SubtitleStyleSelector, { type SubtitleStyle } from "@components/SubtitleStyleSelector";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -37,6 +39,7 @@ export default function VideoPage() {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyle>("casual");
   const [vertical, setVertical] = useState(false);
 
   const queryClient = useQueryClient();
@@ -147,6 +150,26 @@ export default function VideoPage() {
               </OptionHeader>
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
+
+            {subtitle && (
+              <SubtitleStyleCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <PaletteIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>Subtitle Style</OptionTitle>
+                    <OptionDesc>Choose your subtitle appearance</OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+                <SubtitleStyleSelector
+                  value={subtitleStyle}
+                  onChange={setSubtitleStyle}
+                />
+              </SubtitleStyleCard>
+            )}
 
             <OptionCard>
               <OptionHeader>
@@ -457,6 +480,15 @@ const Video = styled.video`
   height: 100%;
   object-fit: contain;
   transition: opacity 0.4s ease;
+`;
+
+const SubtitleStyleCard = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  grid-column: 1 / -1;
 `;
 
 const ProcessingCard = styled.div`
