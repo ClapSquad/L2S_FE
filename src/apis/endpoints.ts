@@ -33,6 +33,7 @@ export const API = {
       MY: "/runpod/job/my",
       DELETE: (id: string) => `/runpod/job/${id}`,
       STATUS: (id: string) => `/runpod/job/${id}/status`,
+      PUBLIC: "/runpod/job/public",
     },
   },
 } as const;

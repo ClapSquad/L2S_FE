@@ -8,6 +8,7 @@ import { DownloadIcon } from "@icons/DownloadIcon";
 import { CloseIcon } from "@icons/CloseIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
 import { WarningIcon } from "@icons/WarningIcon";
+import { useChangePublicityOfJob } from "../hooks/useChangePublicityOfJob";
 
 export default function JobCard({
   job_id,
@@ -22,6 +23,14 @@ export default function JobCard({
   const theme = useTheme();
   const { data, isLoading, isError } = useJobStatus({ id: job_id });
   const [isOpen, setIsOpen] = useState(false);
+
+  const { mutate, isPending } = useChangePublicityOfJob();
+
+  const handleTogglePublicity = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!data || isPending) return;
+    mutate({ job_id, public: !data.public });
+  };
 
   if (isLoading) {
     return (
@@ -87,8 +96,8 @@ export default function JobCard({
     }
   };
 
-  // ExpandIcon 색상 결정 로직 (기존 스타일 유지)
-  const expandIconColor = theme?.colors.background === "#ffffff" ? "#94a3b8" : "#999";
+  const expandIconColor =
+    theme?.colors.background === "#ffffff" ? "#94a3b8" : "#999";
 
   return (
     <JobCardWrapper>
@@ -106,8 +115,30 @@ export default function JobCard({
           </JobMeta>
         </JobInfo>
         <JobActions>
+          {/* Publicity Toggle Button */}
+          <PublicityToggle
+            onClick={handleTogglePublicity}
+            $isPublic={data.public}
+            $isPending={isPending}
+            title={
+              data.public
+                ? t("dashboard.makePrivate")
+                : t("dashboard.makePublic")
+            }
+          >
+            <ToggleTrack $isPublic={data.public}>
+              <ToggleThumb $isPublic={data.public} />
+            </ToggleTrack>
+            <PublicityLabel $isPublic={data.public}>
+              {isPending ? "..." : data.public ? "Public" : "Private"}
+            </PublicityLabel>
+          </PublicityToggle>
+
           {data.result_url && data.status === "completed" && (
-            <DownloadButton onClick={handleDownload} title={t("dashboard.downloadVideo")}>
+            <DownloadButton
+              onClick={handleDownload}
+              title={t("dashboard.downloadVideo")}
+            >
               <DownloadIcon size="18px" color="currentColor" />
             </DownloadButton>
           )}
@@ -172,10 +203,98 @@ export default function JobCard({
   );
 }
 
-const JobCardWrapper = styled.div`
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#000"};
+// ... 기존 styled-components 유지 ...
+
+// 새로 추가할 스타일 컴포넌트들
+const PublicityToggle = styled.button<{
+  $isPublic: boolean;
+  $isPending: boolean;
+}>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: ${({ theme, $isPublic }) =>
+    theme.colors.background === "#ffffff"
+      ? $isPublic
+        ? "#dcfce7"
+        : "#f1f5f9"
+      : $isPublic
+      ? "#064e3b"
+      : "#333"};
+  border: 1px solid
+    ${({ theme, $isPublic }) =>
+      theme.colors.background === "#ffffff"
+        ? $isPublic
+          ? "#86efac"
+          : "#e2e8f0"
+        : $isPublic
+        ? "#10b981"
+        : "#555"};
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#666"};
+  cursor: ${({ $isPending }) => ($isPending ? "wait" : "pointer")};
+  opacity: ${({ $isPending }) => ($isPending ? 0.7 : 1)};
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: ${({ $isPending }) => ($isPending ? "none" : "scale(1.02)")};
+    background: ${({ theme, $isPublic }) =>
+      theme.colors.background === "#ffffff"
+        ? $isPublic
+          ? "#bbf7d0"
+          : "#e2e8f0"
+        : $isPublic
+        ? "#065f46"
+        : "#444"};
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const ToggleTrack = styled.div<{ $isPublic: boolean }>`
+  width: 32px;
+  height: 18px;
+  background: ${({ $isPublic }) => ($isPublic ? "#10b981" : "#94a3b8")};
+  border-radius: 9px;
+  position: relative;
+  transition: background 0.2s ease;
+`;
+
+const ToggleThumb = styled.div<{ $isPublic: boolean }>`
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: ${({ $isPublic }) => ($isPublic ? "16px" : "2px")};
+  transition: left 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+`;
+
+const PublicityLabel = styled.span<{ $isPublic: boolean }>`
+  font-size: 12px;
+  font-weight: 600;
+  color: ${({ theme, $isPublic }) =>
+    theme.colors.background === "#ffffff"
+      ? $isPublic
+        ? "#059669"
+        : "#64748b"
+      : $isPublic
+      ? "#6ee7b7"
+      : "#999"};
+  min-width: 45px;
+`;
+
+const JobCardWrapper = styled.div`
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "white" : "#000"};
+  border-radius: 20px;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e2e8f0" : "#666"};
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: ${({ theme }) =>
@@ -184,7 +303,8 @@ const JobCardWrapper = styled.div`
       : "0 8px 24px rgba(255, 255, 255, 0.25)"};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "#777"};
+    border-color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#cbd5e1" : "#777"};
   }
 `;
 
@@ -197,7 +317,8 @@ const JobCardHeader = styled.div`
   transition: background 0.2s ease;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   }
 `;
 
@@ -211,7 +332,8 @@ const JobInfo = styled.div`
 const JobId = styled.div`
   font-size: 14px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#475569" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#475569" : "white"};
   font-family: "Monaco", monospace;
 `;
 
@@ -225,8 +347,10 @@ const JobMeta = styled.div`
 const MethodBadge = styled.span`
   font-size: 12px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#eef2ff" : "#333"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#eef2ff" : "#333"};
   padding: 4px 12px;
   border-radius: 8px;
   text-transform: uppercase;
@@ -363,8 +487,10 @@ const DeleteJobButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f0f0f0" : "#333"};
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#000000" : "white"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#f0f0f0" : "#333"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#000000" : "white"};
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -396,7 +522,9 @@ const ExpandAction = styled.div<{ $isOpen: boolean }>`
 
 const JobCardBody = styled.div`
   padding: 0 24px 24px;
-  border-top: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#555"};
+  border-top: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#f1f5f9" : "#555"};
 `;
 
 const VideoResult = styled.div`
@@ -414,10 +542,14 @@ const ErrorMessage = styled.div`
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fef2f2" : "#7f1d1d"};
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#fef2f2" : "#7f1d1d"};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
   border-radius: 12px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#991b1b" : "#fca5a5"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#991b1b" : "#fca5a5"};
   font-size: 14px;
   line-height: 1.5;
 `;
@@ -429,7 +561,8 @@ const ErrorIconWrapper = styled.span`
   flex-shrink: 0;
 
   svg {
-    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#dc2626" : "#fca5a5"};
+    color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#dc2626" : "#fca5a5"};
   }
 `;
 
@@ -438,7 +571,8 @@ const Timeline = styled.div`
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   border-radius: 12px;
 `;
 
@@ -451,11 +585,13 @@ const TimelineItem = styled.div`
 const TimelineLabel = styled.span`
   font-size: 13px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
 `;
 
 const TimelineValue = styled.span`
   font-size: 13px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#334155" : "white"};
   font-family: "Monaco", monospace;
 `;
