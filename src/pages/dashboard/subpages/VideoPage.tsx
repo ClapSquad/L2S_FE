@@ -22,8 +22,11 @@ import { TrashIcon } from "@icons/TrashIcon";
 import { DownloadIcon } from "@icons/DownloadIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
 import { CoinIcon } from "@icons/CoinIcon";
-
-type MethodType = "llm_only" | "echofusion";
+import type {
+  CropMethodType,
+  MethodType,
+  SubtitleStyleType,
+} from "@apis/types/job";
 
 export default function VideoPage() {
   const id = useParams().id!;
@@ -38,6 +41,8 @@ export default function VideoPage() {
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
   const [vertical, setVertical] = useState(false);
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyleType>(null);
+  const [cropMethod, setCropMethod] = useState<CropMethodType>(null);
 
   const queryClient = useQueryClient();
 
@@ -119,9 +124,7 @@ export default function VideoPage() {
                 </OptionIconWrapper>
                 <OptionInfo>
                   <OptionTitle>{t("dashboard.processingMethod")}</OptionTitle>
-                  <OptionDesc>
-                    {t("dashboard.chooseAlgorithm")}
-                  </OptionDesc>
+                  <OptionDesc>{t("dashboard.chooseAlgorithm")}</OptionDesc>
                 </OptionInfo>
               </OptionHeader>
               <Select
@@ -148,6 +151,37 @@ export default function VideoPage() {
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
 
+            {/* Subtitle Style Option */}
+            {subtitle && (
+              <OptionCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <SubtitlesIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
+                    <OptionDesc>
+                      {t("dashboard.chooseSubtitleStyle")}
+                    </OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+
+                <Select
+                  value={subtitleStyle ?? ""}
+                  onChange={(e) =>
+                    setSubtitleStyle(
+                      (e.target.value || null) as SubtitleStyleType
+                    )
+                  }
+                >
+                  <option value="dynamic">{t("dashboard.dynamicStyle")}</option>
+                  <option value="casual">{t("dashboard.casualStyle")}</option>
+                </Select>
+              </OptionCard>
+            )}
+
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
@@ -162,6 +196,33 @@ export default function VideoPage() {
               </OptionHeader>
               <ToggleButton isOn={vertical} setIsOn={setVertical} />
             </OptionCard>
+
+            {/* Crop Method Option */}
+            {vertical && (
+              <OptionCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <SmartphoneIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>{t("dashboard.cropMethod")}</OptionTitle>
+                    <OptionDesc>{t("dashboard.cropMethodDesc")}</OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+
+                <Select
+                  value={cropMethod ?? ""}
+                  onChange={(e) =>
+                    setCropMethod((e.target.value || null) as CropMethodType)
+                  }
+                >
+                  <option value="center">{t("dashboard.cropCenter")}</option>
+                  <option value="blur">{t("dashboard.cropBlur")}</option>
+                </Select>
+              </OptionCard>
+            )}
           </OptionsGrid>
 
           <GenerateButton
@@ -171,7 +232,9 @@ export default function VideoPage() {
                   video_id: id,
                   method,
                   subtitle,
+                  subtitle_style: subtitleStyle,
                   vertical,
+                  crop_method: cropMethod,
                 },
                 {
                   onSuccess: () => {
@@ -205,7 +268,10 @@ export default function VideoPage() {
             <SectionHeader>
               <SectionTitle>{t("dashboard.generatedResults")}</SectionTitle>
               <JobCount>
-                {jobData.length} {jobData.length === 1 ? t("dashboard.job") : t("dashboard.jobs")}
+                {jobData.length}{" "}
+                {jobData.length === 1
+                  ? t("dashboard.job")
+                  : t("dashboard.jobs")}
               </JobCount>
             </SectionHeader>
             <JobsList>
@@ -291,7 +357,8 @@ export default function VideoPage() {
 }
 
 const DashBoardPageWrapper = styled.div`
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#ffffff" : "#000"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#ffffff" : "#000"};
   height: calc(100vh - 150px);
   padding: 40px 20px;
   overflow-y: auto;
@@ -335,7 +402,8 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "white"};
   margin: 0;
   font-weight: 400;
 `;
@@ -388,16 +456,19 @@ const SectionHeader = styled.div`
 const SectionTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin: 0;
 `;
 
 const VideoDuration = styled.span`
   font-size: 13px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   font-weight: 500;
   padding: 6px 12px;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
   border-radius: 8px;
 `;
 
@@ -460,7 +531,8 @@ const Video = styled.video`
 `;
 
 const ProcessingCard = styled.div`
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border-radius: 24px;
   padding: 40px;
   margin-bottom: 32px;
@@ -468,7 +540,9 @@ const ProcessingCard = styled.div`
     theme.colors.background === "#ffffff"
       ? "0 2px 6px rgba(0, 0, 0, 0.05)"
       : "0 8px 24px rgba(255, 255, 255, 0.25)"};
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   transition: all 0.3s ease;
 
   @media (max-width: 768px) {
@@ -498,13 +572,15 @@ const CardIcon = styled.div`
 const CardTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin: 0 0 4px 0;
 `;
 
 const CardDescription = styled.p`
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   margin: 0;
 `;
 
@@ -525,12 +601,16 @@ const OptionCard = styled.div`
       ? "linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)"
       : "#333"};
   border-radius: 16px;
-  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "transparent"};
+  border: 2px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e2e8f0" : "transparent"};
   transition: all 0.3s ease;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#444"};
-    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "transparent"};
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "white" : "#444"};
+    border-color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#cbd5e1" : "transparent"};
     transform: translateY(-2px);
     box-shadow: ${({ theme }) =>
       theme.colors.background === "#ffffff"
@@ -552,7 +632,8 @@ const OptionIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "white" : "#222"};
   border-radius: 12px;
   box-shadow: ${({ theme }) =>
     theme.colors.background === "#ffffff"
@@ -567,7 +648,8 @@ const OptionIcon = styled.div`
   font-size: 24px;
 
   svg {
-    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
+    color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#667eea" : "#a5b4fc"};
   }
 `;
 
@@ -578,30 +660,37 @@ const OptionInfo = styled.div`
 const OptionTitle = styled.div`
   font-size: 16px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   margin-bottom: 4px;
 `;
 
 const OptionDesc = styled.div`
   font-size: 13px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   line-height: 1.4;
 `;
 
 const Select = styled.select`
   padding: 12px 18px;
-  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
+  border: 2px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
   border-radius: 12px;
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#334155" : "white"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "white" : "#222"};
   cursor: pointer;
   transition: all 0.2s ease;
   min-width: 200px;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#cbd5e1" : "#666"};
+    border-color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#cbd5e1" : "#666"};
   }
 
   &:focus {
@@ -611,8 +700,10 @@ const Select = styled.select`
   }
 
   option {
-    background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#222"};
-    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
+    background: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "white" : "#222"};
+    color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#334155" : "white"};
   }
 `;
 
@@ -675,7 +766,8 @@ const JobsList = styled.div`
 `;
 
 const DetailsAccordion = styled.details`
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 32px;
@@ -683,7 +775,9 @@ const DetailsAccordion = styled.details`
     theme.colors.background === "#ffffff"
       ? "0 2px 6px rgba(0, 0, 0, 0.05)"
       : "0 8px 24px rgba(255, 255, 255, 0.25)"};
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e5e7eb" : "#666"};
   transition: all 0.3s ease;
 
   summary {
@@ -713,7 +807,8 @@ const AccordionTitle = styled.div`
   gap: 12px;
   font-size: 16px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#1e293b" : "white"};
   transition: color 0.2s ease;
 
   &:hover {
@@ -732,7 +827,8 @@ const AccordionIcon = styled.span`
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#94a3b8" : "#999"};
   transition: transform 0.3s ease;
 
   details[open] & {
@@ -743,7 +839,9 @@ const AccordionIcon = styled.span`
 const DetailsContent = styled.div`
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
+  border-top: 2px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#f1f5f9" : "#333"};
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -763,21 +861,26 @@ const DetailRow = styled.div`
 const DetailLabel = styled.span`
   font-size: 14px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#64748b" : "#999"};
   min-width: 130px;
   flex-shrink: 0;
 `;
 
 const DetailValue = styled.span`
   font-size: 13px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#334155" : "white"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#334155" : "white"};
   word-break: break-all;
   font-family: "Monaco", "Courier New", monospace;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#f8fafc" : "#333"};
   padding: 8px 12px;
   border-radius: 8px;
   flex: 1;
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
+  border: 1px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
 `;
 
 const DangerZone = styled.div`
@@ -785,7 +888,9 @@ const DangerZone = styled.div`
     theme.colors.background === "#ffffff"
       ? "linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)"
       : "#000"};
-  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
+  border: 2px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
   border-radius: 20px;
   padding: 28px;
   box-shadow: ${({ theme }) =>
@@ -808,25 +913,31 @@ const DangerIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#1a0000"};
+  background: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "white" : "#1a0000"};
   border-radius: 12px;
-  border: 2px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
+  border: 2px solid
+    ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#fecaca" : "#dc2626"};
 
   svg {
-    color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#dc2626" : "#ff6b6b"};
+    color: ${({ theme }) =>
+      theme.colors.background === "#ffffff" ? "#dc2626" : "#ff6b6b"};
   }
 `;
 
 const DangerTitle = styled.h3`
   font-size: 20px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#991b1b" : "#ff6b6b"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#991b1b" : "#ff6b6b"};
   margin: 0 0 4px 0;
 `;
 
 const DangerDescription = styled.p`
   font-size: 13px;
-  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#b91c1c" : "#ff9999"};
+  color: ${({ theme }) =>
+    theme.colors.background === "#ffffff" ? "#b91c1c" : "#ff9999"};
   margin: 0;
   font-weight: 500;
 `;

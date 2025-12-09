@@ -187,6 +187,14 @@
     "downloadVideo": "Descargar video",
     "deleteJob": "Eliminar resumen",
     "loading": "Cargando...",
-    "errorLoading": "Error al cargar el resumen"
+    "errorLoading": "Error al cargar el resumen",
+    "cropMethod": "Método de recortado",
+    "chooseSubtitleStyle": "Escoja el estilo de los subtítulos",
+    "subtitleStyle": "Estilo de Subtítulos",
+    "cropMethodDesc": "Escoja el método de recortado",
+    "dynamicStyle": "Dinámico",
+    "casualStyle": "Casual",
+    "cropCenter": "Centro, cortar los lados",
+    "cropBlur": "Fondo borroso, sin cortes"
   }
 }
