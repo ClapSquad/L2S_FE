@@ -160,8 +160,8 @@ export default function VideoPage() {
                     </OptionIcon>
                   </OptionIconWrapper>
                   <OptionInfo>
-                    <OptionTitle>Subtitle Style</OptionTitle>
-                    <OptionDesc>Choose your subtitle appearance</OptionDesc>
+                    <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
+                    <OptionDesc>{t("dashboard.chooseAppearance")}</OptionDesc>
                   </OptionInfo>
                 </OptionHeader>
                 <SubtitleStyleSelector
