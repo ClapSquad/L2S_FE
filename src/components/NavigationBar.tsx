@@ -15,15 +15,12 @@ import { useIsLoggedIn } from "@hooks/useIsLoggedIn";
 import { LogoutIcon } from "src/icons/LogoutIcon";
 import { AccountCircleIcon } from "src/icons/AccountCircleIcon";
 import { useLogout } from "@apis/hooks/useLogout";
-import { useNavigateBack } from "@hooks/userNavigateBack";
-import { ArrowBackIcon } from "src/icons/ArrowBackIcon";
 import titleimage from "@main/assets/Long2ShortTextHorizontal.png";
 import { useMe } from "@apis/hooks/useMe";
 import { useTheme } from "src/contexts/ThemeContext";
 import { useTranslation } from "react-i18next";
 
 export default function NavigationBar() {
-  const navigateBack = useNavigateBack();
   const navigate = useNavigate();
   const { isOpen, open, close } = useModal();
   const isLoggedIn = useIsLoggedIn();
@@ -33,7 +30,6 @@ export default function NavigationBar() {
   const isAuthPage =
     location.pathname === routePath.LOGIN ||
     location.pathname === routePath.REGISTER;
-  const isHomePage = location.pathname === routePath.HOME;
   const isDashboardPage = location.pathname === routePath.DASHBOARD;
   const { data } = useMe();
   const { isDarkMode } = useTheme();
