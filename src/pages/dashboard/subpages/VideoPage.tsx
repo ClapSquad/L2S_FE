@@ -27,6 +27,8 @@ import type {
   MethodType,
   SubtitleStyleType,
 } from "@apis/types/job";
+import { PaletteIcon } from "@icons/PaletteIcon";
+import SubtitleStyleSelector, { type SubtitleStyle } from "@components/SubtitleStyleSelector";
 
 export default function VideoPage() {
   const id = useParams().id!;
@@ -40,8 +42,8 @@ export default function VideoPage() {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyle>("casual");
   const [vertical, setVertical] = useState(false);
-  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyleType>(null);
   const [cropMethod, setCropMethod] = useState<CropMethodType>(null);
 
   const queryClient = useQueryClient();
@@ -151,35 +153,24 @@ export default function VideoPage() {
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
 
-            {/* Subtitle Style Option */}
             {subtitle && (
-              <OptionCard>
+              <SubtitleStyleCard>
                 <OptionHeader>
                   <OptionIconWrapper>
                     <OptionIcon>
-                      <SubtitlesIcon size="31px" color="currentColor" />
+                      <PaletteIcon size="31px" color="currentColor" />
                     </OptionIcon>
                   </OptionIconWrapper>
                   <OptionInfo>
                     <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
-                    <OptionDesc>
-                      {t("dashboard.chooseSubtitleStyle")}
-                    </OptionDesc>
+                    <OptionDesc>{t("dashboard.chooseSubtitleStyle")}</OptionDesc>
                   </OptionInfo>
                 </OptionHeader>
-
-                <Select
-                  value={subtitleStyle ?? ""}
-                  onChange={(e) =>
-                    setSubtitleStyle(
-                      (e.target.value || null) as SubtitleStyleType
-                    )
-                  }
-                >
-                  <option value="dynamic">{t("dashboard.dynamicStyle")}</option>
-                  <option value="casual">{t("dashboard.casualStyle")}</option>
-                </Select>
-              </OptionCard>
+                <SubtitleStyleSelector
+                  value={subtitleStyle}
+                  onChange={setSubtitleStyle}
+                />
+              </SubtitleStyleCard>
             )}
 
             <OptionCard>
@@ -528,6 +519,15 @@ const Video = styled.video`
   height: 100%;
   object-fit: contain;
   transition: opacity 0.4s ease;
+`;
+
+const SubtitleStyleCard = styled.div`
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  grid-column: 1 / -1;
 `;
 
 const ProcessingCard = styled.div`
