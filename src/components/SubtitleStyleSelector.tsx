@@ -79,29 +79,41 @@ const SelectorWrapper = styled.div`
 
 const StyleOption = styled.div<{ $active: boolean }>`
   padding: 16px;
-  border: 2px solid ${({ $active }) => ($active ? "#9333ea" : "#e5e7eb")};
+  border: 2px solid ${({ $active, theme }) =>
+    $active
+      ? (theme.colors.background === "#ffffff" ? "#9333ea" : "#6b7280")
+      : (theme.colors.background === "#ffffff" ? "#e5e7eb" : "#555")};
   border-radius: 8px;
-  background: ${({ $active }) => ($active ? "#f3e8ff" : "white")};
+  background: ${({ $active, theme }) =>
+    $active
+      ? (theme.colors.background === "#ffffff" ? "#f3e8ff" : "#5b5b57ff")
+      : (theme.colors.background === "#ffffff" ? "white" : "#333")};
   cursor: pointer;
   transition: all 0.2s ease;
   min-height: 140px;
 
   &:hover {
-    border-color: ${({ $active }) => ($active ? "#9333ea" : "#d1d5db")};
-    background: ${({ $active }) => ($active ? "#f3e8ff" : "#f9fafb")};
+    border-color: ${({ $active, theme }) =>
+      $active
+        ? (theme.colors.background === "#ffffff" ? "#9333ea" : "#6b7280")
+        : (theme.colors.background === "#ffffff" ? "#d1d5db" : "#666")};
+    background: ${({ $active, theme }) =>
+      $active
+        ? (theme.colors.background === "#ffffff" ? "#f3e8ff" : "#5b5b57ff")
+        : (theme.colors.background === "#ffffff" ? "#f9fafb" : "#444")};
   }
 `;
 
 const StyleName = styled.div`
   font-size: 14px;
   font-weight: 600;
-  color: #1f2937;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#1f2937" : "white"};
   margin-bottom: 4px;
 `;
 
 const StyleDescription = styled.div`
   font-size: 12px;
-  color: #6b7280;
+  color: ${({ theme }) => theme.colors.background === "#ffffff" ? "#6b7280" : "#999"};
   margin-bottom: 8px;
 `;
 
