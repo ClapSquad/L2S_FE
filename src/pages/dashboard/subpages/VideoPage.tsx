@@ -163,7 +163,7 @@ export default function VideoPage() {
                   </OptionIconWrapper>
                   <OptionInfo>
                     <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
-                    <OptionDesc>{t("dashboard.chooseSubtitleStyle")}</OptionDesc>
+                    <OptionDesc>{t("dashboard.chooseAppearance")}</OptionDesc>
                   </OptionInfo>
                 </OptionHeader>
                 <SubtitleStyleSelector

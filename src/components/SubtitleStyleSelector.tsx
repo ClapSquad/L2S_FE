@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export type SubtitleStyle = "casual" | "dynamic";
 
@@ -12,6 +13,7 @@ export default function SubtitleStyleSelector({
   value,
   onChange,
 }: SubtitleStyleSelectorProps) {
+  const { t } = useTranslation();
   useEffect(() => {
     // Start animations for dynamic and casual
     const animationInterval = setInterval(() => {
@@ -45,8 +47,8 @@ export default function SubtitleStyleSelector({
         $active={value === "casual"}
         onClick={() => onChange("casual")}
       >
-        <StyleName>Casual</StyleName>
-        <StyleDescription>Yellow, black border, bottom</StyleDescription>
+        <StyleName>{t("dashboard.casualStyle")}</StyleName>
+        <StyleDescription>{t("dashboard.casualDesc")}</StyleDescription>
         <CasualPreviewContainer>
           <CasualWord className="casual-preview-word">THIS</CasualWord>
           <CasualWord className="casual-preview-word">IS</CasualWord>
@@ -58,8 +60,8 @@ export default function SubtitleStyleSelector({
         $active={value === "dynamic"}
         onClick={() => onChange("dynamic")}
       >
-        <StyleName>Dynamic</StyleName>
-        <StyleDescription>Green, black border, center</StyleDescription>
+        <StyleName>{t("dashboard.dynamicStyle")}</StyleName>
+        <StyleDescription>{t("dashboard.dynamicDesc")}</StyleDescription>
         <DynamicPreviewContainer>
           <DynamicWord className="dynamic-preview-word">THIS</DynamicWord>
           <DynamicWord className="dynamic-preview-word">IS</DynamicWord>
