@@ -22,6 +22,8 @@ import { TrashIcon } from "@icons/TrashIcon";
 import { DownloadIcon } from "@icons/DownloadIcon";
 import { ExpandIcon } from "@icons/ExpandIcon";
 import { CoinIcon } from "@icons/CoinIcon";
+import { PaletteIcon } from "@icons/PaletteIcon";
+import SubtitleStyleSelector, { type SubtitleStyle } from "@components/SubtitleStyleSelector";
 
 type MethodType = "llm_only" | "echofusion";
 
@@ -37,6 +39,7 @@ export default function VideoPage() {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyle>("casual");
   const [vertical, setVertical] = useState(false);
 
   const queryClient = useQueryClient();
@@ -148,6 +151,26 @@ export default function VideoPage() {
               <ToggleButton isOn={subtitle} setIsOn={setSubtitle} />
             </OptionCard>
 
+            {subtitle && (
+              <SubtitleStyleCard>
+                <OptionHeader>
+                  <OptionIconWrapper>
+                    <OptionIcon>
+                      <PaletteIcon size="31px" color="currentColor" />
+                    </OptionIcon>
+                  </OptionIconWrapper>
+                  <OptionInfo>
+                    <OptionTitle>{t("dashboard.subtitleStyle")}</OptionTitle>
+                    <OptionDesc>{t("dashboard.chooseAppearance")}</OptionDesc>
+                  </OptionInfo>
+                </OptionHeader>
+                <SubtitleStyleSelector
+                  value={subtitleStyle}
+                  onChange={setSubtitleStyle}
+                />
+              </SubtitleStyleCard>
+            )}
+
             <OptionCard>
               <OptionHeader>
                 <OptionIconWrapper>
@@ -171,6 +194,7 @@ export default function VideoPage() {
                   video_id: id,
                   method,
                   subtitle,
+                  subtitle_style: subtitle ? subtitleStyle : null,
                   vertical,
                 },
                 {
@@ -513,6 +537,18 @@ const OptionsGrid = styled.div`
   flex-direction: column;
   gap: 16px;
   margin-bottom: 32px;
+`;
+
+const SubtitleStyleCard = styled.div`
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#333"};
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 16px rgba(0, 0, 0, 0.04)"
+      : "0 4px 16px rgba(255, 255, 255, 0.1)"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
+  grid-column: 1 / -1;
 `;
 
 const OptionCard = styled.div`

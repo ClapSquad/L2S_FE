@@ -3,11 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { axiosInstance } from "src/apis/axiosInstance";
 import { API } from "src/apis/endpoints";
+import type { SubtitleStyle } from "@components/SubtitleStyleSelector";
 
 interface SummarizeRequest {
   video_id: string;
   method: "llm_only" | "echofusion";
   subtitle: boolean;
+  subtitle_style?: SubtitleStyle | null;
   vertical: boolean;
 }
 
