@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import type { SubtitleStyleType } from "@apis/types/job";
+
+export type SubtitleStyle = "casual" | "dynamic";
 
 interface SubtitleStyleSelectorProps {
-  value: SubtitleStyleType;
-  onChange: (style: SubtitleStyleType) => void;
+  value: SubtitleStyle;
+  onChange: (style: SubtitleStyle) => void;
 }
 
 export default function SubtitleStyleSelector({
