@@ -2,7 +2,7 @@
   "nav": {
     "signOut": "退出登录",
     "signIn": "登录",
-    "dashboard": "仪表板"
+    "dashboard": "工作台"
   },
   "auth": {
     "signIn": "登录",
@@ -20,59 +20,59 @@
     "usernameCannotBeEmpty": "用户名不能为空",
     "putYourPassword": "请输入您的密码",
     "passwordTooShort": "密码必须超过6个字符",
-    "passwordsDoNotMatch": "密码不匹配",
-    "fillConfirmPassword": "请填写确认密码字段"
+    "passwordsDoNotMatch": "两次输入的密码不一致",
+    "fillConfirmPassword": "请填写确认密码"
   },
   "hero": {
-    "title": "几分钟内将长视频转换为病毒式短视频",
-    "subtitle": "为希望在所有平台上最大化影响力的内容创作者提供AI驱动的视频摘要、分析和编辑",
-    "getStarted": "开始使用",
+    "title": "数分钟内将长视频转化为爆款短视频",
+    "subtitle": "为追求全平台影响力最大化的创作者提供AI驱动的视频摘要、分析与剪辑服务",
+    "getStarted": "立即开始",
     "reduceWorkload": "省时省力"
   },
   "videoInput": {
     "youtube": "YouTube",
-    "fileUpload": "上传文件",
-    "pasteYoutubeLink": "粘贴YouTube链接...",
-    "createWithCredit": "创建 (1🪙)",
-    "uploadWithCredit": "上传 (1🪙)",
-    "dropOrClick": "拖放或点击选择文件",
+    "fileUpload": "上传视频",
+    "pasteYoutubeLink": "粘贴 YouTube 链接...",
+    "createWithCredit": "创建 ",
+    "uploadWithCredit": "上传 ",
+    "dropOrClick": "拖拽或点击选择文件",
     "file": "文件",
     "size": "大小",
     "noFileSelected": "未选择文件",
-    "noYoutubeUrl": "没有YouTube URL",
-    "notValidYoutubeUrl": "无效的YouTube URL",
-    "invalidUrlFormat": "无效的URL格式",
-    "insufficientCredits": "积分不足，要获取更多吗？"
+    "noYoutubeUrl": "请输入 YouTube 链接",
+    "notValidYoutubeUrl": "无效的 YouTube 链接",
+    "invalidUrlFormat": "链接格式无效",
+    "insufficientCredits": "点数不足，需要充值吗？"
   },
   "aiPowered": {
-    "title": "AI驱动的摘要",
-    "description": "我们的先进AI分析您的长格式内容并自动识别最吸引人的时刻。使用双分支高光检测模型，Long2Short理解上下文、动作和观众参与模式，以提取表现最佳的片段。",
+    "title": "AI 智能摘要",
+    "description": "我们先进的 AI 会分析您的长视频内容，自动识别最吸引人的时刻。利用双分支精彩片段检测模型，Long2Short 能够理解上下文、动作及观众参与模式，从而提取表现最佳的片段。",
     "feature1Title": "多模态上下文分析",
-    "feature1Description": "基于上下文感知高光提取的视频摘要",
-    "feature2Title": "基于真实数据",
-    "feature2Description": "通过反映真实病毒性的实际高光数据进行测试",
+    "feature1Description": "基于上下文感知的精彩片段提取与视频摘要",
+    "feature2Title": "基于真实数据驱动",
+    "feature2Description": "通过真实爆款视频数据验证的精彩片段筛选算法",
     "feature3Title": "自动化后处理",
-    "feature3Description": "通过自动化剪辑裁剪和合并、竖屏转换来减少工作量"
+    "feature3Description": "自动剪辑、合并及竖屏转换（9:16），大幅减少工作量"
   },
   "autoCaption": {
     "title": "自动字幕",
-    "description": "即时生成准确、动画化的多语言字幕，具有可定制的样式。您可以自定义字体、颜色、动画和位置以匹配您的品牌。",
+    "description": "即时生成准确、生动的多语言字幕，并支持样式定制。您可以调整字体、颜色、动画及位置，以完美匹配您的品牌风格。",
     "feature1Title": "多语言支持",
-    "feature1Description": "基于上下文感知高光提取的视频摘要",
+    "feature1Description": "利用 Whisper 模型实现高精度的多语言语音转文字",
     "feature2Title": "自定义样式",
-    "feature2Description": "通过反映真实病毒性的实际高光数据进行测试"
+    "feature2Description": "提供多种字幕模板与动画效果，提升视频观感"
   },
   "packages": {
     "title": "选择您的套餐",
     "mostPopular": "最受欢迎",
-    "credits": "积分",
-    "perCredit": "每积分"
+    "credits": "点数",
+    "perCredit": "每点数"
   },
   "recentVideos": {
-    "title": "最近处理"
+    "title": "最近处理的视频"
   },
   "footer": {
-    "description": "使用AI驱动的编辑和自动化将您的长格式视频转换为病毒式短格式内容。",
+    "description": "利用 AI 驱动的剪辑与自动化技术，将您的长视频转化为爆款短视频。",
     "product": "产品",
     "features": "功能",
     "pricing": "价格",
@@ -90,7 +90,7 @@
     "tutorials": "教程",
     "community": "社区",
     "creatorStories": "创作者故事",
-    "status": "状态",
+    "status": "服务状态",
     "legal": "法律",
     "privacyPolicy": "隐私政策",
     "termsOfService": "服务条款",
@@ -103,11 +103,11 @@
     "edit": "编辑",
     "delete": "删除",
     "deleteConfirm": "您确定要删除此视频吗？",
-    "thumbnailGenerating": "缩略图正在生成中"
+    "thumbnailGenerating": "缩略图生成中..."
   },
   "settings": {
     "title": "设置",
-    "language": "选择语言",
+    "language": "语言",
     "darkMode": "深色模式",
     "english": "English",
     "korean": "한국어",
@@ -115,38 +115,38 @@
   },
   "myPage": {
     "title": "我的信息",
-    "subtitle": "查看和管理您的账户信息",
+    "subtitle": "查看并管理您的账户信息",
     "email": "电子邮箱",
     "username": "用户名",
-    "credits": "积分",
-    "creditsLeft": "剩余积分",
-    "getMoreCredits": "获取更多积分",
-    "manageAccount": "管理账户",
-    "deleteAccount": "删除我的账户",
-    "deleteConfirm": "您确定吗？请注意此操作不可逆转"
+    "credits": "持有点数",
+    "creditsLeft": "剩余点数",
+    "getMoreCredits": "充值点数",
+    "manageAccount": "账号管理",
+    "deleteAccount": "注销账号",
+    "deleteConfirm": "您确定吗？此操作无法撤销"
   },
   "creditPage": {
-    "title": "积分",
+    "title": "点数充值",
     "titleHighlight": "管理",
-    "subtitle": "管理您的积分并购买更多以继续创建精彩内容",
-    "currentBalance": "您的当前余额",
-    "creditsAvailable": "可用积分",
-    "choosePackage": "选择您的套餐",
-    "purchaseCredits": "购买{{amount}}积分",
-    "getCredits": "获取{{amount}}积分",
-    "useCredits": "使用{{amount}}积分",
-    "completePurchase": "完成您的购买",
+    "subtitle": "管理您的点数并充值以继续创作精彩内容",
+    "currentBalance": "当前余额",
+    "creditsAvailable": "可用点数",
+    "choosePackage": "选择套餐",
+    "purchaseCredits": "购买 {{amount}} 点数",
+    "getCredits": "获取 {{amount}} 点数",
+    "useCredits": "使用 {{amount}} 点数",
+    "completePurchase": "完成支付",
     "orderSummary": {
-      "credits": "积分",
+      "credits": "点数",
       "price": "价格",
       "total": "总计"
     },
-    "securityNotice": "🔒 您的支付信息是安全和加密的"
+    "securityNotice": "您的支付信息已加密并安全处理"
   },
   "errorPage": {
     "code": "502",
     "title": "网关错误",
-    "description": "我们的服务器正在短暂休息。别担心，他们很快就会回来分析您的内容！",
+    "description": "服务器正在短暂休息中。别担心，它们很快就会回来继续分析您的内容！",
     "tryAgain": "重试",
     "whatToDo": "我该怎么办？",
     "details": "请刷新页面或稍后重试。"
@@ -154,39 +154,45 @@
   "dashboard": {
     "videoStudio": "视频工作室",
     "transformContent": "将您的内容转换为引人入胜的短视频",
-    "downloadOriginal": "下载原始视频",
+    "downloadOriginal": "下载原视频",
     "sourceVideo": "源视频",
     "originalContent": "原始内容",
-    "loadingVideo": "加载视频中...",
+    "loadingVideo": "视频加载中...",
     "processingConfig": "处理配置",
-    "customizeSettings": "自定义您的视频转换设置",
-    "processingMethod": "处理方法",
-    "chooseAlgorithm": "选择您首选的处理算法",
-    "llmOnly": "仅LLM - 快速处理",
+    "customizeSettings": "自定义视频转换设置",
+    "processingMethod": "处理方式",
+    "chooseAlgorithm": "选择首选的处理算法",
+    "llmOnly": "仅 LLM - 快速处理",
     "echoFusion": "EchoFusion - 深度分析",
     "subtitles": "字幕",
     "addCaptions": "添加自动字幕",
-    "verticalFormat": "竖屏格式",
-    "optimizeMobile": "针对移动设备优化 (9:16)",
-    "generateShorts": "生成短视频 (1🪙)",
+    "subtitleStyle": "字幕样式",
+    "chooseAppearance": "选择字幕外观",
+    "casualStyle": "休闲 (Casual)",
+    "casualDesc": "黄色字体，黑色描边，底部显示",
+    "dynamicStyle": "动感 (Dynamic)",
+    "dynamicDesc": "绿色字体，黑色描边，居中显示",
+    "verticalFormat": "竖屏模式",
+    "optimizeMobile": "移动端适配 (9:16)",
+    "generateShorts": "生成短视频",
     "processing": "处理中...",
-    "generatedResults": "生成的结果",
+    "generatedResults": "生成结果",
     "job": "任务",
-    "jobs": "任务",
+    "jobs": "任务列表",
     "technicalDetails": "技术详情",
-    "videoId": "视频ID",
-    "uploaderId": "上传者ID",
+    "videoId": "视频 ID",
+    "uploaderId": "上传者 ID",
     "youtubeId": "YouTube ID",
     "filePath": "文件路径",
     "dangerZone": "危险区域",
     "actionCannotUndo": "此操作无法撤销",
     "deletePermanently": "永久删除视频",
-    "created": "已创建",
-    "started": "已开始",
-    "completed": "已完成",
+    "created": "创建时间",
+    "started": "开始时间",
+    "completed": "完成时间",
     "downloadVideo": "下载视频",
     "deleteJob": "删除任务",
     "loading": "加载中...",
-    "errorLoading": "加载任务出错"
+    "errorLoading": "任务加载失败"
   }
 }

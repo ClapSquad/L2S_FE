@@ -141,7 +141,7 @@
       "price": "Precio",
       "total": "Total"
     },
-    "securityNotice": "🔒 Tu información de pago es segura y está encriptada"
+    "securityNotice": "Tu información de pago es segura y está encriptada"
   },
   "errorPage": {
     "code": "502",
