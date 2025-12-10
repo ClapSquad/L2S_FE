@@ -117,7 +117,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <BoltIcon size="31px" color="currentColor" />
+                    <BoltIcon size="24px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -140,7 +140,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <SubtitlesIcon size="31px" color="currentColor" />
+                    <SubtitlesIcon size="24px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -175,7 +175,7 @@ export default function VideoPage() {
               <OptionHeader>
                 <OptionIconWrapper>
                   <OptionIcon>
-                    <SmartphoneIcon size="31px" color="currentColor" />
+                    <SmartphoneIcon size="24px" color="currentColor" />
                   </OptionIcon>
                 </OptionIconWrapper>
                 <OptionInfo>
@@ -194,6 +194,7 @@ export default function VideoPage() {
                   video_id: id,
                   method,
                   subtitle,
+                  subtitle_style: subtitle ? subtitleStyle : null,
                   vertical,
                 },
                 {
@@ -265,7 +266,7 @@ export default function VideoPage() {
                 {t("dashboard.technicalDetails")}
               </AccordionTitle>
               <AccordionIcon>
-                <ExpandIcon size="24px" color="currentColor" />
+                <ExpandIcon size="12px" color="currentColor" />
               </AccordionIcon>
             </AccordionHeader>
           </summary>
@@ -482,18 +483,6 @@ const Video = styled.video`
   transition: opacity 0.4s ease;
 `;
 
-const SubtitleStyleCard = styled.div`
-  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#333"};
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: ${({ theme }) =>
-    theme.colors.background === "#ffffff"
-      ? "0 4px 16px rgba(0, 0, 0, 0.04)"
-      : "0 4px 16px rgba(255, 255, 255, 0.1)"};
-  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
-  grid-column: 1 / -1;
-`;
-
 const ProcessingCard = styled.div`
   background: ${({ theme }) => theme.colors.background === "#ffffff" ? "#fff" : "#000"};
   border-radius: 24px;
@@ -548,6 +537,18 @@ const OptionsGrid = styled.div`
   flex-direction: column;
   gap: 16px;
   margin-bottom: 32px;
+`;
+
+const SubtitleStyleCard = styled.div`
+  background: ${({ theme }) => theme.colors.background === "#ffffff" ? "white" : "#333"};
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: ${({ theme }) =>
+    theme.colors.background === "#ffffff"
+      ? "0 4px 16px rgba(0, 0, 0, 0.04)"
+      : "0 4px 16px rgba(255, 255, 255, 0.1)"};
+  border: 1px solid ${({ theme }) => theme.colors.background === "#ffffff" ? "#e2e8f0" : "#555"};
+  grid-column: 1 / -1;
 `;
 
 const OptionCard = styled.div`
