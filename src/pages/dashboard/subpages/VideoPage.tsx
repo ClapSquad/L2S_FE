@@ -28,7 +28,7 @@ import type {
   SubtitleStyleType,
 } from "@apis/types/job";
 import { PaletteIcon } from "@icons/PaletteIcon";
-import SubtitleStyleSelector, { type SubtitleStyle } from "@components/SubtitleStyleSelector";
+import SubtitleStyleSelector from "@components/SubtitleStyleSelector";
 
 export default function VideoPage() {
   const id = useParams().id!;
@@ -42,7 +42,7 @@ export default function VideoPage() {
   const [loading, setLoading] = useState(true);
   const [method, setMethod] = useState<MethodType>("echofusion");
   const [subtitle, setSubtitle] = useState(false);
-  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyle>("casual");
+  const [subtitleStyle, setSubtitleStyle] = useState<SubtitleStyleType>("casual");
   const [vertical, setVertical] = useState(false);
   const [cropMethod, setCropMethod] = useState<CropMethodType>(null);
 
@@ -223,7 +223,7 @@ export default function VideoPage() {
                   video_id: id,
                   method,
                   subtitle,
-                  subtitle_style: subtitleStyle,
+                  subtitle_style: subtitle ? subtitleStyle : null,
                   vertical,
                   crop_method: cropMethod,
                 },
