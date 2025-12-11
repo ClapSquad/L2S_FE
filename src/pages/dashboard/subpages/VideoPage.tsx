@@ -194,6 +194,7 @@ export default function VideoPage() {
                   video_id: id,
                   method,
                   subtitle,
+                  subtitle_style: subtitle ? subtitleStyle : null,
                   vertical,
                 },
                 {
