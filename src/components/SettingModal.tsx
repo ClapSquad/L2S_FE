@@ -35,6 +35,7 @@ export default function SettingModal({ onClose }: { onClose: () => void }) {
             <option value="en">{t("settings.english")}</option>
             <option value="ko">{t("settings.korean")}</option>
             <option value="es">{t("settings.spanish")}</option>
+            <option value="zh">{t("settings.chinese")}</option>
           </select>
         </HorizontalLayout>
         <HorizontalLayout>

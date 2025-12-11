@@ -9,6 +9,7 @@ import { creditPackages } from "./data/creditPackages";
 import PackagesGrid from "./components/PackagesGrid";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { LockIcon } from "@icons/LockIcon";
 
 export default function CreditPage() {
   const { data } = useMe();
@@ -182,6 +183,7 @@ export default function CreditPage() {
                     </div>
 
                     <SecurityNotice>
+                      <LockIcon size="16px" color="#6b7280" />
                       {t("creditPage.securityNotice")}
                     </SecurityNotice>
                   </PaymentForm>
@@ -512,6 +514,10 @@ const PaymentForm = styled.div``;
 // `;
 
 const SecurityNotice = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   text-align: center;
   font-size: 13px;
   color: #6b7280;

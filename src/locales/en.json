@@ -111,7 +111,8 @@
     "darkMode": "Dark Mode",
     "english": "English",
     "korean": "한국어",
-    "spanish": "Español"
+    "spanish": "Español",
+    "chinese": "中文"
   },
   "myPage": {
     "title": "My Information",
@@ -141,7 +142,7 @@
       "price": "Price",
       "total": "Total"
     },
-    "securityNotice": "🔒 Your payment information is secure and encrypted"
+    "securityNotice": "Your payment information is secure and encrypted"
   },
   "errorPage": {
     "code": "502",
