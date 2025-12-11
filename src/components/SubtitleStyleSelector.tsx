@@ -127,6 +127,7 @@ const CasualPreviewContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 40px;
 `;
 
 const CasualWord = styled.span`
@@ -137,13 +138,14 @@ const CasualWord = styled.span`
   display: inline-block;
   font-family: 'Noto Sans CJK KR', sans-serif;
   color: white;
-  -webkit-text-stroke: 3.4px #000;
+  -webkit-text-stroke: 2.0px #000;
   paint-order: stroke fill;
   transition: all 0.3s ease;
+  will-change: transform;
 
   &.animate-active {
     color: #FFFF00 !important;
-    font-size: 23px;
+    transform: scale(1.28);
   }
 `;
 
@@ -155,6 +157,7 @@ const DynamicPreviewContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 40px;
 `;
 
 const DynamicWord = styled.span`
@@ -166,12 +169,13 @@ const DynamicWord = styled.span`
   font-family: 'Noto Sans KR', sans-serif;
   color: white;
   text-transform: uppercase;
-  -webkit-text-stroke: 3.4px #000;
+  -webkit-text-stroke: 2.0px #000;
   paint-order: stroke fill;
   transition: all 0.3s ease;
+  will-change: transform;
 
   &.animate-active {
     color: #39ff14 !important;
-    font-size: 23px;
+    transform: scale(1.28);
   }
 `;
